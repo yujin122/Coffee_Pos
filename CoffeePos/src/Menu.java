@@ -63,7 +63,7 @@ public class Menu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				new SalesManage();
 				frame.dispose();
 			}
 		});
