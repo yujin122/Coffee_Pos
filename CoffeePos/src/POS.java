@@ -415,7 +415,7 @@ public class POS {
 				public void actionPerformed(ActionEvent e) {
 					JButton jb = (JButton)e.getSource();
 					ta.setText(ta.getText() + jb.getText());
-					System.out.println(jb);
+					//System.out.println(jb);
 					
 				}
 			});

@@ -1,37 +1,86 @@
-import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
   
 public class Menu {
 
+	//private Image menuImg = new ImageIcon(Menu.class.getResource("image/menu.png")).getImage();
+	//ImageIcon icon;
+//	BufferedImage img = null;
+	
 	public Menu() {
 		
 		JFrame frame = new JFrame();
-		frame.setBounds(100, 100, 890, 680);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 900, 700);
+		frame.setResizable(false);
+		
+		/*JLayeredPane back = new JLayeredPane();
+		back.setSize(900, 700);
+		back.setLayout(null);
+		*/
+		//img = ImageIO.read(new File("C:\\Users\\yyj01\\OneDrive\\문서\\GitHub\\JavaProject\\JavaProject\\CoffeePos\\image\\menu.png");)
+		
+	/*	JPanel background = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(),0,0,null);
+				
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
+		*/
+	/*	JLayeredPane back = new JLayeredPane();
+		back.setSize(900, 700);
+		back.setLayout(null);
+		
+		myPanel panel = new myPanel();
+		panel.setSize(900,700);		
+		
+		back.add(panel);
+		
+		frame.add(back);*/
+		
 		
 		JPanel jp = new JPanel(new GridLayout(1,2));
 		JPanel menuJp = new JPanel(new GridLayout(4,1,30,30));
 		menuJp.setBorder(BorderFactory.createEmptyBorder(80, 50, 80, 50));
 		
-		JButton memBtn = new JButton("회원 관리");
+		ImageIcon memImg = new ImageIcon("image/member.png");
+		memImg = imageSetSize(memImg, 350, 110);
+		JButton memBtn = new JButton(memImg);
 		menuJp.add(memBtn);
 		
-		JButton stockBtn = new JButton("재고 관리");
+		ImageIcon stockImg = new ImageIcon("image/stock.png");
+		stockImg = imageSetSize(stockImg, 350, 110);
+		JButton stockBtn = new JButton(stockImg);
 		menuJp.add(stockBtn);
 		
-		JButton salesBtn = new JButton("매출 관리");
+		ImageIcon salesImg = new ImageIcon("image/sales.png");
+		salesImg = imageSetSize(salesImg, 350, 110);
+		JButton salesBtn = new JButton(salesImg);
 		menuJp.add(salesBtn);
 		
-		JButton posBtn = new JButton("POS");
+		ImageIcon posImg = new ImageIcon("image/pos.png");
+		posImg = imageSetSize(posImg, 350, 110);
+		JButton posBtn = new JButton(posImg);
 		menuJp.add(posBtn);
 		
 		
-		JLabel name = new JLabel("카페이름");
+		JLabel name = new JLabel(" ");
 		name.setHorizontalAlignment(SwingConstants.CENTER);
 		name.setFont(new Font("함초롬바탕", Font.BOLD, 35));
 		
@@ -45,6 +94,8 @@ public class Menu {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				JButton b = (JButton)e.getSource();
+				System.out.println(b);
 				new MemberManage();
 				frame.dispose();
 			}
@@ -78,7 +129,22 @@ public class Menu {
 			}
 		});
 	}
-
+	
+	ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+	
+	
+	/*class myPanel extends JPanel{
+		public void pain(Graphics g) {
+			g.drawImage(menuImg, 0, 0, null);
+		}
+	}
+	*/
+	
 	public static void main(String[] args) {
 		new Menu();
 	}
