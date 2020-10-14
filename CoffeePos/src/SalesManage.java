@@ -1,143 +1,161 @@
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-
+import javax.swing.table.*;
 
 public class SalesManage {
-	
-	private String[] yearData = {"2018","2019","2020"};
-	private String[] monthData = {"1","2","3","4","5","6","7","8","9","10","11","12"};
-	
+
+	private String[] yearData = { "2018", "2019", "2020" };
+	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
+
 	private JFrame frame = new JFrame();
-	
+
 	MyCalendarModel model = new MyCalendarModel();
 	JTable cal = new JTable(model);
-	
+
 	private int year_, month_;
-	
+	Object data;
+
 	public SalesManage() {
-		
+
 		frame.setBounds(100, 100, 600, 600);
 		frame.setTitle("매출 관리");
 		frame.setResizable(false);
 		frame.setLayout(new BorderLayout());
-		
-		JPanel selectJp = new JPanel(new GridLayout(1,2));
+
+		JPanel selectJp = new JPanel(new GridLayout(1, 2));
 		selectJp.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 200));
 		JPanel calendarJp = new JPanel();
-		JPanel salesJp = new JPanel(new GridLayout(1,2));
+		JPanel salesJp = new JPanel(new GridLayout(1, 2));
 		salesJp.setBorder(BorderFactory.createEmptyBorder(0, 30, 50, 50));
-		
+
 		JComboBox<String> year = new JComboBox<String>(yearData);
-		year.setSize(62,35);
+		year.setSize(62, 35);
 		year.setSelectedIndex(2);
 		selectJp.add(year);
-		
+
 		Calendar c = Calendar.getInstance();
 		JComboBox<String> month = new JComboBox<String>(monthData);
-		month.setSize(62,35);
+		month.setSize(62, 35);
 		month.setSelectedIndex(c.get(Calendar.MONTH));
 		selectJp.add(month);
-		
-		JLabel daySales = new JLabel("일 매출 : " +  "50000원");
-		daySales.setFont(new Font("굴림", Font.BOLD, 22));
-		daySales.setSize(50,50);
-		salesJp.add(daySales);
-		
-		JLabel totalSales = new JLabel("월 총매출 : " + "700000원");
-		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
-		totalSales.setSize(50,50);
-		salesJp.add(totalSales);	
-		
-		calendarJp.add(cal);
-		year_ = year.getSelectedIndex()+2018;
-		month_= month.getSelectedIndex()+1;
-		
-		model.setMonth(year.getSelectedIndex()+2018, month.getSelectedIndex());
 
-		cal.setShowGrid(true);
-		cal.setGridColor(Color.DARK_GRAY);
-		cal.setSize(600, 600);
-		cal.setRowHeight(60);
-		cal.setRowHeight(0, 30);
-		cal.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		cal.setCellSelectionEnabled(true);
-		cal.setSelectionBackground(Color.gray);
-		
+		JLabel daySales = new JLabel("매출 : " + "50000원");
+		daySales.setFont(new Font("굴림", Font.BOLD, 22));
+		daySales.setSize(50, 50);
+		salesJp.add(daySales);
+
+		JLabel totalSales = new JLabel((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + "700000원");
+		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
+		totalSales.setSize(50, 50);
+		salesJp.add(totalSales);
+
+		calendarJp.add(cal);
+		year_ = year.getSelectedIndex() + 2018;
+		month_ = month.getSelectedIndex() + 1;
+
+		model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
+
+		myCalendar(cal);
+
 		frame.add(selectJp, BorderLayout.NORTH);
 		frame.add(calendarJp, BorderLayout.CENTER);
 		frame.add(salesJp, BorderLayout.SOUTH);
 		frame.setVisible(true);
-		
+
 		year.addItemListener(new ItemListener() {
-			
+
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				model.setMonth(year.getSelectedIndex()+2018, month.getSelectedIndex());
-				year_ = year.getSelectedIndex()+2018;
+				model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
+				year_ = year.getSelectedIndex() + 2018;
 				cal.repaint();
-				
+
 			}
 		});
-		
+
 		month.addItemListener(new ItemListener() {
-			
+
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				model.setMonth(year.getSelectedIndex()+2018, month.getSelectedIndex());
-				month_= month.getSelectedIndex()+1;
+				model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
+				month_ = month.getSelectedIndex() + 1;
+				totalSales.setText(month_ + "월 총매출 : " + "700000원");
 				cal.repaint();
 			}
 		});
-		
+
 		cal.addMouseListener(new MouseListener() {
-			
+
 			@Override
-			public void mouseReleased(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {
+			}
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int row = cal.getSelectedRow();
 				int col = cal.getSelectedColumn();
-				
-				Object data = model.getValueAt(row, col);
-				
+
+				data = model.getValueAt(row, col);
+
+				String dayNum = null;
+
+				if (data == null) {
+					dayNum = " ";
+				} else {
+					dayNum = data.toString() + "일 ";
+				}
+
+				daySales.setText(dayNum + "매출 : " + "50000원");
+
 				System.out.println(year_ + "년 " + month_ + "월 " + data + "일");
 			}
-			
+
 			@Override
-			public void mouseExited(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseEntered(MouseEvent e) {}		
+			public void mouseEntered(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseClicked(MouseEvent e) {}
+			public void mouseClicked(MouseEvent e) {
+			}
 		});
-		
+
 		frame.addWindowListener(new WindowListener() {
-			
+
 			@Override
-			public void windowOpened(WindowEvent e) {}
+			public void windowOpened(WindowEvent e) {
+			}
+
 			@Override
-			public void windowIconified(WindowEvent e) {}
+			public void windowIconified(WindowEvent e) {
+			}
+
 			@Override
-			public void windowDeiconified(WindowEvent e) {}
+			public void windowDeiconified(WindowEvent e) {
+			}
+
 			@Override
-			public void windowDeactivated(WindowEvent e) {}
-			
+			public void windowDeactivated(WindowEvent e) {
+			}
+
 			@Override
-			public void windowClosing(WindowEvent e) { new Menu(); }
-			
+			public void windowClosing(WindowEvent e) {
+				new Menu();
+			}
+
 			@Override
-			public void windowClosed(WindowEvent e) {}
+			public void windowClosed(WindowEvent e) {
+			}
+
 			@Override
-			public void windowActivated(WindowEvent e) {}
+			public void windowActivated(WindowEvent e) {
+			}
 		});
 	}
 
@@ -147,7 +165,7 @@ public class SalesManage {
 		String[] days = { "일", "월", "화", "수", "목", "금", "토" };
 
 		int[] lastDays = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-		
+
 		// 날짜 들어가는 배열
 		String[][] calendar = new String[7][7];
 
@@ -197,7 +215,7 @@ public class SalesManage {
 
 			int offset = cal.get(GregorianCalendar.DAY_OF_WEEK) - 1;
 			offset += 7;
-			
+
 			// 달 마지막 날짜
 			int num = daysInMonth(year, month);
 			for (int i = 0; i < num; ++i) {
@@ -221,6 +239,24 @@ public class SalesManage {
 			}
 
 			return days;
+		}
+
+	}
+
+	// 캘린더 설정
+	public void myCalendar(JTable table) {
+
+		table.setGridColor(Color.DARK_GRAY);
+		table.setSize(600, 600);
+		table.setRowHeight(60);
+		table.setRowHeight(0, 30); // header 높이
+		table.setCellSelectionEnabled(true); // 셀 하나만 선택
+		table.setSelectionBackground(Color.gray);
+
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		for (int i = 0; i < 7; i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
 
 	}
