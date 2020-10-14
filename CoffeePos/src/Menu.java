@@ -1,82 +1,68 @@
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
   
-public class Menu {
+public class Menu extends JFrame{
 
-	//private Image menuImg = new ImageIcon(Menu.class.getResource("image/menu.png")).getImage();
-	//ImageIcon icon;
-//	BufferedImage img = null;
+	private JScrollPane scrollPane;
+	private ImageIcon icon;
 	
 	public Menu() {
+	
+		icon = new ImageIcon("image/menu.png");
+		icon = imageSetSize(icon, 1000, 800);
 		
-		JFrame frame = new JFrame();
-		frame.setBounds(100, 100, 900, 700);
-		frame.setResizable(false);
-		
-		/*JLayeredPane back = new JLayeredPane();
-		back.setSize(900, 700);
-		back.setLayout(null);
-		*/
-		//img = ImageIO.read(new File("C:\\Users\\yyj01\\OneDrive\\문서\\GitHub\\JavaProject\\JavaProject\\CoffeePos\\image\\menu.png");)
-		
-	/*	JPanel background = new JPanel() {
+		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icon.getImage(),0,0,null);
 				
 				setOpaque(false);
 				super.paintComponent(g);
 			}
-		};
-		*/
-	/*	JLayeredPane back = new JLayeredPane();
-		back.setSize(900, 700);
-		back.setLayout(null);
-		
-		myPanel panel = new myPanel();
-		panel.setSize(900,700);		
-		
-		back.add(panel);
-		
-		frame.add(back);*/
-		
+		};		
 		
 		JPanel jp = new JPanel(new GridLayout(1,2));
+		jp.setBackground(new Color(0,0,0,0));
+		
 		JPanel menuJp = new JPanel(new GridLayout(4,1,30,30));
+		menuJp.setBackground(new Color(0,0,0,0));
 		menuJp.setBorder(BorderFactory.createEmptyBorder(80, 50, 80, 50));
 		
 		ImageIcon memImg = new ImageIcon("image/member.png");
 		memImg = imageSetSize(memImg, 350, 110);
 		JButton memBtn = new JButton(memImg);
+		memBtn.setBorderPainted(false);
+		memBtn.setFocusPainted(false);
+		memBtn.setContentAreaFilled(false);
+
 		menuJp.add(memBtn);
 		
 		ImageIcon stockImg = new ImageIcon("image/stock.png");
 		stockImg = imageSetSize(stockImg, 350, 110);
 		JButton stockBtn = new JButton(stockImg);
+		stockBtn.setBorderPainted(false);
+		stockBtn.setFocusPainted(false);
+		stockBtn.setContentAreaFilled(false);
+		
 		menuJp.add(stockBtn);
 		
 		ImageIcon salesImg = new ImageIcon("image/sales.png");
 		salesImg = imageSetSize(salesImg, 350, 110);
 		JButton salesBtn = new JButton(salesImg);
+		salesBtn.setBorderPainted(false);
+		salesBtn.setFocusPainted(false);
+		salesBtn.setContentAreaFilled(false);
+		
 		menuJp.add(salesBtn);
 		
 		ImageIcon posImg = new ImageIcon("image/pos.png");
 		posImg = imageSetSize(posImg, 350, 110);
 		JButton posBtn = new JButton(posImg);
+		posBtn.setBorderPainted(false);
+		posBtn.setFocusPainted(false);
+		posBtn.setContentAreaFilled(false);
+		
 		menuJp.add(posBtn);
 		
 		
@@ -87,17 +73,21 @@ public class Menu {
 		jp.add(name);
 		jp.add(menuJp);
 		
-		frame.add(jp);
-		frame.setVisible(true);
+		background.add(jp);
+		scrollPane = new JScrollPane(background);
+		setContentPane(scrollPane);
+		
+		setBounds(100, 100, 1000, 800);
+		setResizable(false);
+		setVisible(true);
 		
 		memBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JButton b = (JButton)e.getSource();
-				System.out.println(b);
 				new MemberManage();
-				frame.dispose();
+				//frame.dispose();
+				dispose();
 			}
 		});
 		
@@ -106,7 +96,8 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new StockManage();
-				frame.dispose();
+				//frame.dispose();
+				dispose();
 			}
 		});
 
@@ -115,7 +106,8 @@ public class Menu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new SalesManage();
-				frame.dispose();
+				//frame.dispose();
+				dispose();
 			}
 		});
 
@@ -125,25 +117,18 @@ public class Menu {
 			public void actionPerformed(ActionEvent e) {
 				new POS();
 				new Card();
-				frame.dispose();
+				//frame.dispose();
+				dispose();
 			}
 		});
 	}
 	
-	ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
 		Image ximg = icon.getImage();
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	
-	/*class myPanel extends JPanel{
-		public void pain(Graphics g) {
-			g.drawImage(menuImg, 0, 0, null);
-		}
-	}
-	*/
 	
 	public static void main(String[] args) {
 		new Menu();

@@ -1,39 +1,47 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-
 import javax.swing.table.DefaultTableModel;
 
-public class MemberManage {
+public class MemberManage extends JFrame {
 	
 	private String[] search = {"전화번호", "이름"};
 	private String[] colName = {"이름", "생년월일", "성별", "전화번호","이메일"};
 	String[][] data = null;
 	
+	private JScrollPane scrollPane;
+	private ImageIcon icon;
+	
 	public MemberManage() {
 		
-		JFrame frame = new JFrame();
-		frame.setBounds(100, 100, 623, 600);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new FlowLayout());
-		frame.setTitle("회원 관리");
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 623, 600);
+		
+		JPanel background = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(),0,0,null);
+				
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};	
+	
+		setTitle("회원 관리");
 		
 		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
+		btnJp.setBackground(new Color(0,0,0,0));
 		JPanel searchJp = new JPanel();
+		searchJp.setBackground(new Color(0,0,0,0));
 		JPanel jp = new JPanel(new GridLayout(2,1,10,10));
-		
+		jp.setBackground(new Color(0,0,0,0));
+		JPanel allJp = new JPanel(new BorderLayout());
+		allJp.setBackground(new Color(0,0,0,0));
 		
 		JButton addBtn = new JButton("추가");
 		btnJp.add(addBtn);
 		
 		JButton updateBtn = new JButton("수정");
+		
 		btnJp.add(updateBtn);
 		
 		JButton deleteBtn = new JButton("삭제");
@@ -54,9 +62,17 @@ public class MemberManage {
 		JTable table = new JTable(dTable);
 		table.setRowHeight(40);
 		table.setBounds(30, 30, 50, 50);
-		frame.add(jp);
-		frame.add(new JScrollPane(table));
-		frame.setVisible(true);
+		allJp.add(jp, BorderLayout.NORTH);
+		allJp.add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		background.add(allJp);
+		
+		scrollPane = new JScrollPane(background);
+		setContentPane(scrollPane);
+		
+		setBounds(100, 100, 640, 640);
+		setResizable(false);
+		setVisible(true);
 		
 		
 		addBtn.addActionListener(new ActionListener() {
@@ -64,7 +80,7 @@ public class MemberManage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MemberAdd();
-				frame.dispose();
+				dispose();
 			}
 		});
 
@@ -73,7 +89,7 @@ public class MemberManage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MemberUpdate();
-				frame.dispose();
+				dispose();
 			}
 		});
 
@@ -95,7 +111,7 @@ public class MemberManage {
 			}
 		});
 		
-		frame.addWindowListener(new WindowListener() {
+		addWindowListener(new WindowListener() {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {}
@@ -114,6 +130,13 @@ public class MemberManage {
 			@Override
 			public void windowActivated(WindowEvent e) {}
 		});
+	}
+	
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
 	}
 	
 	public static void main(String[] args) {

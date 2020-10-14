@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class SalesManage {
+public class SalesManage extends JFrame{
 
 	private String[] yearData = { "2018", "2019", "2020" };
 	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
@@ -18,18 +18,41 @@ public class SalesManage {
 	private int year_, month_;
 	Object data;
 
+	private JScrollPane scrollPane;
+	private ImageIcon icon;
+	
 	public SalesManage() {
-
-		frame.setBounds(100, 100, 600, 600);
-		frame.setTitle("매출 관리");
-		frame.setResizable(false);
-		frame.setLayout(new BorderLayout());
-
+		
+		setTitle("매출 관리");
+		setBounds(100, 100, 637, 640);
+		setResizable(false);
+		
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 620, 600);
+		
+		JPanel background = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(),0,0,null);
+				
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};	
+		
 		JPanel selectJp = new JPanel(new GridLayout(1, 2));
 		selectJp.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 200));
+		selectJp.setBackground(new Color(0,0,0,0));
+		
 		JPanel calendarJp = new JPanel();
+		calendarJp.setBackground(new Color(0,0,0,0));
+		
 		JPanel salesJp = new JPanel(new GridLayout(1, 2));
+		salesJp.setBackground(new Color(0,0,0,0));
 		salesJp.setBorder(BorderFactory.createEmptyBorder(0, 30, 50, 50));
+		
+		JPanel allJp = new JPanel(new BorderLayout());
+		allJp.setBackground(new Color(0,0,0,0));
+
 
 		JComboBox<String> year = new JComboBox<String>(yearData);
 		year.setSize(62, 35);
@@ -60,10 +83,16 @@ public class SalesManage {
 
 		myCalendar(cal);
 
-		frame.add(selectJp, BorderLayout.NORTH);
-		frame.add(calendarJp, BorderLayout.CENTER);
-		frame.add(salesJp, BorderLayout.SOUTH);
-		frame.setVisible(true);
+		allJp.add(selectJp, BorderLayout.NORTH);
+		allJp.add(calendarJp, BorderLayout.CENTER);
+		allJp.add(salesJp, BorderLayout.SOUTH);
+		
+		background.add(allJp);
+		
+		scrollPane = new JScrollPane(background);
+		setContentPane(scrollPane);
+		
+		setVisible(true);
 
 		year.addItemListener(new ItemListener() {
 
@@ -107,7 +136,7 @@ public class SalesManage {
 				} else {
 					dayNum = data.toString() + "일 ";
 				}
-
+				
 				daySales.setText(dayNum + "매출 : " + "50000원");
 
 				System.out.println(year_ + "년 " + month_ + "월 " + data + "일");
@@ -123,7 +152,7 @@ public class SalesManage {
 			public void mouseClicked(MouseEvent e) {}
 		});
 
-		frame.addWindowListener(new WindowListener() {
+		addWindowListener(new WindowListener() {
 
 			@Override
 			public void windowOpened(WindowEvent e) {}
@@ -241,6 +270,7 @@ public class SalesManage {
 		table.setSize(600, 600);
 		table.setRowHeight(60);
 		table.setRowHeight(0, 30); // header 높이
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true); // 셀 하나만 선택
 		table.setSelectionBackground(Color.gray);
 
@@ -252,6 +282,13 @@ public class SalesManage {
 
 	}
 
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+	
 	public static void main(String[] args) {
 		new SalesManage();
 	}

@@ -1,40 +1,58 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
-
 import javax.swing.table.DefaultTableModel;
 
-public class StockManage {
+public class StockManage extends JFrame{
 	
 	private String[] search = {"재고품명"};
 	private String[] colName = {"재고품명", "수량"};
 	String[][] data = null;
 	
+	private JScrollPane scrollPane;
+	private ImageIcon icon;
+
+	
 	public StockManage() {
 		
-		JFrame frame = new JFrame();
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 623, 600);
+		
+		JPanel background = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(),0,0,null);
+				
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
+		
+		/*JFrame frame = new JFrame();
 		frame.setBounds(100, 100, 623, 600);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new FlowLayout());
 		frame.setResizable(false);
-		frame.setTitle("재고 관리");
+		frame.setTitle("재고 관리");*/
+		setBounds(100, 100, 640, 640);
+		setTitle("재고 관리");
 		
 		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
+		btnJp.setBackground(new Color(0,0,0,0));
 		btnJp.setSize(1000,500);
-		JPanel searchJp = new JPanel();
-		JPanel jp = new JPanel(new GridLayout(2,1,10,10));
 		
+		JPanel searchJp = new JPanel();
+		searchJp.setBackground(new Color(0,0,0,0));
+		
+		JPanel jp = new JPanel(new GridLayout(2,1,10,10));
+		jp.setBackground(new Color(0,0,0,0));
 		
 		JButton addBtn = new JButton("추가");
 		addBtn.setSize(136, 43);
 		btnJp.add(addBtn);
+		
+		JPanel allJp = new JPanel(new BorderLayout());
+		allJp.setBackground(new Color(0,0,0,0));
 		
 		JButton updateBtn = new JButton("수정");
 		updateBtn.setSize(136,43);
@@ -64,16 +82,23 @@ public class StockManage {
 		JTable table = new JTable(dTable);
 		table.setRowHeight(40);
 		table.setBounds(30, 30, 50, 50);
-		frame.add(jp);
-		frame.add(new JScrollPane(table));
-		frame.setVisible(true);
+		
+		allJp.add(jp, BorderLayout.NORTH);
+		allJp.add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		background.add(allJp);
+		
+		scrollPane = new JScrollPane(background);
+		setContentPane(scrollPane);
+		
+		setVisible(true);
 		
 	addBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new StockAdd();
-				frame.dispose();
+				dispose();
 			}
 		});
 
@@ -82,7 +107,7 @@ public class StockManage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new StockUpdate();
-				frame.dispose();
+				dispose();
 			}
 		});
 
@@ -104,7 +129,7 @@ public class StockManage {
 			}
 		});
 		
-		frame.addWindowListener(new WindowListener() {
+		addWindowListener(new WindowListener() {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {}
@@ -124,6 +149,14 @@ public class StockManage {
 			public void windowActivated(WindowEvent e) {}
 		});
 	}
+	
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+	
 	
 	public static void main(String[] args) {
 		new StockManage();
