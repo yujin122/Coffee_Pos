@@ -72,7 +72,7 @@ public class Menu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				new pos();
 				frame.dispose();
 			}
 		});

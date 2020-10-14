@@ -114,35 +114,28 @@ public class SalesManage {
 			}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
+			public void mouseClicked(MouseEvent e) {}
 		});
 
 		frame.addWindowListener(new WindowListener() {
 
 			@Override
-			public void windowOpened(WindowEvent e) {
-			}
+			public void windowOpened(WindowEvent e) {}
 
 			@Override
-			public void windowIconified(WindowEvent e) {
-			}
+			public void windowIconified(WindowEvent e) {}
 
 			@Override
-			public void windowDeiconified(WindowEvent e) {
-			}
+			public void windowDeiconified(WindowEvent e) {}
 
 			@Override
-			public void windowDeactivated(WindowEvent e) {
-			}
+			public void windowDeactivated(WindowEvent e) {}
 
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -150,12 +143,10 @@ public class SalesManage {
 			}
 
 			@Override
-			public void windowClosed(WindowEvent e) {
-			}
+			public void windowClosed(WindowEvent e) {}
 
 			@Override
-			public void windowActivated(WindowEvent e) {
-			}
+			public void windowActivated(WindowEvent e) {}
 		});
 	}
 
