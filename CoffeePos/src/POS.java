@@ -2,13 +2,20 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 public class POS {
 
+	private int cnt = 0;
+	
+	
 	public POS() {
 		
 		JFrame frame = new JFrame();
@@ -95,154 +102,131 @@ public class POS {
 		JPanel menuBakeryJP = new JPanel(new GridLayout(4,3,5,5));		// 메뉴 - 베이커리
 		
 		// 메뉴창 - 커피
-		JButton americanoHot = new JButton("HOT \n아메리카노");
-		americanoHot.setFont(new Font(null, Font.BOLD, 20));
-		americanoHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton americanoIce = new JButton("ICE \n아메리카노");
-		americanoIce.setHorizontalTextPosition(SwingConstants.CENTER);
-		americanoIce.setFont(new Font(null, Font.BOLD, 20));
-		JButton latteHot = new JButton("HOT \n카페라떼");
-		latteHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		latteHot.setFont(new Font(null, Font.BOLD, 20));
-		JButton latteIce = new JButton("ICE \n카페라떼");
-		latteIce.setHorizontalTextPosition(SwingConstants.CENTER);
-		latteIce.setFont(new Font(null, Font.BOLD, 20));
-		JButton mochaHot = new JButton("HOT \n카페모카");
-		mochaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		mochaHot.setFont(new Font(null, Font.BOLD, 20));
-		JButton mochaIce = new JButton("ICE \n카페모카");
-		mochaIce.setHorizontalTextPosition(SwingConstants.CENTER);
-		mochaIce.setFont(new Font(null, Font.BOLD, 20));
-		JButton vanillaHot = new JButton("HOT \n바닐라라떼");
-		vanillaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		vanillaHot.setFont(new Font(null, Font.BOLD, 20));
-		JButton vanillaIce = new JButton("ICE \n바닐라라떼");
-		vanillaIce.setHorizontalTextPosition(SwingConstants.CENTER);
-		vanillaIce.setFont(new Font(null, Font.BOLD, 20));
-		JButton coldbrewIce = new JButton("ICE \n콜드브루");
-		coldbrewIce.setHorizontalTextPosition(SwingConstants.CENTER);
-		coldbrewIce.setFont(new Font(null, Font.BOLD, 20));
+		JButton[] CoffeeMBtn = new JButton[9];
+		
+		CoffeeMBtn[0] = new JButton("HOT 아메리카노");
+		CoffeeMBtn[1] = new JButton("ICE 아메리카노");
+		CoffeeMBtn[2] = new JButton("HOT 카페라떼");
+		CoffeeMBtn[3] = new JButton("ICE 카페라떼");
+		CoffeeMBtn[4] = new JButton("HOT 카페모카");
+		CoffeeMBtn[5] = new JButton("ICE 카페모카");
+		CoffeeMBtn[6] = new JButton("HOT 바닐라라떼");
+		CoffeeMBtn[7] = new JButton("ICE 바닐라라떼");
+		CoffeeMBtn[8] = new JButton("ICE 콜드브루");
+		
+		for(int i=0;i<9;i++) {
+			CoffeeMBtn[i].setFont(new Font(null, Font.BOLD, 20));
+			CoffeeMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+		}
 		
 		JPanel coffeePlusJp = new JPanel();
-		JButton coffeePlus = new JButton(">");
-		coffeePlusJp.add(coffeePlus);
+		JButton[] plus = new JButton[3];
+		plus[0] = new JButton(">");
+		coffeePlusJp.add(plus[0]);
 		coffeePlusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
 		JPanel coffeeMinusJp = new JPanel();
-		JButton coffeeMinus = new JButton("<");
-		coffeeMinusJp.add(coffeeMinus);
+		JButton[] minus = new JButton[3];
+		minus[0] = new JButton("<");
+		coffeeMinusJp.add(minus[0]);
 		coffeeMinusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
-		JLabel coffeeCount = new JLabel("수량");
-		coffeeCount.setHorizontalAlignment(0);
+		JLabel[] count = new JLabel[3];
+		count[0] = new JLabel("수량");
+		//JLabel coffeeCount = new JLabel("수량");
+		count[0].setHorizontalAlignment(0);
 		
 		JPanel countJp = new JPanel(new GridLayout(1,3));
 		countJp.add(coffeeMinusJp);
-		countJp.add(coffeeCount);
+		countJp.add(count[0]);
 		countJp.add(coffeePlusJp);
 		
-		menuCoffeeJP.add(americanoHot); menuCoffeeJP.add(americanoIce);
-		menuCoffeeJP.add(mochaHot); menuCoffeeJP.add(latteHot); 
-		menuCoffeeJP.add(latteIce); menuCoffeeJP.add(mochaIce);
-		menuCoffeeJP.add(vanillaHot); menuCoffeeJP.add(vanillaIce);
-		menuCoffeeJP.add(coldbrewIce); menuCoffeeJP.add(countJp);
+		menuCoffeeJP.add(CoffeeMBtn[0]); menuCoffeeJP.add(CoffeeMBtn[1]);
+		menuCoffeeJP.add(CoffeeMBtn[4]); menuCoffeeJP.add(CoffeeMBtn[2]); 
+		menuCoffeeJP.add(CoffeeMBtn[3]); menuCoffeeJP.add(CoffeeMBtn[5]);
+		menuCoffeeJP.add(CoffeeMBtn[6]); menuCoffeeJP.add(CoffeeMBtn[7]);
+		menuCoffeeJP.add(CoffeeMBtn[8]); menuCoffeeJP.add(countJp);
 		
 		// 메뉴창 - 논커피
-		JButton minteaHot = new JButton("HOT \n민트티");
-		minteaHot.setFont(new Font(null, Font.BOLD, 20));
-		minteaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton lemonteaHot = new JButton("HOT \n레몬티");
-		lemonteaHot.setFont(new Font(null, Font.BOLD, 20));
-		lemonteaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton balckteaHot = new JButton("HOT \n블랙티");
-		balckteaHot.setFont(new Font(null, Font.BOLD, 20));
-		balckteaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton earlgreyteaHot = new JButton("HOT \n얼그레이");
-		earlgreyteaHot.setFont(new Font(null, Font.BOLD, 20));
-		earlgreyteaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton greenteaHot = new JButton("HOT \n그린티");
-		greenteaHot.setFont(new Font(null, Font.BOLD, 20));
-		greenteaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton mangoIce = new JButton("ICE \n망고스무디");
-		mangoIce.setFont(new Font(null, Font.BOLD, 20));
-		mangoIce.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton grapefruitICE = new JButton("ICE \n자몽에이드");
-		grapefruitICE.setFont(new Font(null, Font.BOLD, 20));
-		grapefruitICE.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton orangeIce = new JButton("ICE \n오렌지 에이드");
-		orangeIce.setFont(new Font(null, Font.BOLD, 20));
-		orangeIce.setHorizontalTextPosition(SwingConstants.CENTER);
+		JButton[] NonCoffeeMBtn = new JButton[8];
+		
+		NonCoffeeMBtn[0] = new JButton("HOT 민트티");
+		NonCoffeeMBtn[1] = new JButton("HOT 레몬티");
+		NonCoffeeMBtn[2] = new JButton("HOT 블랙티");
+		NonCoffeeMBtn[3] = new JButton("HOT 얼그레이");
+		NonCoffeeMBtn[4] = new JButton("HOT 그린티");
+		NonCoffeeMBtn[5] = new JButton("ICE 망고스무디");
+		NonCoffeeMBtn[6] = new JButton("ICE 자몽에이드");
+		NonCoffeeMBtn[7] = new JButton("ICE 오렌지에이드");
+		
+		for(int i=0;i<8;i++) {
+			NonCoffeeMBtn[i].setFont(new Font(null, Font.BOLD, 20));
+			NonCoffeeMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+		}
 				
 		JPanel noncoffeePlusJp = new JPanel();
-		JButton noncoffeePlus = new JButton(">");
-		noncoffeePlusJp.add(noncoffeePlus);
+		plus[1] = new JButton(">");
+		noncoffeePlusJp.add(plus[1]);
 		noncoffeePlusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
 		JPanel noncoffeeMinusJp = new JPanel();
-		JButton noncoffeeMinus = new JButton("<");
-		noncoffeeMinusJp.add(noncoffeeMinus);
+		minus[1] = new JButton("<");
+		noncoffeeMinusJp.add(minus[1]);
 		noncoffeeMinusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
-		JLabel noncoffeeCount = new JLabel("수량");
-		noncoffeeCount.setHorizontalAlignment(0);
+		//JLabel noncoffeeCount = new JLabel("수량");
+		count[1] = new JLabel("수량");
+		count[1].setHorizontalAlignment(0);
 		
 		JLabel em = new JLabel(" ");
 				
 		JPanel noncountJp = new JPanel(new GridLayout(1,3));
 		noncountJp.add(noncoffeeMinusJp);
-		noncountJp.add(noncoffeeCount);
+		noncountJp.add(count[1]);
 		noncountJp.add(noncoffeePlusJp);
 				
-		menuNonCoffeeJP.add(minteaHot); menuNonCoffeeJP.add(lemonteaHot);
-		menuNonCoffeeJP.add(greenteaHot); menuNonCoffeeJP.add(balckteaHot); 
-		menuNonCoffeeJP.add(earlgreyteaHot); menuNonCoffeeJP.add(mangoIce);
-		menuNonCoffeeJP.add(grapefruitICE); menuNonCoffeeJP.add(orangeIce);
+		menuNonCoffeeJP.add(NonCoffeeMBtn[0]); menuNonCoffeeJP.add(NonCoffeeMBtn[1]);
+		menuNonCoffeeJP.add(NonCoffeeMBtn[2]); menuNonCoffeeJP.add(NonCoffeeMBtn[3]); 
+		menuNonCoffeeJP.add(NonCoffeeMBtn[4]); menuNonCoffeeJP.add(NonCoffeeMBtn[5]);
+		menuNonCoffeeJP.add(NonCoffeeMBtn[6]); menuNonCoffeeJP.add(NonCoffeeMBtn[7]);
 		menuNonCoffeeJP.add(em); menuNonCoffeeJP.add(noncountJp);
 		
 		// 메뉴창 - 베이커리
-		JButton berryBagel = new JButton("블루베리\n베이글");
-		berryBagel.setFont(new Font(null, Font.BOLD, 20));
-		berryBagel.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton planeBagel = new JButton("플레인\n베이글");
-		planeBagel.setFont(new Font(null, Font.BOLD, 20));
-		planeBagel.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton sandwich = new JButton("샌드위치");
-		sandwich.setFont(new Font(null, Font.BOLD, 20));
-		sandwich.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton tiramisu = new JButton("티라미슈");
-		tiramisu.setFont(new Font(null, Font.BOLD, 20));
-		tiramisu.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton redvelvet = new JButton("레드벨벳 케익");
-		redvelvet.setFont(new Font(null, Font.BOLD, 20));
-		earlgreyteaHot.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton cheese = new JButton("치즈 케익");
-		cheese.setFont(new Font(null, Font.BOLD, 20));
-		cheese.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton scon = new JButton("스콘");
-		scon.setFont(new Font(null, Font.BOLD, 20));
-		scon.setHorizontalTextPosition(SwingConstants.CENTER);
-		JButton salad = new JButton("샐러드");
-		salad.setFont(new Font(null, Font.BOLD, 20));
-		salad.setHorizontalTextPosition(SwingConstants.CENTER);
+		JButton[] bakeryMBtn = new JButton[8];
+		
+		bakeryMBtn[0] = new JButton("블루베리 베이글");
+		bakeryMBtn[1] = new JButton("플레인 베이글");
+		bakeryMBtn[2] = new JButton("샌드위치");
+		bakeryMBtn[3] = new JButton("티라미슈");
+		bakeryMBtn[4] = new JButton("레드벨벳 케익");
+		bakeryMBtn[5] = new JButton("치즈 케익");
+		bakeryMBtn[6] = new JButton("스콘");
+		bakeryMBtn[7] = new JButton("샐러드");
+		
+		for(int i=0;i<8;i++) {
+			bakeryMBtn[i].setFont(new Font(null, Font.BOLD, 20));
+			bakeryMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+		}
 		
 		JPanel BakeryPlusJp = new JPanel();
-		JButton BakeryPlus = new JButton(">");
-		BakeryPlusJp.add(BakeryPlus);
+		plus[2] = new JButton(">");
+		BakeryPlusJp.add(plus[2]);
 		BakeryPlusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
 		JPanel BakeryMinusJp = new JPanel();
-		JButton BakeryMinus = new JButton("<");
-		BakeryMinusJp.add(BakeryMinus);
+		minus[2] = new JButton("<");
+		BakeryMinusJp.add(minus[2]);
 		BakeryMinusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
-		JLabel BakeryCount = new JLabel("수량");
-		BakeryCount.setHorizontalAlignment(0);
+		//JLabel BakeryCount = new JLabel("수량");
+		count[2] = new JLabel("수량");
+		count[2].setHorizontalAlignment(0);
 		
 		JLabel em2 = new JLabel(" ");
 				
 		JPanel BakeryJp = new JPanel(new GridLayout(1,3));
 		BakeryJp.add(BakeryMinusJp);
-		BakeryJp.add(BakeryCount);
+		BakeryJp.add(count[2]);
 		BakeryJp.add(BakeryPlusJp);
 				
-		menuBakeryJP.add(berryBagel); menuBakeryJP.add(planeBagel);
-		menuBakeryJP.add(sandwich); menuBakeryJP.add(tiramisu); 
-		menuBakeryJP.add(redvelvet); menuBakeryJP.add(cheese);
-		menuBakeryJP.add(scon); menuBakeryJP.add(salad);
+		menuBakeryJP.add(bakeryMBtn[0]); menuBakeryJP.add(bakeryMBtn[1]);
+		menuBakeryJP.add(bakeryMBtn[2]); menuBakeryJP.add(bakeryMBtn[3]); 
+		menuBakeryJP.add(bakeryMBtn[4]); menuBakeryJP.add(bakeryMBtn[5]);
+		menuBakeryJP.add(bakeryMBtn[6]); menuBakeryJP.add(bakeryMBtn[7]);
 		menuBakeryJP.add(em2); menuBakeryJP.add(BakeryJp);
 		
 		JTabbedPane tab = new JTabbedPane();
@@ -250,6 +234,138 @@ public class POS {
 		tab.add("Coffee", menuCoffeeJP);
 		tab.add("NonCoffee" , menuNonCoffeeJP);
 		tab.add("Bakery", menuBakeryJP);
+		
+		
+		for(int i = 0; i<9;i++) {
+			CoffeeMBtn[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt = 0;
+					count[0].setText(Integer.toString(cnt));
+					count[1].setText(Integer.toString(cnt));
+					count[2].setText(Integer.toString(cnt));
+				}
+			});
+		}
+		
+		for(int i = 0; i<8;i++) {
+			bakeryMBtn[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt = 0;
+					count[0].setText(Integer.toString(cnt));
+					count[1].setText(Integer.toString(cnt));
+					count[2].setText(Integer.toString(cnt));
+				}
+			});
+		}
+		
+		for(int i = 0; i<8;i++) {
+			NonCoffeeMBtn[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt = 0;
+					count[0].setText(Integer.toString(cnt));
+					count[1].setText(Integer.toString(cnt));
+					count[2].setText(Integer.toString(cnt));
+				}
+			});
+		}
+		
+		plus[0].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cnt++;
+				if(cnt < 1) {
+					cnt = 0;
+				}
+				count[0].setText(Integer.toString(cnt));
+			}
+		});
+
+		plus[1].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cnt++;
+				if(cnt < 1) {
+					cnt = 0;
+				}
+				count[1].setText(Integer.toString(cnt));
+			}
+		});
+
+		plus[2].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cnt++;
+				if(cnt < 1) {
+					cnt = 0;
+				}
+				count[2].setText(Integer.toString(cnt));
+			}
+		});
+		
+		minus[0].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cnt--;
+				if(cnt < 1) {
+					cnt = 0;
+				}
+				count[0].setText(Integer.toString(cnt));
+			}
+		});
+
+		minus[1].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cnt--;
+				if(cnt < 1) {
+					cnt = 0;
+				}
+				count[1].setText(Integer.toString(cnt));
+			}
+		});
+
+		minus[2].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cnt--;
+				if(cnt < 1) {
+					cnt = 0;
+				}
+				count[2].setText(Integer.toString(cnt));
+			}
+		});
+		
+		tab.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				cnt = 0;
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+		});
 		
 		return tab;
 	}
@@ -291,6 +407,19 @@ public class POS {
 		panel.add(buttonJp, BorderLayout.CENTER);	
 		panel.setBorder(BorderFactory.createEmptyBorder(30,25,30,30));
 		
+		for(int i = 0;i<10;i++) {
+			
+			btn[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton jb = (JButton)e.getSource();
+					ta.setText(ta.getText() + jb.getText());
+					System.out.println(jb);
+					
+				}
+			});
+		}
 		
 		return panel;
 	}
