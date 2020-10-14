@@ -1,13 +1,15 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.*;
 
-public class pos {
+public class POS {
 
-	public pos() {
+	public POS() {
 		
 		JFrame frame = new JFrame();
 		frame.setBounds(100, 100, 1550, 850);
@@ -347,11 +349,35 @@ public class pos {
 		
 		panel.add(searchBtn); panel.add(moneyBtn); panel.add(cardBtn);
 		
+		searchBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MemberSearch();
+			}
+		});
+		
+		moneyBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Money();
+			}
+		});
+		
+		cardBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MoneyCard();
+			}
+		});
+		
 		return panel;
 	}
 	
 	public static void main(String[] args) {
-		new pos();
+		new POS();
 	}
 
 }

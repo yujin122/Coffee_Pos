@@ -12,7 +12,7 @@ public class Menu {
 		
 		JFrame frame = new JFrame();
 		frame.setBounds(100, 100, 890, 680);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel jp = new JPanel(new GridLayout(1,2));
 		JPanel menuJp = new JPanel(new GridLayout(4,1,30,30));
@@ -72,7 +72,8 @@ public class Menu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new pos();
+				new POS();
+				new Card();
 				frame.dispose();
 			}
 		});
