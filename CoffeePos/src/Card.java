@@ -1,18 +1,7 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 public class Card extends JFrame {
 
@@ -36,11 +25,11 @@ public class Card extends JFrame {
 		setSize(new Dimension(560, 780));
 
 		JPanel Centerpanel = new JPanel(); // 패널 객체화 // 테이블 넣을 공간
-		Centerpanel.setBackground(new Color(0,0,0,0));
+		Centerpanel.setOpaque(false);
 		JPanel Northpanel = new JPanel(); // 패널 객체화 // 현금 결제 라벨 텍스트 컴포넌트
-		Northpanel.setBackground(new Color(0,0,0,0));
+		Northpanel.setOpaque(false);
 		JPanel Southpanel = new JPanel(); // 패널 객체화 // 텍스트 area 컴포넌트
-		Southpanel.setBackground(new Color(0,0,0,0));
+		Southpanel.setOpaque(false);
 		
 		// north
 		JLabel cardLable = new JLabel("결제");
@@ -72,7 +61,7 @@ public class Card extends JFrame {
 		Northpanel.add(cardLable);
 
 		JPanel allJp = new JPanel(new BorderLayout());
-		allJp.setBackground(new Color(0,0,0,0));
+		allJp.setOpaque(false);
 		
 		allJp.add(Northpanel, BorderLayout.NORTH);
 		allJp.add(Centerpanel, BorderLayout.CENTER);
@@ -83,10 +72,16 @@ public class Card extends JFrame {
 		add(background);
 
 		// setBounds(200, 200, 600, 700);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임바 우측상단에 X버튼에 대한
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임바 우측상단에 X버튼에 대한
 		// 강제종료 기능 지정
 
 		setVisible(true); // 프레임 보이게 하기
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) { dispose();}
+			
+		});
 	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {

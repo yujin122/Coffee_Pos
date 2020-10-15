@@ -29,13 +29,13 @@ public class MemberManage extends JFrame {
 		setTitle("회원 관리");
 		
 		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
-		btnJp.setBackground(new Color(0,0,0,0));
+		btnJp.setOpaque(false);
 		JPanel searchJp = new JPanel();
-		searchJp.setBackground(new Color(0,0,0,0));
+		searchJp.setOpaque(false);
 		JPanel jp = new JPanel(new GridLayout(2,1,10,10));
-		jp.setBackground(new Color(0,0,0,0));
+		jp.setOpaque(false);
 		JPanel allJp = new JPanel(new BorderLayout());
-		allJp.setBackground(new Color(0,0,0,0));
+		allJp.setOpaque(false);
 		
 		JButton addBtn = new JButton("추가");
 		btnJp.add(addBtn);

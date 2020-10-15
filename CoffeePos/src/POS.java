@@ -27,25 +27,26 @@ public class POS extends JFrame{
 		setTitle("POS");
 		
 		JPanel paymentJp = new JPanel();		// 결제창
-		paymentJp.setBackground(new Color(0,0,0,0));
+		paymentJp.setOpaque(false);
 		paymentJp.setSize(5,50);
-		JPanel calculatorJP = new JPanel();		// 계산기
-		calculatorJP.setBackground(new Color(0,0,0,0));
+		
+		JPanel calculatorJP = new Calculator();	// 계산기
+		calculatorJP.setOpaque(false);
+		
 		JPanel screenJp = new JPanel();			// 스크린
-		screenJp.setBackground(new Color(0,0,0,0));
+		screenJp.setOpaque(false);
+		
 		JPanel buttonJp = new JPanel();			// 버튼
-		buttonJp.setBackground(new Color(0,0,0,0));
+		buttonJp.setOpaque(false);
 		
 		// 메뉴창
 		JTabbedPane tab = menuButton();
 		tab.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-		
-		// 계산기
-		calculatorJP = calculater();
+
 		
 		// 스크린
 		JPanel sjp = screen();
-		sjp.setBackground(new Color(0,0,0,0));
+		sjp.setOpaque(false);
 		screenJp.add(sjp);
 		screenJp.setBorder(BorderFactory.createEmptyBorder(20,0,40,10));
 		
@@ -64,25 +65,24 @@ public class POS extends JFrame{
 		
 		// 계산기, 스크린
 		JPanel jp2 = new JPanel(new BorderLayout());
-		jp2.setBackground(new Color(0,0,0,0));
+		jp2.setOpaque(false);
 		jp2.add(calculatorJP,BorderLayout.CENTER);
 		jp2.add(screenJp,BorderLayout.EAST);
 		
 		// 결제창 계산기 스크린
 		JPanel jp3 = new JPanel(new GridLayout(2,1,2,2));
-		jp3.setBackground(new Color(0,0,0,0));
+		jp3.setOpaque(false);
 		jp3.add(paymentJp); jp3.add(jp2);
 		
 		JPanel jp4 = new JPanel(new BorderLayout());
-		jp4.setBackground(new Color(0,0,0,0));
-		//jp4.setBackground(Color.WHITE);
+		jp4.setOpaque(false);
 		jp4.add(tab, BorderLayout.CENTER);
 		jp4.add(buttonJp, BorderLayout.SOUTH);
 		jp4.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
 		
 		// 결제창 계산기 스크린 메뉴창
 		JPanel jp5 = new JPanel(new GridLayout(1,2,2,2));
-		jp5.setBackground(new Color(0,0,0,0));
+		jp5.setOpaque(false);
 
 		background.add(jp3,BorderLayout.CENTER); background.add(jp4, BorderLayout.EAST);
 		
@@ -376,60 +376,6 @@ public class POS extends JFrame{
 		return tab;
 	}
 	
-	// 계산기
-	public JPanel calculater() {
-		
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBackground(new Color(0,0,0,0));
-		JTextArea ta = new JTextArea(6,30);
-		ta.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		ta.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		ta.setFont(new Font(null, 0, 20));
-		ta.setFocusable(false);
-		
-		JPanel buttonJp = new JPanel(new GridLayout(4,4,10,10));
-		
-		JButton btn[] = new JButton[10];
-		
-		for(int i = 0;i<10;i++) {
-			btn[i] = new JButton(Integer.toString(i));
-		}
-		
-		JButton jbce = new JButton("CE");
-		JButton jbp = new JButton("+");
-		JButton jbm = new JButton("-");
-		JButton jbe = new JButton("Enter");
-		JButton jbc = new JButton("C");
-		JButton jbj = new JButton(".");
-		
-		buttonJp.add(btn[7]); buttonJp.add(btn[8]); buttonJp.add(btn[9]); buttonJp.add(jbce);
-		buttonJp.add(btn[4]); buttonJp.add(btn[5]); buttonJp.add(btn[6]); buttonJp.add(jbp);
-		buttonJp.add(btn[1]); buttonJp.add(btn[2]); buttonJp.add(btn[3]); buttonJp.add(jbm);
-		buttonJp.add(jbj); buttonJp.add(btn[0]); buttonJp.add(jbc); buttonJp.add(jbe);
-
-		buttonJp.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
-		
-		panel.add(ta, BorderLayout.NORTH);
-		panel.add(buttonJp, BorderLayout.CENTER);	
-		panel.setBorder(BorderFactory.createEmptyBorder(30,25,30,30));
-		
-		for(int i = 0;i<10;i++) {
-			
-			btn[i].addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JButton jb = (JButton)e.getSource();
-					ta.setText(ta.getText() + jb.getText());
-					//System.out.println(jb);
-					
-				}
-			});
-		}
-		
-		return panel;
-	}
-	
 	// 스크린 
 	public JPanel screen() {
 		
@@ -449,6 +395,8 @@ public class POS extends JFrame{
 				"결제 금액 : " + pay + "원");
 		ta.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
 		ta.setFocusable(false);
+		ta.setPreferredSize(new Dimension( 50,375));
+		ta.setSize(new Dimension(50, 375));
 		
 		panel.add(ta);
 		
@@ -474,7 +422,7 @@ public class POS extends JFrame{
 	public JPanel btn() {
 		
 		JPanel panel = new JPanel(new GridLayout(1,3,5,5));
-		panel.setBackground(new Color(0,0,0,0));
+		panel.setOpaque(false);
 		panel.setBorder(BorderFactory.createEmptyBorder(0,15,10,15));
 		
 		JButton searchBtn = new JButton("회원조회");

@@ -40,25 +40,24 @@ public class SalesManage extends JFrame{
 		
 		JPanel selectJp = new JPanel(new GridLayout(1, 2));
 		selectJp.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 200));
-		selectJp.setBackground(new Color(0,0,0,0));
+		selectJp.setOpaque(false);
 		
 		JPanel calendarJp = new JPanel();
-		calendarJp.setBackground(new Color(0,0,0,0));
+		calendarJp.setOpaque(false);
 		
 		JPanel salesJp = new JPanel(new GridLayout(1, 2));
-		salesJp.setBackground(new Color(0,0,0,0));
+		salesJp.setOpaque(false);
 		salesJp.setBorder(BorderFactory.createEmptyBorder(0, 30, 50, 50));
 		
 		JPanel allJp = new JPanel(new BorderLayout());
-		allJp.setBackground(new Color(0,0,0,0));
+		allJp.setOpaque(false);
 
 
 		JComboBox<String> year = new JComboBox<String>(yearData);
 		year.setSize(62, 35);
 		year.setSelectedIndex(2);
 		selectJp.add(year);
-		//selectJp.setBackground(Color.WHITE);
-
+		
 		Calendar c = Calendar.getInstance();
 		JComboBox<String> month = new JComboBox<String>(monthData);
 		month.setSize(62, 35);
@@ -67,8 +66,6 @@ public class SalesManage extends JFrame{
 
 		JLabel daySales = new JLabel("매출 : " + "50000원");
 		daySales.setFont(new Font("굴림", Font.BOLD, 22));
-		daySales.setOpaque(true);
-	    daySales.setBackground(Color.WHITE);
 		
 		daySales.setSize(50, 50);
 		salesJp.add(daySales);
@@ -76,7 +73,6 @@ public class SalesManage extends JFrame{
 		JLabel totalSales = new JLabel((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + "700000원");
 		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
 		totalSales.setOpaque(true);
-	    totalSales.setBackground(Color.WHITE);
 		totalSales.setSize(50, 50);
 		salesJp.add(totalSales);
 
@@ -157,30 +153,10 @@ public class SalesManage extends JFrame{
 			public void mouseClicked(MouseEvent e) {}
 		});
 
-		addWindowListener(new WindowListener() {
-
+		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
-			public void windowOpened(WindowEvent e) {}
-
-			@Override
-			public void windowIconified(WindowEvent e) {}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				new Menu();
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {}
-
-			@Override
-			public void windowActivated(WindowEvent e) {}
+			public void windowClosing(WindowEvent e) { new Menu(); }
+			
 		});
 	}
 

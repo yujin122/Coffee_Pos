@@ -31,21 +31,21 @@ public class StockManage extends JFrame{
 		setSize(new Dimension(640, 640));
 		
 		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
-		btnJp.setBackground(new Color(0,0,0,0));
+		btnJp.setOpaque(false);
 		btnJp.setSize(1000,500);
 		
 		JPanel searchJp = new JPanel();
-		searchJp.setBackground(new Color(0,0,0,0));
+		searchJp.setOpaque(false);
 		
 		JPanel jp = new JPanel(new GridLayout(2,1,10,10));
-		jp.setBackground(new Color(0,0,0,0));
+		jp.setOpaque(false);
 		
 		JButton addBtn = new JButton("추가");
 		addBtn.setSize(136, 43);
 		btnJp.add(addBtn);
 		
 		JPanel allJp = new JPanel(new BorderLayout());
-		allJp.setBackground(new Color(0,0,0,0));
+		allJp.setOpaque(false);
 		
 		JButton updateBtn = new JButton("수정");
 		updateBtn.setSize(136,43);
@@ -120,24 +120,10 @@ public class StockManage extends JFrame{
 			}
 		});
 		
-		addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {}
-			@Override
-			public void windowIconified(WindowEvent e) {}
-			@Override
-			public void windowDeiconified(WindowEvent e) {}
-			@Override
-			public void windowDeactivated(WindowEvent e) {}
-			
+		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) { new Menu(); }
 			
-			@Override
-			public void windowClosed(WindowEvent e) {}
-			@Override
-			public void windowActivated(WindowEvent e) {}
 		});
 	}
 	
