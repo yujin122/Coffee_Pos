@@ -18,13 +18,11 @@ public class SalesManage extends JFrame{
 	private int year_, month_;
 	Object data;
 
-	private JScrollPane scrollPane;
 	private ImageIcon icon;
 	
 	public SalesManage() {
 		
 		setTitle("매출 관리");
-		setBounds(100, 100, 637, 640);
 		setResizable(false);
 		
 		icon = new ImageIcon("image/payment.png");
@@ -33,11 +31,12 @@ public class SalesManage extends JFrame{
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icon.getImage(),0,0,null);
-				
-				setOpaque(false);
-				super.paintComponent(g);
 			}
 		};	
+		
+		setLocation(100, 100);
+		setPreferredSize(new Dimension(630, 640));
+		setSize(new Dimension(630, 640));
 		
 		JPanel selectJp = new JPanel(new GridLayout(1, 2));
 		selectJp.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 200));
@@ -58,6 +57,7 @@ public class SalesManage extends JFrame{
 		year.setSize(62, 35);
 		year.setSelectedIndex(2);
 		selectJp.add(year);
+		//selectJp.setBackground(Color.WHITE);
 
 		Calendar c = Calendar.getInstance();
 		JComboBox<String> month = new JComboBox<String>(monthData);
@@ -67,15 +67,21 @@ public class SalesManage extends JFrame{
 
 		JLabel daySales = new JLabel("매출 : " + "50000원");
 		daySales.setFont(new Font("굴림", Font.BOLD, 22));
+		daySales.setOpaque(true);
+	    daySales.setBackground(Color.WHITE);
+		
 		daySales.setSize(50, 50);
 		salesJp.add(daySales);
 
 		JLabel totalSales = new JLabel((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + "700000원");
 		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
+		totalSales.setOpaque(true);
+	    totalSales.setBackground(Color.WHITE);
 		totalSales.setSize(50, 50);
 		salesJp.add(totalSales);
 
 		calendarJp.add(cal);
+		//calendarJp.setBackground(Color.WHITE);
 		year_ = year.getSelectedIndex() + 2018;
 		month_ = month.getSelectedIndex() + 1;
 
@@ -89,8 +95,7 @@ public class SalesManage extends JFrame{
 		
 		background.add(allJp);
 		
-		scrollPane = new JScrollPane(background);
-		setContentPane(scrollPane);
+		add(background);
 		
 		setVisible(true);
 

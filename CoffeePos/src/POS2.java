@@ -1,40 +1,29 @@
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
-
-public class POS extends JFrame{
+public class POS2 extends JFrame{
 
 	private int cnt = 0;
-	private ImageIcon icon;
 	
-	public POS() {
+	public POS2() {
 		
-		
-		icon = new ImageIcon("image/posback.png");
-		icon = imageSetSize(icon, 1567, 890);
-		
-		JPanel background = new JPanel(new BorderLayout()) {
-			public void paintComponent(Graphics g) {
-				g.drawImage(icon.getImage(),0,0,null);
-			}
-		};	
-
-		setPreferredSize(new Dimension(1567, 910));
-		setSize(new Dimension(1567, 890));
-		setResizable(false);
+		setBounds(100, 100, 1567, 890);
 		setTitle("POS");
 		
 		JPanel paymentJp = new JPanel();		// 결제창
-		paymentJp.setBackground(new Color(0,0,0,0));
 		paymentJp.setSize(5,50);
 		JPanel calculatorJP = new JPanel();		// 계산기
-		calculatorJP.setBackground(new Color(0,0,0,0));
 		JPanel screenJp = new JPanel();			// 스크린
-		screenJp.setBackground(new Color(0,0,0,0));
 		JPanel buttonJp = new JPanel();			// 버튼
-		buttonJp.setBackground(new Color(0,0,0,0));
 		
 		// 메뉴창
 		JTabbedPane tab = menuButton();
@@ -45,7 +34,6 @@ public class POS extends JFrame{
 		
 		// 스크린
 		JPanel sjp = screen();
-		sjp.setBackground(new Color(0,0,0,0));
 		screenJp.add(sjp);
 		screenJp.setBorder(BorderFactory.createEmptyBorder(20,0,40,10));
 		
@@ -58,43 +46,49 @@ public class POS extends JFrame{
 		paymentJp.setLayout(new BorderLayout());
 		paymentJp.add(jsp, BorderLayout.CENTER);
 		paymentJp.setBorder(BorderFactory.createEmptyBorder(40,20,0,20));
-		
 		// 버튼창
 		buttonJp = btn();
 		
 		// 계산기, 스크린
 		JPanel jp2 = new JPanel(new BorderLayout());
-		jp2.setBackground(new Color(0,0,0,0));
-		jp2.add(calculatorJP,BorderLayout.CENTER);
+		jp2.add(calculatorJP,BorderLayout.WEST);
 		jp2.add(screenJp,BorderLayout.EAST);
 		
 		// 결제창 계산기 스크린
 		JPanel jp3 = new JPanel(new GridLayout(2,1,2,2));
-		jp3.setBackground(new Color(0,0,0,0));
 		jp3.add(paymentJp); jp3.add(jp2);
 		
 		JPanel jp4 = new JPanel(new BorderLayout());
-		jp4.setBackground(new Color(0,0,0,0));
-		//jp4.setBackground(Color.WHITE);
 		jp4.add(tab, BorderLayout.CENTER);
 		jp4.add(buttonJp, BorderLayout.SOUTH);
 		jp4.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
 		
 		// 결제창 계산기 스크린 메뉴창
 		JPanel jp5 = new JPanel(new GridLayout(1,2,2,2));
-		jp5.setBackground(new Color(0,0,0,0));
-
-		background.add(jp3,BorderLayout.CENTER); background.add(jp4, BorderLayout.EAST);
+		jp5.add(jp3); jp5.add(jp4);
 		
-		add(background);
-		pack();
+		add(jp5);
+		
 		setVisible(true);
 		
-		
-		addWindowListener(new java.awt.event.WindowAdapter() {
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {}
+			@Override
+			public void windowIconified(WindowEvent e) {}
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+			
 			@Override
 			public void windowClosing(WindowEvent e) { new Menu(); }
 			
+			@Override
+			public void windowClosed(WindowEvent e) {}
+			@Override
+			public void windowActivated(WindowEvent e) {}
 		});
 	}
 	
@@ -234,8 +228,6 @@ public class POS extends JFrame{
 		menuBakeryJP.add(em2); menuBakeryJP.add(BakeryJp);
 		
 		JTabbedPane tab = new JTabbedPane();
-		tab.setPreferredSize(new Dimension(800, 500));
-		tab.setSize(new Dimension(800,500));
 		
 		tab.add("Coffee", menuCoffeeJP);
 		tab.add("NonCoffee" , menuNonCoffeeJP);
@@ -380,7 +372,7 @@ public class POS extends JFrame{
 	public JPanel calculater() {
 		
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBackground(new Color(0,0,0,0));
+		
 		JTextArea ta = new JTextArea(6,30);
 		ta.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		ta.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -474,7 +466,7 @@ public class POS extends JFrame{
 	public JPanel btn() {
 		
 		JPanel panel = new JPanel(new GridLayout(1,3,5,5));
-		panel.setBackground(new Color(0,0,0,0));
+		
 		panel.setBorder(BorderFactory.createEmptyBorder(0,15,10,15));
 		
 		JButton searchBtn = new JButton("회원조회");
@@ -510,16 +502,9 @@ public class POS extends JFrame{
 		
 		return panel;
 	}
-	
-	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
-		Image ximg = icon.getImage();
-		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon xyimg = new ImageIcon(yimg);
-		return xyimg;
-	}
-	
+
 	public static void main(String[] args) {
-		new POS();
+		new POS2();
 	}
 
 }

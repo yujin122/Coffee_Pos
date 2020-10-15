@@ -10,7 +10,6 @@ public class StockManage extends JFrame{
 	private String[] colName = {"재고품명", "수량"};
 	String[][] data = null;
 	
-	private JScrollPane scrollPane;
 	private ImageIcon icon;
 
 	
@@ -22,20 +21,14 @@ public class StockManage extends JFrame{
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icon.getImage(),0,0,null);
-				
-				setOpaque(false);
-				super.paintComponent(g);
 			}
 		};
-		
-		/*JFrame frame = new JFrame();
-		frame.setBounds(100, 100, 623, 600);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new FlowLayout());
-		frame.setResizable(false);
-		frame.setTitle("재고 관리");*/
-		setBounds(100, 100, 640, 640);
+
 		setTitle("재고 관리");
+		setResizable(false);
+		setLocation(100, 100);
+		setPreferredSize(new Dimension(640, 640));
+		setSize(new Dimension(640, 640));
 		
 		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
 		btnJp.setBackground(new Color(0,0,0,0));
@@ -88,9 +81,7 @@ public class StockManage extends JFrame{
 		
 		background.add(allJp);
 		
-		scrollPane = new JScrollPane(background);
-		setContentPane(scrollPane);
-		
+		add(background);
 		setVisible(true);
 		
 	addBtn.addActionListener(new ActionListener() {

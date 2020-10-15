@@ -5,7 +5,6 @@ import javax.swing.*;
   
 public class Menu extends JFrame{
 
-	private JScrollPane scrollPane;
 	private ImageIcon icon;
 	
 	public Menu() {
@@ -16,11 +15,12 @@ public class Menu extends JFrame{
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icon.getImage(),0,0,null);
-				
-				setOpaque(false);
-				super.paintComponent(g);
 			}
 		};		
+		
+		setLocation(100, 100);
+		setPreferredSize(new Dimension(1000, 800));
+		setSize(new Dimension(1000, 800));
 		
 		JPanel jp = new JPanel(new GridLayout(1,2));
 		jp.setBackground(new Color(0,0,0,0));
@@ -74,10 +74,9 @@ public class Menu extends JFrame{
 		jp.add(menuJp);
 		
 		background.add(jp);
-		scrollPane = new JScrollPane(background);
-		setContentPane(scrollPane);
 		
-		setBounds(100, 100, 1000, 800);
+		add(background);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
 		
