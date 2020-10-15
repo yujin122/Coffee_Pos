@@ -61,7 +61,7 @@ public class Money extends JFrame {
 
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e) { new Menu(); }
+			public void windowClosing(WindowEvent e) { dispose(); }
 			
 		});
 	}

@@ -21,8 +21,9 @@ public class POS extends JFrame{
 			}
 		};	
 
-		setPreferredSize(new Dimension(1567, 910));
-		setSize(new Dimension(1567, 890));
+		//1567
+		setPreferredSize(new Dimension(1450, 910));
+		setSize(new Dimension(1450, 890));
 		setResizable(false);
 		setTitle("POS");
 		
@@ -55,11 +56,12 @@ public class POS extends JFrame{
 		JTable table = payment();
 		
 		JScrollPane jsp = new JScrollPane(table);
+
 		table.setFillsViewportHeight(true);
 		paymentJp.setLayout(new BorderLayout());
 		paymentJp.add(jsp, BorderLayout.CENTER);
 		paymentJp.setBorder(BorderFactory.createEmptyBorder(40,20,0,20));
-		
+
 		// 버튼창
 		buttonJp = btn();
 		
@@ -71,6 +73,7 @@ public class POS extends JFrame{
 		
 		// 결제창 계산기 스크린
 		JPanel jp3 = new JPanel(new GridLayout(2,1,2,2));
+		
 		jp3.setOpaque(false);
 		jp3.add(paymentJp); jp3.add(jp2);
 		
@@ -105,6 +108,15 @@ public class POS extends JFrame{
 		JPanel menuNonCoffeeJP = new JPanel(new GridLayout(4,3,5,5));	// 메뉴 - 논커피
 		JPanel menuBakeryJP = new JPanel(new GridLayout(4,3,5,5));		// 메뉴 - 베이커리
 		
+		ImageIcon[] coffeeImg = {new ImageIcon("image/icon/1.png"),new ImageIcon("image/icon/2.png"),new ImageIcon("image/icon/3.png"),
+				new ImageIcon("image/icon/4.png"),new ImageIcon("image/icon/5.png"),new ImageIcon("image/icon/6.png"),
+				new ImageIcon("image/icon/7.png"),new ImageIcon("image/icon/8.png"),new ImageIcon("image/icon/9.png")};
+		
+		for(int i =0;i<9;i++) {
+			coffeeImg[i] = imageSetSize(coffeeImg[i], 200, 150);
+		}
+		
+		
 		// 메뉴창 - 커피
 		JButton[] CoffeeMBtn = new JButton[9];
 		
@@ -121,6 +133,10 @@ public class POS extends JFrame{
 		for(int i=0;i<9;i++) {
 			CoffeeMBtn[i].setFont(new Font(null, Font.BOLD, 20));
 			CoffeeMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+			CoffeeMBtn[i].setIcon(coffeeImg[i]);
+			CoffeeMBtn[i].setBorderPainted(false);
+			CoffeeMBtn[i].setFocusPainted(false);
+			CoffeeMBtn[i].setContentAreaFilled(false);
 		}
 		
 		JPanel coffeePlusJp = new JPanel();
@@ -234,8 +250,9 @@ public class POS extends JFrame{
 		menuBakeryJP.add(em2); menuBakeryJP.add(BakeryJp);
 		
 		JTabbedPane tab = new JTabbedPane();
-		tab.setPreferredSize(new Dimension(800, 500));
-		tab.setSize(new Dimension(800,500));
+		//800
+		tab.setPreferredSize(new Dimension(650, 500));
+		tab.setSize(new Dimension(650,500));
 		
 		tab.add("Coffee", menuCoffeeJP);
 		tab.add("NonCoffee" , menuNonCoffeeJP);
