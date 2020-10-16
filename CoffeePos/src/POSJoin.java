@@ -11,181 +11,181 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class POSJoin extends JFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
+
 
 	public POSJoin() {
 		super("관리자 회원가입");
 		setLocation(100, 100);
 
 		getContentPane().setLayout(null);
+		
+		// 이름
+		JPanel namePanel = new JPanel();
+		namePanel.setBounds(10, 66, 65, 22);
+		getContentPane().add(namePanel);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 66, 65, 22);
-		getContentPane().add(panel);
+		JLabel nameLabel = new JLabel("이름 : ");
+		nameLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		namePanel.add(nameLabel);
 
-		JLabel name = new JLabel("이름 : ");
-		name.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel.add(name);
+		JPanel nameTfPanel = new JPanel();
+		nameTfPanel.setBounds(116, 60, 194, 31);
+		getContentPane().add(nameTfPanel);
+		//이름 TextFied
+		JTextField nameTf = new JTextField(15);
+		nameTfPanel.add(nameTf);
+		
+		// 주민등록번호
+		JPanel rNumberPanel = new JPanel();
+		rNumberPanel.setBounds(19, 101, 96, 22);
+		getContentPane().add(rNumberPanel);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(116, 60, 194, 31);
-		getContentPane().add(panel_1);
+		JLabel rNumberLabel = new JLabel("주민등록번호 : ");
+		rNumberLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		rNumberPanel.add(rNumberLabel);
+		
+		// 성별
+		JPanel genderPanel = new JPanel();
+		genderPanel.setBounds(15, 136, 55, 22);
+		getContentPane().add(genderPanel);
 
-		textField = new JTextField();
-		panel_1.add(textField);
-		textField.setColumns(15);
+		JLabel genderLabel = new JLabel("성별 : ");
+		genderLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		genderPanel.add(genderLabel);
+		
+		// 아이디
+		JPanel idPanel = new JPanel();
+		idPanel.setBounds(17, 170, 61, 22);
+		getContentPane().add(idPanel);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(19, 101, 96, 22);
-		getContentPane().add(panel_2);
+		JLabel idLabel = new JLabel("아이디 : ");
+		idLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		idPanel.add(idLabel);
+		
+		// 비밀번호
+		JPanel pwPanel = new JPanel();
+		pwPanel.setBounds(14, 202, 80, 22);
+		getContentPane().add(pwPanel);
 
-		JLabel lblNewLabel_1 = new JLabel("주민등록번호 : ");
-		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_2.add(lblNewLabel_1);
+		JLabel pwLabel = new JLabel("비밀번호 : ");
+		pwLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		pwPanel.add(pwLabel);
+		// 전화번호
+		JPanel pNunberPanel = new JPanel();
+		pNunberPanel.setBounds(13, 234, 82, 22);
+		getContentPane().add(pNunberPanel);
+		
+		JLabel pNumberLabel = new JLabel("전화번호 : ");
+		pNumberLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		pNunberPanel.add(pNumberLabel);
+		
+		// 이메일
+		JPanel eMailPanel = new JPanel();
+		eMailPanel.setBounds(13, 263, 70, 22);
+		getContentPane().add(eMailPanel);
 
-		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setBounds(15, 136, 55, 22);
-		getContentPane().add(panel_2_1);
+		JLabel eMailLabel = new JLabel("이메일 : ");
+		eMailLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		eMailPanel.add(eMailLabel);
+		
+		// 주민등록번호TextField
+		JPanel rNumberTfPanel = new JPanel();
+		rNumberTfPanel.setBounds(119, 95, 186, 31);
+		getContentPane().add(rNumberTfPanel);
 
-		JLabel lblNewLabel_2 = new JLabel("성별 : ");
-		lblNewLabel_2.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_2_1.add(lblNewLabel_2);
-
-		JPanel panel_2_1_1 = new JPanel();
-		panel_2_1_1.setBounds(17, 170, 61, 22);
-		getContentPane().add(panel_2_1_1);
-
-		JLabel ID = new JLabel("아이디 : ");
-		ID.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_2_1_1.add(ID);
-
-		JPanel panel_2_1_2 = new JPanel();
-		panel_2_1_2.setBounds(14, 202, 80, 22);
-		getContentPane().add(panel_2_1_2);
-
-		JLabel password = new JLabel("비밀번호 : ");
-		password.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_2_1_2.add(password);
-
-		JPanel panel_2_1_3 = new JPanel();
-		panel_2_1_3.setBounds(13, 234, 82, 22);
-		getContentPane().add(panel_2_1_3);
-
-		JLabel label_1 = new JLabel("전화번호 : ");
-		label_1.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_2_1_3.add(label_1);
-
-		JPanel panel_2_1_4 = new JPanel();
-		panel_2_1_4.setBounds(13, 263, 70, 22);
-		getContentPane().add(panel_2_1_4);
-
-		JLabel label_2 = new JLabel("이메일 : ");
-		label_2.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_2_1_4.add(label_2);
-
-		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setBounds(119, 95, 186, 31);
-		getContentPane().add(panel_1_1);
-
-		textField_1 = new JTextField();
-		textField_1.setColumns(6);
-		panel_1_1.add(textField_1);
+		JTextField rNumberTf1 = new JTextField(6);
+		rNumberTfPanel.add(rNumberTf1);
 
 		JLabel label = new JLabel("-");
-		panel_1_1.add(label);
+		rNumberTfPanel.add(label);
 
-		JPasswordField nINumber = new JPasswordField();
-		panel_1_1.add(nINumber);
-		nINumber.setColumns(7);
+		JPasswordField rNumberTf2 = new JPasswordField(7);
+		rNumberTfPanel.add(rNumberTf2);
+		
+		// 성별 TextField
+		JPanel GenderTfPanel = new JPanel();
+		GenderTfPanel.setBounds(108, 132, 200, 31);
+		getContentPane().add(GenderTfPanel);
 
-		JPanel panel_1_2 = new JPanel();
-		panel_1_2.setBounds(108, 132, 200, 31);
-		getContentPane().add(panel_1_2);
+		JTextField genderTf = new JTextField(14);
+		GenderTfPanel.add(genderTf);
+		
+		// IDTextField
+		JPanel idTfPanel = new JPanel();
+		idTfPanel.setBounds(121, 165, 162, 31);
+		getContentPane().add(idTfPanel);
 
-		textField_2 = new JTextField();
-		textField_2.setColumns(14);
-		panel_1_2.add(textField_2);
+		JTextField idTf = new JTextField(13);
+		idTfPanel.add(idTf);
+		
+		//PWTextField
+		JPanel pwTfPanel = new JPanel();
+		pwTfPanel.setBounds(106, 197, 202, 31);
+		getContentPane().add(pwTfPanel);
 
-		JPanel panel_1_3 = new JPanel();
-		panel_1_3.setBounds(121, 165, 162, 31);
-		getContentPane().add(panel_1_3);
+		JTextField pwTf = new JTextField(14);
+		pwTfPanel.add(pwTf);
+		
+		// 전화번호TextField
+		JPanel pNumberTfPanel = new JPanel();
+		pNumberTfPanel.setBounds(106, 229, 202, 31);
+		getContentPane().add(pNumberTfPanel);
 
-		textField_3 = new JTextField();
-		textField_3.setColumns(13);
-		panel_1_3.add(textField_3);
+		JTextField pNumberTf = new JTextField(14);
+		pNumberTfPanel.add(pNumberTf);
+		
+		// 이메일TextField
+		JPanel eMailTfPanel = new JPanel();
+		eMailTfPanel.setBounds(106, 261, 203, 31);
+		getContentPane().add(eMailTfPanel);
 
-		JPanel panel_1_4 = new JPanel();
-		panel_1_4.setBounds(106, 197, 202, 31);
-		getContentPane().add(panel_1_4);
+		JTextField eMailTf = new JTextField(14);
+		eMailTfPanel.add(eMailTf);
+		
+		// 중복확인버튼
+		JPanel dCheckButtPanel = new JPanel();
+		dCheckButtPanel.setBounds(289, 162, 91, 31);
+		getContentPane().add(dCheckButtPanel);
 
-		textField_4 = new JTextField();
-		textField_4.setColumns(14);
-		panel_1_4.add(textField_4);
+		JButton dCheckButton = new JButton("중복확인");
+		dCheckButton.setFont(new Font("나눔고딕", Font.BOLD, 12));
+		dCheckButtPanel.add(dCheckButton);
+		
+		// 확인버튼
+		JPanel confirmPanel = new JPanel();
+		confirmPanel.setBounds(73, 332, 70, 33);
+		getContentPane().add(confirmPanel);
 
-		JPanel panel_1_5 = new JPanel();
-		panel_1_5.setBounds(106, 229, 202, 31);
-		getContentPane().add(panel_1_5);
+		JButton conFirmButton = new JButton("확인");
+		confirmPanel.add(conFirmButton);
+		conFirmButton.setFont(new Font("나눔고딕", Font.BOLD, 12));
+		
+		// 취소버튼
+		JPanel cancelPanel = new JPanel();
+		cancelPanel.setBounds(161, 332, 70, 33);
+		getContentPane().add(cancelPanel);
 
-		textField_5 = new JTextField();
-		textField_5.setColumns(14);
-		panel_1_5.add(textField_5);
+		JButton cancelButton = new JButton("취소");
+		cancelButton.setFont(new Font("나눔고딕", Font.BOLD, 12));
+		cancelPanel.add(cancelButton);
+		// 닫기버튼
+		JPanel closePanel = new JPanel();
+		closePanel.setBounds(247, 332, 70, 33);
+		getContentPane().add(closePanel);
 
-		JPanel panel_1_6 = new JPanel();
-		panel_1_6.setBounds(106, 261, 203, 31);
-		getContentPane().add(panel_1_6);
-
-		textField_6 = new JTextField();
-		textField_6.setColumns(14);
-		panel_1_6.add(textField_6);
-
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(289, 162, 91, 31);
-		getContentPane().add(panel_3);
-
-		JButton btnNewButton = new JButton("중복확인");
-		btnNewButton.setFont(new Font("나눔고딕", Font.BOLD, 12));
-		panel_3.add(btnNewButton);
-
-		JPanel panel_3_1 = new JPanel();
-		panel_3_1.setBounds(73, 332, 70, 33);
-		getContentPane().add(panel_3_1);
-
-		JButton btnNewButton_1 = new JButton("확인");
-		panel_3_1.add(btnNewButton_1);
-		btnNewButton_1.setFont(new Font("나눔고딕", Font.BOLD, 12));
-
-		JPanel panel_3_1_1 = new JPanel();
-		panel_3_1_1.setBounds(161, 332, 70, 33);
-		getContentPane().add(panel_3_1_1);
-
-		JButton cancel = new JButton("취소");
-		cancel.setFont(new Font("나눔고딕", Font.BOLD, 12));
-		panel_3_1_1.add(cancel);
-
-		JPanel panel_3_1_2 = new JPanel();
-		panel_3_1_2.setBounds(247, 332, 70, 33);
-		getContentPane().add(panel_3_1_2);
-
-		JButton close2 = new JButton("닫기\r\n");
-		close2.setFont(new Font("나눔고딕", Font.BOLD, 12));
-		panel_3_1_2.add(close2);
+		JButton closeButton = new JButton("닫기\r\n");
+		closeButton.setFont(new Font("나눔고딕", Font.BOLD, 12));
+		closePanel.add(closeButton);
 
 		setBounds(600, 700, 400, 450);
 
-		setResizable(false); // 화면 크기 고정
+		setResizable(false);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setVisible(true);
 
-		cancel.addActionListener(new ActionListener() {
+		cancelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -195,7 +195,7 @@ public class POSJoin extends JFrame {
 			}
 		});
 
-		close2.addActionListener(new ActionListener() {
+		closeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

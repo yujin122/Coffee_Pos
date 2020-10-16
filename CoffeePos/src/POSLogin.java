@@ -12,91 +12,106 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class POSLogin extends JFrame {
-	private JTextField textField;
-	private JTextField textField_1;
+	
+	
 
 	public POSLogin() {
 		super("로그인 화면");
 		setLocation(100, 100);
 		getContentPane().setFont(new Font("굴림", Font.PLAIN, 12));
 		getContentPane().setLayout(null);
+		
+		// 포스이름
+		JPanel loginScreenPanel = new JPanel();
+		loginScreenPanel.setBounds(43, 23, 200, 50);
+		getContentPane().add(loginScreenPanel);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(43, 23, 200, 50);
-		getContentPane().add(panel);
+		JLabel loginScreenLabel = new JLabel("Sist P.O.S");
+		loginScreenLabel.setFont(new Font("함초롬바탕", Font.PLAIN, 30));
+		loginScreenPanel.add(loginScreenLabel);
+		
+		// ID
+		JPanel idPanel = new JPanel();
+		idPanel.setBounds(31, 92, 90, 23);
+		getContentPane().add(idPanel);
+		
+		JLabel idLabel = new JLabel("ID :");
+		idLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		idPanel.add(idLabel);
+		
+		// Password
+		JPanel pwPanel = new JPanel();
+		pwPanel.setBounds(31, 125, 90, 23);
+		getContentPane().add(pwPanel);
+		
+		JLabel pwLabel = new JLabel("PW :");
+		pwLabel.setFont(new Font("Dialog", Font.BOLD, 12));
+		pwPanel.add(pwLabel);
+		JPanel idPwBPanel = new JPanel();
+		idPwBPanel.setBounds(90, 164, 101, 40);
+		getContentPane().add(idPwBPanel);
+		
+		// ID/PW찾기
+		JButton findIdPwButton = new JButton("ID/PW찾기");
+		findIdPwButton.setFont(new Font("굴림", Font.BOLD, 12));
+		idPwBPanel.add(findIdPwButton);
+		
+		// 로그인버튼
+		JPanel JloginBPanel = new JPanel();
+		JloginBPanel.setBounds(10, 164, 79, 38);
+		getContentPane().add(JloginBPanel);
 
-		JLabel login = new JLabel("Sist P.O.S");
-		login.setFont(new Font("함초롬바탕", Font.PLAIN, 30));
-		panel.add(login);
+		JButton JLoginButton = new JButton("로그인");
+		JLoginButton.setFont(new Font("굴림", Font.BOLD, 12));
+		JloginBPanel.add(JLoginButton);
+		
+		// 회원가입 버튼
+		JPanel joinBpanel = new JPanel();
+		joinBpanel.setBounds(190, 164, 90, 40);
+		getContentPane().add(joinBpanel);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(27, 92, 90, 23);
-		getContentPane().add(panel_1);
-
-		JLabel loginId = new JLabel("ID :");
-		loginId.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_1.add(loginId);
-
-		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setBounds(27, 125, 90, 23);
-		getContentPane().add(panel_1_1);
-
-		JLabel loginPw = new JLabel("PW :");
-		loginPw.setFont(new Font("Dialog", Font.BOLD, 12));
-		panel_1_1.add(loginPw);
-
+		JButton joinButton = new JButton("회원가입");
+		joinButton.setFont(new Font("굴림", Font.BOLD, 12));
+		joinBpanel.add(joinButton);
+		
+		//IDTextfield
+		JPanel idTfPanel = new JPanel();
+		idTfPanel.setBounds(117, 87, 130, 34);
+		getContentPane().add(idTfPanel);
+		
+		JTextField idTf = new JTextField(10);
+				idTfPanel.add(idTf);
+		
+		// PWTextField
+		JPanel pwTfPanel = new JPanel();
+				pwTfPanel.setBounds(118, 123, 129, 31);
+				getContentPane().add(pwTfPanel);
+		
+		// 암호화		
 		JPasswordField pwTf = new JPasswordField(10);
-		pwTf.setBounds(128, 125, 116, 21);
-		getContentPane().add(pwTf);
-
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(128, 94, 116, 21);
-		getContentPane().add(textField_1);
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(90, 164, 101, 40);
-		getContentPane().add(panel_2);
-
-		JButton findidpw = new JButton("ID/PW찾기");
-		findidpw.setFont(new Font("굴림", Font.BOLD, 12));
-		panel_2.add(findidpw);
-
-		JPanel panel_2_2 = new JPanel();
-		panel_2_2.setBounds(10, 164, 79, 38);
-		getContentPane().add(panel_2_2);
-
-		JButton JLogin = new JButton("로그인");
-		JLogin.setFont(new Font("굴림", Font.BOLD, 12));
-		panel_2_2.add(JLogin);
-
-		JPanel panel_2_2_1 = new JPanel();
-		panel_2_2_1.setBounds(190, 164, 90, 40);
-		getContentPane().add(panel_2_2_1);
-
-		JButton join = new JButton("회원가입");
-		join.setFont(new Font("굴림", Font.BOLD, 12));
-		panel_2_2_1.add(join);
+				pwTfPanel.add(pwTf);
 
 		setBounds(250, 250, 300, 250);
 
-		setResizable(false); // 화면 크기 고정
+		setResizable(false);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setVisible(true);
-
-		JLogin.addActionListener(new ActionListener() {
-
+		
+		
+		//로그인 버튼, ID/PW찾기 버튼 , 회원가입 버튼
+		JLoginButton.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(JLogin, "로그인 성공");
+				JOptionPane.showMessageDialog(JLoginButton, "로그인 성공");
 				new Menu();
 				dispose();
 			}
 		});
 
-		join.addActionListener(new ActionListener() {
+		joinButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -105,7 +120,7 @@ public class POSLogin extends JFrame {
 				dispose();
 			}
 		});
-		findidpw.addActionListener(new ActionListener() {
+		findIdPwButton.addActionListener(new ActionListener() {
 			@Override
 
 			public void actionPerformed(ActionEvent e) {

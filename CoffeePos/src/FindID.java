@@ -3,83 +3,86 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class FindID extends JFrame {
-	
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
 
 	public FindID() {
 		super("ID 찾기");
 		setLocation(100, 100);
 
 		getContentPane().setLayout(null);
+		
+		// 이름
+		JPanel namePanel = new JPanel();
+		namePanel.setBounds(17, 34, 48, 21);
+		getContentPane().add(namePanel);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(17, 34, 48, 21);
-		getContentPane().add(panel);
+		JLabel nameLabel = new JLabel("이름 : ");
+		nameLabel.setFont(new Font("굴림", Font.BOLD, 12));
 
-		JLabel name = new JLabel("이름 : ");
-		name.setFont(new Font("굴림", Font.BOLD, 12));
+		namePanel.add(nameLabel);
+		
+		// 주민등록번호
+		JPanel rNumberPanel = new JPanel();
+		rNumberPanel.setBounds(21, 68, 89, 21);
+		getContentPane().add(rNumberPanel);
 
-		panel.add(name);
+		JLabel rNumberLabel = new JLabel("주민등록번호 : ");
+		rNumberLabel.setFont(new Font("굴림", Font.BOLD, 12));
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(21, 68, 89, 21);
-		getContentPane().add(panel_1);
+		rNumberPanel.add(rNumberLabel);
+		
+		// 이름TextField
+		JPanel nameTfPanel = new JPanel();
+		nameTfPanel.setBounds(114, 29, 183, 31);
+		getContentPane().add(nameTfPanel);
 
-		JLabel socialNumber = new JLabel("주민등록번호 : ");
-		socialNumber.setFont(new Font("굴림", Font.BOLD, 12));
+		JTextField NameTf = new JTextField(15);
+		nameTfPanel.add(NameTf);
+		
+		// 주민등록번호TextField
+		JPanel rNumberTfPanel = new JPanel();
+		rNumberTfPanel.setBounds(110, 63, 187, 32);
+		getContentPane().add(rNumberTfPanel);
 
-		panel_1.add(socialNumber);
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(114, 29, 183, 31);
-		getContentPane().add(panel_2);
-
-		textField = new JTextField();
-		panel_2.add(textField);
-		textField.setColumns(15);
-
-		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setBounds(110, 63, 187, 32);
-		getContentPane().add(panel_2_1);
-
-		textField_1 = new JTextField();
-		panel_2_1.add(textField_1);
-		textField_1.setColumns(6);
+		JTextField rNumberTf1 = new JTextField(6);
+		rNumberTfPanel.add(rNumberTf1);
 
 		JLabel label = new JLabel("-");
-		panel_2_1.add(label);
+		rNumberTfPanel.add(label);
+		
+		// 뒷자리 암호화
+		JPasswordField rNumberTf2 = new JPasswordField(7);
+		rNumberTfPanel.add(rNumberTf2);
+		
+		// 확인버튼
+		JPanel confirmButtonPanel = new JPanel();
+		confirmButtonPanel.setBounds(40, 116, 61, 31);
+		getContentPane().add(confirmButtonPanel);
 
-		JPasswordField nINumber = new JPasswordField(7);
-		panel_2_1.add(nINumber);
+		JButton confirmButton = new JButton("확인");
+		confirmButton.setFont(new Font("굴림", Font.BOLD, 12));
 
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(40, 116, 61, 31);
-		getContentPane().add(panel_3);
+		confirmButtonPanel.add(confirmButton);
+		
+		
+		// 취소버튼
+		JPanel cancelButtonPanel = new JPanel();
+		cancelButtonPanel.setBounds(126, 116, 65, 31);
+		getContentPane().add(cancelButtonPanel);
+		
+		JButton cancelButton = new JButton("취소");
+		cancelButton.setFont(new Font("굴림", Font.BOLD, 12));
 
-		JButton confirm = new JButton("확인");
-		confirm.setFont(new Font("굴림", Font.BOLD, 12));
+		cancelButtonPanel.add(cancelButton);
+		
+		// 닫기버튼
+		JPanel closeButtonPanel = new JPanel();
+		closeButtonPanel.setBounds(211, 116, 64, 40);
+		getContentPane().add(closeButtonPanel);
 
-		panel_3.add(confirm);
+		JButton closeButton = new JButton("닫기");
+		closeButton.setFont(new Font("굴림", Font.BOLD, 12));
 
-		JPanel panel_3_1 = new JPanel();
-		panel_3_1.setBounds(126, 116, 65, 31);
-		getContentPane().add(panel_3_1);
-
-		JButton cancel = new JButton("취소");
-		cancel.setFont(new Font("굴림", Font.BOLD, 12));
-
-		panel_3_1.add(cancel);
-
-		JPanel panel_3_1_1 = new JPanel();
-		panel_3_1_1.setBounds(211, 116, 64, 40);
-		getContentPane().add(panel_3_1_1);
-
-		JButton close = new JButton("닫기");
-		close.setFont(new Font("굴림", Font.BOLD, 12));
-
-		panel_3_1_1.add(close);
+		closeButtonPanel.add(closeButton);
 
 		setBounds(300, 250, 320, 205);
 
@@ -90,7 +93,7 @@ public class FindID extends JFrame {
 		setVisible(true);
 
 		// 취소버튼
-		cancel.addActionListener(new ActionListener() {
+		cancelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +102,7 @@ public class FindID extends JFrame {
 			}
 		});
 		// 종료버튼
-		close.addActionListener(new ActionListener() {
+		closeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

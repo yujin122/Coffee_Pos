@@ -20,11 +20,13 @@ public class Calculator extends JPanel{
 		textPan.setOpaque(false);
 		
 		numText = new JTextField(30);
+		numText.setBackground(new Color(252, 252, 252));
 		numText.setHorizontalAlignment(SwingConstants.RIGHT);
 		numText.setFont(new Font(null, 0, 20));
 		numText.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 		
 		resultText = new JTextField(30);
+		resultText.setBackground(new Color(252, 252, 252));
 		resultText.setHorizontalAlignment(SwingConstants.RIGHT);
 		resultText.setFont(new Font(null, 0, 20));
 		resultText.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
@@ -41,6 +43,7 @@ public class Calculator extends JPanel{
 			btn[i] = new JButton(Integer.toString(i));
 			btn[i].setPreferredSize(new Dimension( 50, 50));
 			btn[i].setSize(new Dimension(50, 50));
+			btn[i].setBackground(new Color(250, 250, 250));
 		}
 		
 		btn[10] = new JButton("+");
@@ -49,6 +52,10 @@ public class Calculator extends JPanel{
 		btn[13] = new JButton("Enter");
 		btn[14] = new JButton("C");
 		btn[15] = new JButton("CE");
+		
+		for(int i = 10;i<16;i++) {
+			btn[i].setBackground(new Color(227, 225, 225));
+		}
 		
 		buttonJp.add(btn[7]); buttonJp.add(btn[8]); buttonJp.add(btn[9]); buttonJp.add(btn[15]);
 		buttonJp.add(btn[4]); buttonJp.add(btn[5]); buttonJp.add(btn[6]); buttonJp.add(btn[10]);
@@ -62,8 +69,7 @@ public class Calculator extends JPanel{
 		panel.setBorder(BorderFactory.createEmptyBorder(30,25,30,30));
 		
 		add(panel);
-		/*setPreferredSize(new Dimension( 100, 100));
-		setSize(new Dimension(100, 100));*/
+
 		setLocation(100, 100);
 		setVisible(true);
 		

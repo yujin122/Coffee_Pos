@@ -44,6 +44,15 @@ public class MemberSearch extends JFrame {
 		setVisible(true);
 
 		// 이벤트처리
+		searchbButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Point();
+				dispose();
+			}
+		});
+		
 		// clearButton 이벤트 처리
 		clearButton.addActionListener(new ActionListener() {
 

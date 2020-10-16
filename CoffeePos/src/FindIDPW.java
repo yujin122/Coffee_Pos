@@ -12,26 +12,24 @@ public class FindIDPW extends JFrame {
 		setLocation(100, 100);
 
 		getContentPane().setLayout(null);
+		
+		// ID찾기
+		JPanel idPanel = new JPanel();
+		idPanel.setBounds(53, 18, 117, 32);
+		getContentPane().add(idPanel);
+		
+		JButton findIdButton = new JButton("ID 찾기");
+		findIdButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		idPanel.add(findIdButton);
+		
+		// PW찾기
+		JPanel pwPanel = new JPanel();
+		pwPanel.setBounds(52, 55, 117, 32); // 길이
+		getContentPane().add(pwPanel);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(53, 18, 117, 32);
-		getContentPane().add(panel);
-		// id찾기
-		JButton findId = new JButton("ID 찾기");
-		findId.setFont(new Font("Dialog", Font.BOLD, 12));
-		findId.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		panel.add(findId);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(52, 55, 117, 32); // 길이
-		getContentPane().add(panel_1);
-
-		JButton findPw = new JButton("PW 찾기"); // pw버튼
-		findPw.setFont(new Font("Dialog", Font.BOLD, 12)); // 글꼴수정
-		panel_1.add(findPw);
+		JButton findPwButton = new JButton("PW 찾기"); // pw버튼
+		findPwButton.setFont(new Font("Dialog", Font.BOLD, 12)); // 글꼴수정
+		pwPanel.add(findPwButton);
 
 		setBounds(250, 200, 235, 150);
 
@@ -41,7 +39,7 @@ public class FindIDPW extends JFrame {
 
 		setVisible(true);
 
-		findId.addActionListener(new ActionListener() {
+		findIdButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -51,7 +49,7 @@ public class FindIDPW extends JFrame {
 			}
 		});
 
-		findPw.addActionListener(new ActionListener() {
+		findPwButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

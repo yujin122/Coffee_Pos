@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
+
 import javax.swing.*;
 
 
@@ -8,9 +9,19 @@ public class POS extends JFrame{
 
 	private int cnt = 0;
 	private ImageIcon icon;
+	private int num = 0;
+	private int screen_total=0, usepoint =0, savepoint=0, pay=0;
+	JTable table; JTextArea screenTa;
+	
+	MerInfo[] coffeeinfo = new MerInfo[9];
+	MerInfo[] noncfeinfo = new MerInfo[8];
+	MerInfo[] bakeryinfo = new MerInfo[8];
+	
+	String[][] menu = new String[20][4];
 	
 	public POS() {
 		
+		new Info();
 		
 		icon = new ImageIcon("image/posback.png");
 		icon = imageSetSize(icon, 1567, 890);
@@ -46,14 +57,15 @@ public class POS extends JFrame{
 
 		
 		// 스크린
-		JPanel sjp = screen();
-		sjp.setOpaque(false);
-		screenJp.add(sjp);
+		screenTa= screen();
+	
+		screenJp.add(screenTa);
 		screenJp.setBorder(BorderFactory.createEmptyBorder(20,0,40,10));
-		
+		screenJp.setPreferredSize(new Dimension(200, 180));
+		screenJp.setSize(new Dimension(200, 180));
 		
 		// 결제창
-		JTable table = payment();
+		table = payment();
 		
 		JScrollPane jsp = new JScrollPane(table);
 
@@ -108,35 +120,22 @@ public class POS extends JFrame{
 		JPanel menuNonCoffeeJP = new JPanel(new GridLayout(4,3,5,5));	// 메뉴 - 논커피
 		JPanel menuBakeryJP = new JPanel(new GridLayout(4,3,5,5));		// 메뉴 - 베이커리
 		
-		ImageIcon[] coffeeImg = {new ImageIcon("image/icon/1.png"),new ImageIcon("image/icon/2.png"),new ImageIcon("image/icon/3.png"),
-				new ImageIcon("image/icon/4.png"),new ImageIcon("image/icon/5.png"),new ImageIcon("image/icon/6.png"),
-				new ImageIcon("image/icon/7.png"),new ImageIcon("image/icon/8.png"),new ImageIcon("image/icon/9.png")};
+		ImageIcon[] coffeeImg = {new ImageIcon("image/cficon/1.png"),new ImageIcon("image/cficon/2.png"),new ImageIcon("image/cficon/3.png"),
+				new ImageIcon("image/cficon/4.png"),new ImageIcon("image/cficon/5.png"),new ImageIcon("image/cficon/6.png"),
+				new ImageIcon("image/cficon/7.png"),new ImageIcon("image/cficon/8.png"),new ImageIcon("image/cficon/9.png")};
 		
 		for(int i =0;i<9;i++) {
-			coffeeImg[i] = imageSetSize(coffeeImg[i], 200, 150);
+			coffeeImg[i] = imageSetSize(coffeeImg[i], 210, 160);
 		}
 		
 		
 		// 메뉴창 - 커피
 		JButton[] CoffeeMBtn = new JButton[9];
 		
-		CoffeeMBtn[0] = new JButton("HOT 아메리카노");
-		CoffeeMBtn[1] = new JButton("ICE 아메리카노");
-		CoffeeMBtn[2] = new JButton("HOT 카페라떼");
-		CoffeeMBtn[3] = new JButton("ICE 카페라떼");
-		CoffeeMBtn[4] = new JButton("HOT 카페모카");
-		CoffeeMBtn[5] = new JButton("ICE 카페모카");
-		CoffeeMBtn[6] = new JButton("HOT 바닐라라떼");
-		CoffeeMBtn[7] = new JButton("ICE 바닐라라떼");
-		CoffeeMBtn[8] = new JButton("ICE 콜드브루");
-		
 		for(int i=0;i<9;i++) {
-			CoffeeMBtn[i].setFont(new Font(null, Font.BOLD, 20));
-			CoffeeMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+			CoffeeMBtn[i]= new JButton(Integer.toString(i));
+			CoffeeMBtn[i].setBackground(Color.WHITE);
 			CoffeeMBtn[i].setIcon(coffeeImg[i]);
-			CoffeeMBtn[i].setBorderPainted(false);
-			CoffeeMBtn[i].setFocusPainted(false);
-			CoffeeMBtn[i].setContentAreaFilled(false);
 		}
 		
 		JPanel coffeePlusJp = new JPanel();
@@ -151,7 +150,6 @@ public class POS extends JFrame{
 		coffeeMinusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
 		JLabel[] count = new JLabel[3];
 		count[0] = new JLabel("수량");
-		//JLabel coffeeCount = new JLabel("수량");
 		count[0].setHorizontalAlignment(0);
 		
 		JPanel countJp = new JPanel(new GridLayout(1,3));
@@ -168,18 +166,18 @@ public class POS extends JFrame{
 		// 메뉴창 - 논커피
 		JButton[] NonCoffeeMBtn = new JButton[8];
 		
-		NonCoffeeMBtn[0] = new JButton("HOT 민트티");
-		NonCoffeeMBtn[1] = new JButton("HOT 레몬티");
-		NonCoffeeMBtn[2] = new JButton("HOT 블랙티");
-		NonCoffeeMBtn[3] = new JButton("HOT 얼그레이");
-		NonCoffeeMBtn[4] = new JButton("HOT 그린티");
-		NonCoffeeMBtn[5] = new JButton("ICE 망고스무디");
-		NonCoffeeMBtn[6] = new JButton("ICE 자몽에이드");
-		NonCoffeeMBtn[7] = new JButton("ICE 오렌지에이드");
+		ImageIcon[] nonCoffeeImg = {new ImageIcon("image/ncficon/1.png"),new ImageIcon("image/ncficon/2.png"),new ImageIcon("image/ncficon/3.png"),
+				new ImageIcon("image/ncficon/4.png"),new ImageIcon("image/ncficon/5.png"),new ImageIcon("image/ncficon/6.png"),
+				new ImageIcon("image/ncficon/7.png"),new ImageIcon("image/ncficon/8.png"),new ImageIcon("image/ncficon/9.png")};
+		
+		for(int i =0;i<9;i++) {
+			nonCoffeeImg[i] = imageSetSize(nonCoffeeImg[i], 210, 160);
+		}
 		
 		for(int i=0;i<8;i++) {
-			NonCoffeeMBtn[i].setFont(new Font(null, Font.BOLD, 20));
-			NonCoffeeMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+			NonCoffeeMBtn[i]= new JButton(nonCoffeeImg[i]);
+			NonCoffeeMBtn[i].setBackground(Color.WHITE);
+			NonCoffeeMBtn[i].setText(Integer.toString(i));
 		}
 				
 		JPanel noncoffeePlusJp = new JPanel();
@@ -190,7 +188,6 @@ public class POS extends JFrame{
 		minus[1] = new JButton("<");
 		noncoffeeMinusJp.add(minus[1]);
 		noncoffeeMinusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
-		//JLabel noncoffeeCount = new JLabel("수량");
 		count[1] = new JLabel("수량");
 		count[1].setHorizontalAlignment(0);
 		
@@ -210,18 +207,19 @@ public class POS extends JFrame{
 		// 메뉴창 - 베이커리
 		JButton[] bakeryMBtn = new JButton[8];
 		
-		bakeryMBtn[0] = new JButton("블루베리 베이글");
-		bakeryMBtn[1] = new JButton("플레인 베이글");
-		bakeryMBtn[2] = new JButton("샌드위치");
-		bakeryMBtn[3] = new JButton("티라미슈");
-		bakeryMBtn[4] = new JButton("레드벨벳 케익");
-		bakeryMBtn[5] = new JButton("치즈 케익");
-		bakeryMBtn[6] = new JButton("스콘");
-		bakeryMBtn[7] = new JButton("샐러드");
+		ImageIcon[] bakeryImg = {new ImageIcon("image/dessert/1.png"),new ImageIcon("image/dessert/2.png"),new ImageIcon("image/dessert/3.png"),
+				new ImageIcon("image/dessert/4.png"),new ImageIcon("image/dessert/5.png"),new ImageIcon("image/dessert/6.png"),
+				new ImageIcon("image/dessert/7.png"),new ImageIcon("image/dessert/8.png"),new ImageIcon("image/dessert/9.png")};
+		
+		for(int i =0;i<9;i++) {
+			bakeryImg[i] = imageSetSize(bakeryImg[i], 210, 160);
+		}
 		
 		for(int i=0;i<8;i++) {
-			bakeryMBtn[i].setFont(new Font(null, Font.BOLD, 20));
-			bakeryMBtn[i].setHorizontalTextPosition(SwingConstants.CENTER);
+			bakeryMBtn[i]= new JButton(bakeryImg[i]);
+			bakeryMBtn[i].setBackground(Color.WHITE);
+			bakeryMBtn[i].setText(Integer.toString(i));
+
 		}
 		
 		JPanel BakeryPlusJp = new JPanel();
@@ -232,12 +230,11 @@ public class POS extends JFrame{
 		minus[2] = new JButton("<");
 		BakeryMinusJp.add(minus[2]);
 		BakeryMinusJp.setBorder(BorderFactory.createEmptyBorder(53,30,30,30));
-		//JLabel BakeryCount = new JLabel("수량");
 		count[2] = new JLabel("수량");
 		count[2].setHorizontalAlignment(0);
 		
 		JLabel em2 = new JLabel(" ");
-				
+			
 		JPanel BakeryJp = new JPanel(new GridLayout(1,3));
 		BakeryJp.add(BakeryMinusJp);
 		BakeryJp.add(count[2]);
@@ -253,34 +250,48 @@ public class POS extends JFrame{
 		//800
 		tab.setPreferredSize(new Dimension(650, 500));
 		tab.setSize(new Dimension(650,500));
-		
 		tab.add("Coffee", menuCoffeeJP);
 		tab.add("NonCoffee" , menuNonCoffeeJP);
 		tab.add("Bakery", menuBakeryJP);
 		
 		
-		for(int i = 0; i<9;i++) {
+		for(int i = 0; i<9;++i) {
 			CoffeeMBtn[i].addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cnt = 0;
+					cnt = 1;
 					count[0].setText(Integer.toString(cnt));
 					count[1].setText(Integer.toString(cnt));
 					count[2].setText(Integer.toString(cnt));
-				}
-			});
-		}
-		
-		for(int i = 0; i<8;i++) {
-			bakeryMBtn[i].addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cnt = 0;
-					count[0].setText(Integer.toString(cnt));
-					count[1].setText(Integer.toString(cnt));
-					count[2].setText(Integer.toString(cnt));
+					
+					JButton jb = (JButton)e.getSource();
+					int index = Integer.parseInt(jb.getText());
+					
+					String name = coffeeinfo[index].getName();
+					int price = coffeeinfo[index].getPrice();
+					int tprice = price * cnt;
+					
+					menu[num][0] = name;
+					menu[num][1] = Integer.toString(price); 
+					menu[num][2] = Integer.toString(cnt);
+					menu[num][3] = Integer.toString(tprice);
+					num++;
+					
+					table.repaint();
+					
+					screen_total=0;
+					for(int i = 0;i<num;i++) {
+						screen_total += Integer.parseInt(menu[i][3]);
+					}
+					
+					pay = screen_total-usepoint;
+					savepoint = (int)(pay * 0.01f);
+					
+					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
+							"점\n사용 포인트 : " + usepoint + "점"+
+							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+							"결제 금액 : " + String.format("%,d", pay) + "원");
 				}
 			});
 		}
@@ -290,123 +301,174 @@ public class POS extends JFrame{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					cnt = 0;
+					cnt = 1;
 					count[0].setText(Integer.toString(cnt));
 					count[1].setText(Integer.toString(cnt));
 					count[2].setText(Integer.toString(cnt));
+					
+					JButton jb = (JButton)e.getSource();
+					int index = Integer.parseInt(jb.getText());
+					
+					String name = noncfeinfo[index].getName();
+					int price = noncfeinfo[index].getPrice();
+					int tprice = price * cnt;
+					
+					menu[num][0] = name;
+					menu[num][1] = Integer.toString(price); 
+					menu[num][2] = Integer.toString(cnt);
+					menu[num][3] = Integer.toString(tprice);
+					num++;
+					
+					table.repaint();
+					
+					screen_total=0;
+					for(int i = 0;i<num;i++) {
+						screen_total += Integer.parseInt(menu[i][3]);
+					}
+					
+					pay = screen_total-usepoint;
+					savepoint = (int)(pay * 0.01f);
+
+					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
+							"점\n사용 포인트 : " + usepoint + "점"+
+							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+							"결제 금액 : " + String.format("%,d", pay) + "원");
 				}
 			});
 		}
 		
-		plus[0].addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cnt++;
-				if(cnt < 1) {
-					cnt = 0;
+		for(int i = 0; i<8;i++) {
+			bakeryMBtn[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt = 1;
+					count[0].setText(Integer.toString(cnt));
+					count[1].setText(Integer.toString(cnt));
+					count[2].setText(Integer.toString(cnt));
+					
+					JButton jb = (JButton)e.getSource();
+					int index = Integer.parseInt(jb.getText());
+					
+					String name = bakeryinfo[index].getName();
+					int price = bakeryinfo[index].getPrice();
+					int tprice = price * cnt;
+					
+					menu[num][0] = name;
+					menu[num][1] = Integer.toString(price); 
+					menu[num][2] = Integer.toString(cnt);
+					menu[num][3] = Integer.toString(tprice);
+					num++;
+					
+					table.repaint();
+					
+					screen_total=0;
+					for(int i = 0;i<num;i++) {
+						screen_total += Integer.parseInt(menu[i][3]);
+					}
+					
+					pay = screen_total-usepoint;
+					savepoint = (int)(pay * 0.01f);
+					
+					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
+							"점\n사용 포인트 : " + usepoint + "점"+
+							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+							"결제 금액 : " + String.format("%,d", pay) + "원");
 				}
-				count[0].setText(Integer.toString(cnt));
-			}
-		});
-
-		plus[1].addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cnt++;
-				if(cnt < 1) {
-					cnt = 0;
-				}
-				count[1].setText(Integer.toString(cnt));
-			}
-		});
-
-		plus[2].addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cnt++;
-				if(cnt < 1) {
-					cnt = 0;
-				}
-				count[2].setText(Integer.toString(cnt));
-			}
-		});
+			});
+		}
 		
-		minus[0].addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cnt--;
-				if(cnt < 1) {
-					cnt = 0;
+		for(int i =0; i < plus.length; i++) {
+			plus[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt++;
+					if(cnt < 1) {
+						cnt = 0;
+					}
+					
+					count[0].setText(Integer.toString(cnt));
+					count[1].setText(Integer.toString(cnt));
+					count[2].setText(Integer.toString(cnt));
+					
+					int price = Integer.parseInt(menu[num-1][1]);
+					
+					menu[num-1][2] = Integer.toString(cnt);
+					menu[num-1][3] = Integer.toString(price*cnt);
+					table.repaint();
+					
+					screen_total = 0;
+					for(int i = 0;i<num;i++) {
+						screen_total += Integer.parseInt(menu[i][3]);
+					}
+					
+					pay = screen_total-usepoint;
+					savepoint = (int)(pay * 0.01f);
+					
+					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
+							"점\n사용 포인트 : " + usepoint + "점"+
+							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+							"결제 금액 : " + String.format("%,d", pay) + "원");
 				}
-				count[0].setText(Integer.toString(cnt));
-			}
-		});
+			});
+		}
 
-		minus[1].addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cnt--;
-				if(cnt < 1) {
-					cnt = 0;
+		for(int i =0; i < minus.length; i++) {
+			minus[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt--;
+					
+					if(cnt < 0) {
+						cnt = 0;
+				
+						count[0].setText(Integer.toString(cnt));
+						count[1].setText(Integer.toString(cnt));
+						count[2].setText(Integer.toString(cnt));
+					}else {
+						count[0].setText(Integer.toString(cnt));
+						count[1].setText(Integer.toString(cnt));
+						count[2].setText(Integer.toString(cnt));
+						
+						int price = Integer.parseInt(menu[num-1][1]);
+						
+						menu[num-1][2] = Integer.toString(cnt);
+						menu[num-1][3] = Integer.toString(price*cnt);
+						
+						table.repaint();
+						
+						screen_total -= Integer.parseInt(menu[num-1][1]);
+						
+						pay = screen_total-usepoint;
+						savepoint = (int)(pay * 0.01f);
+						
+						screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
+								"점\n사용 포인트 : " + usepoint + "점"+
+								"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+								"결제 금액 : " + String.format("%,d", pay) + "원");
+						
+					}
+					
 				}
-				count[1].setText(Integer.toString(cnt));
-			}
-		});
-
-		minus[2].addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cnt--;
-				if(cnt < 1) {
-					cnt = 0;
-				}
-				count[2].setText(Integer.toString(cnt));
-			}
-		});
-		
-		tab.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				cnt = 0;
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {}
-		});
+			});
+		}
 		
 		return tab;
 	}
 	
 	// 스크린 
-	public JPanel screen() {
+	public JTextArea screen() {
+
+		for(int i = 0;i<num;i++) {
+			screen_total += Integer.parseInt(menu[i][3]);
+		}
 		
-		JPanel panel = new JPanel();
-		
-		int total, usepoint, savepoint, pay;
-		
-		total = 50000;
-		usepoint = 3000;
-		savepoint = 500;
-		pay = total-usepoint;
+		pay = screen_total-usepoint;
 		
 		JTextArea ta = new JTextArea(20,15);
-		ta.setText("총 금액 : " + total + "원\n\n적립 포인트 : " + savepoint + 
+		ta.setText("총 금액 : " + screen_total + "원\n\n적립 포인트 : " + savepoint + 
 				"점\n사용 포인트 : " + usepoint + "점"+
 				"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
 				"결제 금액 : " + pay + "원");
@@ -415,39 +477,74 @@ public class POS extends JFrame{
 		ta.setPreferredSize(new Dimension( 50,375));
 		ta.setSize(new Dimension(50, 375));
 		
-		panel.add(ta);
-		
-		return panel;
+		return ta;
 	}
 	
 	// 결제창
 	public JTable payment() {
 		
-		String[] header = {"메뉴", "수량", "가격"};
-		String[][] data = {{"아메리카노","5","20000"},
-				{"카페라떼","1","4500"}};
+		String[] header = {"메뉴", "단가", "수량", "가격"};
+
+		JTable jt = new JTable(menu, header);
 		
+		jt.setRowHeight(30);
 		
-		JTable table = new JTable(data, header);
-		
-		table.setRowHeight(30);
-		
-		return table;
+		return jt;
 	}
 	
 	// 버튼
 	public JPanel btn() {
 		
-		JPanel panel = new JPanel(new GridLayout(1,3,5,5));
+		JPanel panel = new JPanel(new GridLayout(1,4,5,5));
 		panel.setOpaque(false);
 		panel.setBorder(BorderFactory.createEmptyBorder(0,15,10,15));
 		
-		JButton searchBtn = new JButton("회원조회");
-		searchBtn.setPreferredSize(new Dimension(40,100));
-		JButton moneyBtn = new JButton("현금결제");
-		JButton cardBtn = new JButton("카드결제");
+		ImageIcon[] btnImg = {new ImageIcon("image/btn/clear.png"),new ImageIcon("image/btn/search.png"),
+				new ImageIcon("image/btn/pay.png"), new ImageIcon("image/btn/card.png")};
 		
-		panel.add(searchBtn); panel.add(moneyBtn); panel.add(cardBtn);
+		for(int i =0;i<4;i++) {
+			btnImg[i] = imageSetSize(btnImg[i],80,100);
+		}
+		
+		JButton clearBtn = new JButton(btnImg[0]);
+		clearBtn.setPreferredSize(new Dimension(80,100));
+		clearBtn.setPreferredSize(new Dimension(80,100));
+		clearBtn.setBackground(Color.WHITE);	
+		
+		JButton searchBtn = new JButton(btnImg[1]);
+		searchBtn.setBackground(Color.WHITE);
+		JButton moneyBtn = new JButton(btnImg[2]);
+		moneyBtn.setBackground(Color.WHITE);
+
+		JButton cardBtn = new JButton(btnImg[3]);
+		cardBtn.setBackground(Color.WHITE);
+		
+		panel.add(clearBtn); panel.add(searchBtn); panel.add(moneyBtn); panel.add(cardBtn);
+		
+		clearBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				for(int i = 0;i<num;i++) {
+					menu[i][0] = null;
+					menu[i][1] = null; 
+					menu[i][2] = null;
+					menu[i][3] = null;
+				}
+				
+				table.repaint();
+				
+				num = 0;
+				
+				screen_total = 0; savepoint = 0; usepoint = 0; pay =0;
+				
+				screenTa.setText("총 금액 : " + screen_total + "원\n\n적립 포인트 : " + savepoint + 
+						"점\n사용 포인트 : " + usepoint + "점"+
+						"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+						"결제 금액 : " + pay + "원");
+			}
+		});
 		
 		searchBtn.addActionListener(new ActionListener() {
 			
@@ -482,6 +579,40 @@ public class POS extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
+	
+	class Info{
+		public Info() {
+			
+			coffeeinfo[0] = new MerInfo("아메리카노(hot)",4500);
+			coffeeinfo[1] = new MerInfo("아메리카노(ice)",5000);
+			coffeeinfo[2] = new MerInfo("카페라떼(hot)",5000);
+			coffeeinfo[3] = new MerInfo("카페라떼(ice)",5500);
+			coffeeinfo[4] = new MerInfo("카페모카(hot)",5000);
+			coffeeinfo[5] = new MerInfo("카페모카(ice)",5500);
+			coffeeinfo[6] = new MerInfo("바닐라라떼(hot)",5500);
+			coffeeinfo[7] = new MerInfo("바닐라라떼(ice)",6000);
+			coffeeinfo[8] = new MerInfo("콜드브루(ice)",6000);
+			
+			noncfeinfo[0] = new MerInfo("민트티(hot)",4500);
+			noncfeinfo[1] = new MerInfo("민트티(ice)",5000);
+			noncfeinfo[2] = new MerInfo("얼그레이티(hot)",5000);
+			noncfeinfo[3] = new MerInfo("버블티(ice)",5500);
+			noncfeinfo[4] = new MerInfo("레몬에이드(ice)",5000);
+			noncfeinfo[5] = new MerInfo("탄산수(ice)",5500);
+			noncfeinfo[6] = new MerInfo("망고스무디(ice)",5500);
+			noncfeinfo[7] = new MerInfo("우유(ice)",6000);
+			
+			bakeryinfo[0] = new MerInfo("치즈케이크",4500);
+			bakeryinfo[1] = new MerInfo("초코케이크",5000);
+			bakeryinfo[2] = new MerInfo("샌드위치",5000);
+			bakeryinfo[3] = new MerInfo("쿠키",5500);
+			bakeryinfo[4] = new MerInfo("도넛",5000);
+			bakeryinfo[5] = new MerInfo("머핀",5500);
+			bakeryinfo[6] = new MerInfo("아이스크림",5500);
+			bakeryinfo[7] = new MerInfo("샐러드",6000);
+		}	
+	}
+	
 	
 	public static void main(String[] args) {
 		new POS();

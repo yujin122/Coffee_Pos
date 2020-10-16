@@ -23,7 +23,8 @@ public class Card extends JFrame {
 		setLocation(100, 100);
 		setPreferredSize(new Dimension(560, 780));
 		setSize(new Dimension(560, 780));
-
+		setResizable(false);
+		
 		JPanel Centerpanel = new JPanel(); // 패널 객체화 // 테이블 넣을 공간
 		Centerpanel.setOpaque(false);
 		JPanel Northpanel = new JPanel(); // 패널 객체화 // 현금 결제 라벨 텍스트 컴포넌트
