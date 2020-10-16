@@ -3,7 +3,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Label;
 
 import javax.swing.*;
@@ -13,12 +15,11 @@ import java.awt.event.ActionEvent;
 
 public class POSLogin extends JFrame {
 	
-	
-
 	public POSLogin() {
 		super("로그인 화면");
+	
 		setLocation(100, 100);
-		getContentPane().setFont(new Font("굴림", Font.PLAIN, 12));
+		setFont(new Font("굴림", Font.PLAIN, 12));
 		getContentPane().setLayout(null);
 		
 		// 포스이름
@@ -129,6 +130,13 @@ public class POSLogin extends JFrame {
 			}
 		});
 
+	}
+	
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
 	}
 
 	public static void main(String[] args) {
