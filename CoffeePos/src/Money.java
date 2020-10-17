@@ -1,11 +1,8 @@
 
 //현금영수증임
 
-import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
-import java.awt.Font;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 

@@ -13,11 +13,10 @@ public class POS extends JFrame{
 	private int screen_total=0, usepoint =0, savepoint=0, pay=0;
 	JTable table; JTextArea screenTa;
 	
-	MerInfo[] coffeeinfo = new MerInfo[9];
-	MerInfo[] noncfeinfo = new MerInfo[8];
-	MerInfo[] bakeryinfo = new MerInfo[8];
+	MerInfo[] merInfo = new MerInfo[25];
 	
-	String[][] menu = new String[20][4];
+	String[][] menu = new String[25][4];
+	int[][] menuIndex = new int[25][2];
 	
 	public POS() {
 		
@@ -120,24 +119,30 @@ public class POS extends JFrame{
 		JPanel menuNonCoffeeJP = new JPanel(new GridLayout(4,3,5,5));	// 메뉴 - 논커피
 		JPanel menuBakeryJP = new JPanel(new GridLayout(4,3,5,5));		// 메뉴 - 베이커리
 		
-		ImageIcon[] coffeeImg = {new ImageIcon("image/cficon/1.png"),new ImageIcon("image/cficon/2.png"),new ImageIcon("image/cficon/3.png"),
+		ImageIcon[] mImg = {new ImageIcon("image/cficon/1.png"),new ImageIcon("image/cficon/2.png"),new ImageIcon("image/cficon/3.png"),
 				new ImageIcon("image/cficon/4.png"),new ImageIcon("image/cficon/5.png"),new ImageIcon("image/cficon/6.png"),
-				new ImageIcon("image/cficon/7.png"),new ImageIcon("image/cficon/8.png"),new ImageIcon("image/cficon/9.png")};
+				new ImageIcon("image/cficon/7.png"),new ImageIcon("image/cficon/8.png"),new ImageIcon("image/cficon/9.png"),
+				new ImageIcon("image/ncficon/1.png"),new ImageIcon("image/ncficon/2.png"),new ImageIcon("image/ncficon/3.png"),
+				new ImageIcon("image/ncficon/4.png"),new ImageIcon("image/ncficon/5.png"),new ImageIcon("image/ncficon/6.png"),
+				new ImageIcon("image/ncficon/7.png"),new ImageIcon("image/ncficon/8.png"),new ImageIcon("image/dessert/1.png"),
+				new ImageIcon("image/dessert/2.png"),new ImageIcon("image/dessert/3.png"),new ImageIcon("image/dessert/4.png"),
+				new ImageIcon("image/dessert/5.png"),new ImageIcon("image/dessert/6.png"),new ImageIcon("image/dessert/7.png"),
+				new ImageIcon("image/dessert/8.png")};
+	
+		for(int i =0;i<mImg.length;i++) {
+			mImg[i] = imageSetSize(mImg[i], 210, 160);
+		}
+
+		// 메뉴 버튼
+		JButton[] mBtn = new JButton[25];
 		
-		for(int i =0;i<9;i++) {
-			coffeeImg[i] = imageSetSize(coffeeImg[i], 210, 160);
+		for(int i=0;i<mBtn.length;i++) {
+			mBtn[i]= new JButton(Integer.toString(i));
+			mBtn[i].setBackground(Color.WHITE);
+			mBtn[i].setIcon(mImg[i]);
 		}
 		
-		
-		// 메뉴창 - 커피
-		JButton[] CoffeeMBtn = new JButton[9];
-		
-		for(int i=0;i<9;i++) {
-			CoffeeMBtn[i]= new JButton(Integer.toString(i));
-			CoffeeMBtn[i].setBackground(Color.WHITE);
-			CoffeeMBtn[i].setIcon(coffeeImg[i]);
-		}
-		
+		// 커피
 		JPanel coffeePlusJp = new JPanel();
 		JButton[] plus = new JButton[3];
 		plus[0] = new JButton(">");
@@ -157,29 +162,13 @@ public class POS extends JFrame{
 		countJp.add(count[0]);
 		countJp.add(coffeePlusJp);
 		
-		menuCoffeeJP.add(CoffeeMBtn[0]); menuCoffeeJP.add(CoffeeMBtn[1]);
-		menuCoffeeJP.add(CoffeeMBtn[4]); menuCoffeeJP.add(CoffeeMBtn[2]); 
-		menuCoffeeJP.add(CoffeeMBtn[3]); menuCoffeeJP.add(CoffeeMBtn[5]);
-		menuCoffeeJP.add(CoffeeMBtn[6]); menuCoffeeJP.add(CoffeeMBtn[7]);
-		menuCoffeeJP.add(CoffeeMBtn[8]); menuCoffeeJP.add(countJp);
+		menuCoffeeJP.add(mBtn[0]); menuCoffeeJP.add(mBtn[1]);
+		menuCoffeeJP.add(mBtn[4]); menuCoffeeJP.add(mBtn[2]); 
+		menuCoffeeJP.add(mBtn[3]); menuCoffeeJP.add(mBtn[5]);
+		menuCoffeeJP.add(mBtn[6]); menuCoffeeJP.add(mBtn[7]);
+		menuCoffeeJP.add(mBtn[8]); menuCoffeeJP.add(countJp);
 		
-		// 메뉴창 - 논커피
-		JButton[] NonCoffeeMBtn = new JButton[8];
-		
-		ImageIcon[] nonCoffeeImg = {new ImageIcon("image/ncficon/1.png"),new ImageIcon("image/ncficon/2.png"),new ImageIcon("image/ncficon/3.png"),
-				new ImageIcon("image/ncficon/4.png"),new ImageIcon("image/ncficon/5.png"),new ImageIcon("image/ncficon/6.png"),
-				new ImageIcon("image/ncficon/7.png"),new ImageIcon("image/ncficon/8.png"),new ImageIcon("image/ncficon/9.png")};
-		
-		for(int i =0;i<9;i++) {
-			nonCoffeeImg[i] = imageSetSize(nonCoffeeImg[i], 210, 160);
-		}
-		
-		for(int i=0;i<8;i++) {
-			NonCoffeeMBtn[i]= new JButton(nonCoffeeImg[i]);
-			NonCoffeeMBtn[i].setBackground(Color.WHITE);
-			NonCoffeeMBtn[i].setText(Integer.toString(i));
-		}
-				
+		// 논커피
 		JPanel noncoffeePlusJp = new JPanel();
 		plus[1] = new JButton(">");
 		noncoffeePlusJp.add(plus[1]);
@@ -198,30 +187,13 @@ public class POS extends JFrame{
 		noncountJp.add(count[1]);
 		noncountJp.add(noncoffeePlusJp);
 				
-		menuNonCoffeeJP.add(NonCoffeeMBtn[0]); menuNonCoffeeJP.add(NonCoffeeMBtn[1]);
-		menuNonCoffeeJP.add(NonCoffeeMBtn[2]); menuNonCoffeeJP.add(NonCoffeeMBtn[3]); 
-		menuNonCoffeeJP.add(NonCoffeeMBtn[4]); menuNonCoffeeJP.add(NonCoffeeMBtn[5]);
-		menuNonCoffeeJP.add(NonCoffeeMBtn[6]); menuNonCoffeeJP.add(NonCoffeeMBtn[7]);
+		menuNonCoffeeJP.add(mBtn[9]); menuNonCoffeeJP.add(mBtn[10]);
+		menuNonCoffeeJP.add(mBtn[11]); menuNonCoffeeJP.add(mBtn[12]); 
+		menuNonCoffeeJP.add(mBtn[13]); menuNonCoffeeJP.add(mBtn[14]);
+		menuNonCoffeeJP.add(mBtn[15]); menuNonCoffeeJP.add(mBtn[16]);
 		menuNonCoffeeJP.add(em); menuNonCoffeeJP.add(noncountJp);
 		
-		// 메뉴창 - 베이커리
-		JButton[] bakeryMBtn = new JButton[8];
-		
-		ImageIcon[] bakeryImg = {new ImageIcon("image/dessert/1.png"),new ImageIcon("image/dessert/2.png"),new ImageIcon("image/dessert/3.png"),
-				new ImageIcon("image/dessert/4.png"),new ImageIcon("image/dessert/5.png"),new ImageIcon("image/dessert/6.png"),
-				new ImageIcon("image/dessert/7.png"),new ImageIcon("image/dessert/8.png"),new ImageIcon("image/dessert/9.png")};
-		
-		for(int i =0;i<9;i++) {
-			bakeryImg[i] = imageSetSize(bakeryImg[i], 210, 160);
-		}
-		
-		for(int i=0;i<8;i++) {
-			bakeryMBtn[i]= new JButton(bakeryImg[i]);
-			bakeryMBtn[i].setBackground(Color.WHITE);
-			bakeryMBtn[i].setText(Integer.toString(i));
-
-		}
-		
+		// 베이커리
 		JPanel BakeryPlusJp = new JPanel();
 		plus[2] = new JButton(">");
 		BakeryPlusJp.add(plus[2]);
@@ -240,14 +212,13 @@ public class POS extends JFrame{
 		BakeryJp.add(count[2]);
 		BakeryJp.add(BakeryPlusJp);
 				
-		menuBakeryJP.add(bakeryMBtn[0]); menuBakeryJP.add(bakeryMBtn[1]);
-		menuBakeryJP.add(bakeryMBtn[2]); menuBakeryJP.add(bakeryMBtn[3]); 
-		menuBakeryJP.add(bakeryMBtn[4]); menuBakeryJP.add(bakeryMBtn[5]);
-		menuBakeryJP.add(bakeryMBtn[6]); menuBakeryJP.add(bakeryMBtn[7]);
+		menuBakeryJP.add(mBtn[17]); menuBakeryJP.add(mBtn[18]);
+		menuBakeryJP.add(mBtn[19]); menuBakeryJP.add(mBtn[20]); 
+		menuBakeryJP.add(mBtn[21]); menuBakeryJP.add(mBtn[22]);
+		menuBakeryJP.add(mBtn[23]); menuBakeryJP.add(mBtn[24]);
 		menuBakeryJP.add(em2); menuBakeryJP.add(BakeryJp);
 		
 		JTabbedPane tab = new JTabbedPane();
-		//800
 		tab.setPreferredSize(new Dimension(650, 500));
 		tab.setSize(new Dimension(650,500));
 		tab.add("Coffee", menuCoffeeJP);
@@ -255,8 +226,8 @@ public class POS extends JFrame{
 		tab.add("Bakery", menuBakeryJP);
 		
 		
-		for(int i = 0; i<9;++i) {
-			CoffeeMBtn[i].addActionListener(new ActionListener() {
+		for(int i = 0; i<mBtn.length;++i) {
+			mBtn[i].addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -268,15 +239,37 @@ public class POS extends JFrame{
 					JButton jb = (JButton)e.getSource();
 					int index = Integer.parseInt(jb.getText());
 					
-					String name = coffeeinfo[index].getName();
-					int price = coffeeinfo[index].getPrice();
+					String name = merInfo[index].getName();
+					int price = merInfo[index].getPrice();
 					int tprice = price * cnt;
 					
-					menu[num][0] = name;
-					menu[num][1] = Integer.toString(price); 
-					menu[num][2] = Integer.toString(cnt);
-					menu[num][3] = Integer.toString(tprice);
-					num++;
+					int numi = num;
+					int check = 0;
+					
+					for(int i =0; i <= numi; i++) {
+						if(index+1 == menuIndex[i][0] && menuIndex[i][1] == 1) {
+							cnt = Integer.parseInt(menu[i][2]);
+							cnt++;
+							tprice = price * cnt;
+		
+							menu[i][2] = Integer.toString(cnt);
+							menu[i][3] = Integer.toString(tprice);
+							
+							break;
+						}else if(menuIndex[i][1] == 0) {
+
+							menu[num][0] = name;
+							menu[num][1] = Integer.toString(price); 
+							menu[num][2] = Integer.toString(cnt);
+							menu[num][3] = Integer.toString(tprice);
+							
+							check = 1;
+							menuIndex[num][0] = index+1;
+							menuIndex[num][1] = check;
+							
+							num++;
+						}
+					}
 					
 					table.repaint();
 					
@@ -296,7 +289,7 @@ public class POS extends JFrame{
 			});
 		}
 		
-		for(int i = 0; i<8;i++) {
+		/*for(int i = 0; i<8;i++) {
 			NonCoffeeMBtn[i].addActionListener(new ActionListener() {
 				
 				@Override
@@ -377,7 +370,7 @@ public class POS extends JFrame{
 				}
 			});
 		}
-		
+		*/
 		for(int i =0; i < plus.length; i++) {
 			plus[i].addActionListener(new ActionListener() {
 				
@@ -499,25 +492,22 @@ public class POS extends JFrame{
 		panel.setOpaque(false);
 		panel.setBorder(BorderFactory.createEmptyBorder(0,15,10,15));
 		
-		ImageIcon[] btnImg = {new ImageIcon("image/btn/clear.png"),new ImageIcon("image/btn/search.png"),
-				new ImageIcon("image/btn/pay.png"), new ImageIcon("image/btn/card.png")};
-		
-		for(int i =0;i<4;i++) {
-			btnImg[i] = imageSetSize(btnImg[i],80,100);
-		}
-		
-		JButton clearBtn = new JButton(btnImg[0]);
+		JButton clearBtn = new JButton("초기화");
 		clearBtn.setPreferredSize(new Dimension(80,100));
 		clearBtn.setPreferredSize(new Dimension(80,100));
-		clearBtn.setBackground(Color.WHITE);	
+		clearBtn.setBackground(new Color(230,160,0));	
+		clearBtn.setForeground(Color.WHITE); 
+	
+		JButton searchBtn = new JButton("회원 찾기");
+		searchBtn.setBackground(new Color(230,160,0));
+		searchBtn.setForeground(Color.WHITE); 
+		JButton moneyBtn = new JButton("현금 결제");
+		moneyBtn.setBackground(new Color(230,160,0));
+		moneyBtn.setForeground(Color.WHITE); 
 		
-		JButton searchBtn = new JButton(btnImg[1]);
-		searchBtn.setBackground(Color.WHITE);
-		JButton moneyBtn = new JButton(btnImg[2]);
-		moneyBtn.setBackground(Color.WHITE);
-
-		JButton cardBtn = new JButton(btnImg[3]);
-		cardBtn.setBackground(Color.WHITE);
+		JButton cardBtn = new JButton("카드 결제");
+		cardBtn.setBackground(new Color(230,160,0));
+		cardBtn.setForeground(Color.WHITE); 
 		
 		panel.add(clearBtn); panel.add(searchBtn); panel.add(moneyBtn); panel.add(cardBtn);
 		
@@ -583,33 +573,33 @@ public class POS extends JFrame{
 	class Info{
 		public Info() {
 			
-			coffeeinfo[0] = new MerInfo("아메리카노(hot)",4500);
-			coffeeinfo[1] = new MerInfo("아메리카노(ice)",5000);
-			coffeeinfo[2] = new MerInfo("카페라떼(hot)",5000);
-			coffeeinfo[3] = new MerInfo("카페라떼(ice)",5500);
-			coffeeinfo[4] = new MerInfo("카페모카(hot)",5000);
-			coffeeinfo[5] = new MerInfo("카페모카(ice)",5500);
-			coffeeinfo[6] = new MerInfo("바닐라라떼(hot)",5500);
-			coffeeinfo[7] = new MerInfo("바닐라라떼(ice)",6000);
-			coffeeinfo[8] = new MerInfo("콜드브루(ice)",6000);
+			merInfo[0] = new MerInfo("아메리카노(hot)",4500);
+			merInfo[1] = new MerInfo("아메리카노(ice)",5000);
+			merInfo[2] = new MerInfo("카페라떼(hot)",5000);
+			merInfo[3] = new MerInfo("카페라떼(ice)",5500);
+			merInfo[4] = new MerInfo("카페모카(hot)",5000);
+			merInfo[5] = new MerInfo("카페모카(ice)",5500);
+			merInfo[6] = new MerInfo("바닐라라떼(hot)",5500);
+			merInfo[7] = new MerInfo("바닐라라떼(ice)",6000);
+			merInfo[8] = new MerInfo("콜드브루(ice)",6000);
 			
-			noncfeinfo[0] = new MerInfo("민트티(hot)",4500);
-			noncfeinfo[1] = new MerInfo("민트티(ice)",5000);
-			noncfeinfo[2] = new MerInfo("얼그레이티(hot)",5000);
-			noncfeinfo[3] = new MerInfo("버블티(ice)",5500);
-			noncfeinfo[4] = new MerInfo("레몬에이드(ice)",5000);
-			noncfeinfo[5] = new MerInfo("탄산수(ice)",5500);
-			noncfeinfo[6] = new MerInfo("망고스무디(ice)",5500);
-			noncfeinfo[7] = new MerInfo("우유(ice)",6000);
+			merInfo[9] = new MerInfo("민트티(hot)",4500);
+			merInfo[10] = new MerInfo("민트티(ice)",5000);
+			merInfo[11] = new MerInfo("얼그레이티(hot)",5000);
+			merInfo[12] = new MerInfo("버블티(ice)",5500);
+			merInfo[13] = new MerInfo("레몬에이드(ice)",5000);
+			merInfo[14] = new MerInfo("탄산수(ice)",5500);
+			merInfo[15] = new MerInfo("망고스무디(ice)",5500);
+			merInfo[16] = new MerInfo("우유(ice)",6000);
 			
-			bakeryinfo[0] = new MerInfo("치즈케이크",4500);
-			bakeryinfo[1] = new MerInfo("초코케이크",5000);
-			bakeryinfo[2] = new MerInfo("샌드위치",5000);
-			bakeryinfo[3] = new MerInfo("쿠키",5500);
-			bakeryinfo[4] = new MerInfo("도넛",5000);
-			bakeryinfo[5] = new MerInfo("머핀",5500);
-			bakeryinfo[6] = new MerInfo("아이스크림",5500);
-			bakeryinfo[7] = new MerInfo("샐러드",6000);
+			merInfo[17] = new MerInfo("치즈케이크",4500);
+			merInfo[18] = new MerInfo("초코케이크",5000);
+			merInfo[19] = new MerInfo("샌드위치",5000);
+			merInfo[20] = new MerInfo("쿠키",5500);
+			merInfo[21] = new MerInfo("도넛",5000);
+			merInfo[22] = new MerInfo("머핀",5500);
+			merInfo[23] = new MerInfo("아이스크림",5500);
+			merInfo[24] = new MerInfo("샐러드",6000);
 		}	
 	}
 	

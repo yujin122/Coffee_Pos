@@ -13,6 +13,7 @@ public class POSLogin2 extends JFrame {
 		icon = new ImageIcon("image/login.png");
 		icon = imageSetSize(icon, 380, 400);
 		
+		// 배경판넬
 		JPanel background = new JPanel(new BorderLayout()) {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icon.getImage(),0,0,null);
@@ -28,7 +29,7 @@ public class POSLogin2 extends JFrame {
 		loginScreenLabel.setFont(new Font("함초롬바탕", Font.PLAIN, 30));
 		loginScreenPanel.add(loginScreenLabel);
 		
-		// ID
+		// ID label
 		JPanel idlaPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		idlaPanel.setOpaque(false);
 		JLabel idLabel = new JLabel("ID :");
@@ -41,12 +42,13 @@ public class POSLogin2 extends JFrame {
 		JTextField idTf = new JTextField(10);
 		idTfPanel.add(idTf);
 		
+		// id panel
 		JPanel idPanel = new JPanel(new GridLayout(1,2));	
 		idPanel.setOpaque(false);
 		idPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,100));
 		idPanel.add(idlaPanel); idPanel.add(idTfPanel);
 		
-		// Password
+		// Password label
 		JPanel pwlaPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pwlaPanel.setOpaque(false);
 		JLabel pwLabel = new JLabel("PW :");
@@ -60,14 +62,16 @@ public class POSLogin2 extends JFrame {
 		JTextField pwTf = new JPasswordField(10);
 		pwTfPanel.add(pwTf);
 
+		// pw panel
 		JPanel pwPanel = new JPanel(new GridLayout(1,2));
 		pwPanel.setOpaque(false);
 		pwPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,100));
 		pwPanel.add(pwlaPanel); pwPanel.add(pwTfPanel);
 	
-		// ID/PW찾기
+		// idpw 찾기 버튼
 		JPanel idPwBPanel = new JPanel();
 		idPwBPanel.setOpaque(false);
+		
 		JButton findIdPwButton = new JButton("ID/PW찾기");
 		findIdPwButton.setForeground(Color.WHITE); 
 		findIdPwButton.setFont(new Font("굴림", Font.BOLD, 12));
@@ -77,6 +81,7 @@ public class POSLogin2 extends JFrame {
 		// 로그인버튼
 		JPanel JloginBPanel = new JPanel();
 		JloginBPanel.setOpaque(false);
+		
 		JButton JLoginButton = new JButton("로그인");
 		JLoginButton.setForeground(Color.WHITE); 
 		JLoginButton.setFont(new Font("굴림", Font.BOLD, 12));
@@ -93,23 +98,24 @@ public class POSLogin2 extends JFrame {
 		joinButton.setBackground(new Color(230,160,0));
 		joinBpanel.add(joinButton);
 		
+		// 아이디비번찾기, 로그인, 회원가입 버튼 panel
 		JPanel btnPanel = new JPanel(new GridLayout(1,3));
 		btnPanel.setOpaque(false);
 		btnPanel.setBorder(BorderFactory.createEmptyBorder(5,30,10,30));
 		
 		btnPanel.add(JloginBPanel); btnPanel.add(idPwBPanel); btnPanel.add(joinBpanel);
 
+		// id + pw +  btn 판넬
 		JPanel jp = new JPanel(new GridLayout(3,1));
 		jp.setOpaque(false);
 		jp.add(idPanel);
 		jp.add(pwPanel);
 		jp.add(btnPanel);
-		
 
+		// 배경판넬 jp 추가
 		background.add(jp,BorderLayout.SOUTH);
-		
-		//background.add(allJp);
-		
+			
+		// frame 배경판넬 추가
 		add(background);
 		setBounds(500, 250, 380, 400);
 		setResizable(false);

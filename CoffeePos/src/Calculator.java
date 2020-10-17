@@ -50,8 +50,8 @@ public class Calculator extends JPanel{
 		btn[11] = new JButton("-");
 		btn[12] = new JButton(".");
 		btn[13] = new JButton("Enter");
-		btn[14] = new JButton("C");
-		btn[15] = new JButton("CE");
+		btn[14] = new JButton("<");
+		btn[15] = new JButton("C");
 		
 		for(int i = 10;i<16;i++) {
 			btn[i].setBackground(new Color(227, 225, 225));

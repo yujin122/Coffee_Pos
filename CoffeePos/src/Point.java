@@ -52,7 +52,7 @@ public class Point extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				dispose();
 
 			}
 		});

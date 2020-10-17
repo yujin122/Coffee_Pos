@@ -7,10 +7,8 @@ import javax.swing.table.*;
 
 public class SalesManage extends JFrame{
 
-	private String[] yearData = { "2018", "2019", "2020" };
+	private String[] yearData = { "2020", "2021", "2022" };
 	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
-
-	private JFrame frame = new JFrame();
 
 	MyCalendarModel model = new MyCalendarModel();
 	JTable cal = new JTable(model);
@@ -55,7 +53,6 @@ public class SalesManage extends JFrame{
 
 		JComboBox<String> year = new JComboBox<String>(yearData);
 		year.setSize(62, 35);
-		year.setSelectedIndex(2);
 		selectJp.add(year);
 		
 		Calendar c = Calendar.getInstance();
@@ -72,7 +69,7 @@ public class SalesManage extends JFrame{
 
 		JLabel totalSales = new JLabel((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + "700000원");
 		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
-		totalSales.setOpaque(true);
+		totalSales.setOpaque(false);
 		totalSales.setSize(50, 50);
 		salesJp.add(totalSales);
 
