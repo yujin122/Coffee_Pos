@@ -11,6 +11,7 @@ public class POS extends JFrame{
 	private ImageIcon icon;
 	private int num = 0;
 	private int screen_total=0, usepoint =0, savepoint=0, pay=0;
+	private int index;
 	JTable table; JTextArea screenTa;
 	
 	MerInfo[] merInfo = new MerInfo[25];
@@ -20,7 +21,7 @@ public class POS extends JFrame{
 	
 	public POS() {
 		
-		new Info();
+		new Info(merInfo);
 		
 		icon = new ImageIcon("image/posback.png");
 		icon = imageSetSize(icon, 1567, 890);
@@ -232,12 +233,13 @@ public class POS extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					cnt = 1;
+					
 					count[0].setText(Integer.toString(cnt));
 					count[1].setText(Integer.toString(cnt));
 					count[2].setText(Integer.toString(cnt));
 					
 					JButton jb = (JButton)e.getSource();
-					int index = Integer.parseInt(jb.getText());
+					index = Integer.parseInt(jb.getText());
 					
 					String name = merInfo[index].getName();
 					int price = merInfo[index].getPrice();
@@ -246,14 +248,22 @@ public class POS extends JFrame{
 					int numi = num;
 					int check = 0;
 					
+					table.setRowSelectionAllowed(true);
+					
 					for(int i =0; i <= numi; i++) {
 						if(index+1 == menuIndex[i][0] && menuIndex[i][1] == 1) {
 							cnt = Integer.parseInt(menu[i][2]);
 							cnt++;
 							tprice = price * cnt;
+							
+							count[0].setText(Integer.toString(cnt));
+							count[1].setText(Integer.toString(cnt));
+							count[2].setText(Integer.toString(cnt));
 		
 							menu[i][2] = Integer.toString(cnt);
 							menu[i][3] = Integer.toString(tprice);
+							
+							table.setRowSelectionInterval(i, i);
 							
 							break;
 						}else if(menuIndex[i][1] == 0) {
@@ -267,13 +277,16 @@ public class POS extends JFrame{
 							menuIndex[num][0] = index+1;
 							menuIndex[num][1] = check;
 							
+							table.setRowSelectionInterval(num, num);
+							
 							num++;
 						}
 					}
-					
+		
 					table.repaint();
 					
 					screen_total=0;
+					
 					for(int i = 0;i<num;i++) {
 						screen_total += Integer.parseInt(menu[i][3]);
 					}
@@ -289,150 +302,43 @@ public class POS extends JFrame{
 			});
 		}
 		
-		/*for(int i = 0; i<8;i++) {
-			NonCoffeeMBtn[i].addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cnt = 1;
-					count[0].setText(Integer.toString(cnt));
-					count[1].setText(Integer.toString(cnt));
-					count[2].setText(Integer.toString(cnt));
-					
-					JButton jb = (JButton)e.getSource();
-					int index = Integer.parseInt(jb.getText());
-					
-					String name = noncfeinfo[index].getName();
-					int price = noncfeinfo[index].getPrice();
-					int tprice = price * cnt;
-					
-					menu[num][0] = name;
-					menu[num][1] = Integer.toString(price); 
-					menu[num][2] = Integer.toString(cnt);
-					menu[num][3] = Integer.toString(tprice);
-					num++;
-					
-					table.repaint();
-					
-					screen_total=0;
-					for(int i = 0;i<num;i++) {
-						screen_total += Integer.parseInt(menu[i][3]);
-					}
-					
-					pay = screen_total-usepoint;
-					savepoint = (int)(pay * 0.01f);
-
-					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-							"점\n사용 포인트 : " + usepoint + "점"+
-							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-							"결제 금액 : " + String.format("%,d", pay) + "원");
-				}
-			});
-		}
-		
-		for(int i = 0; i<8;i++) {
-			bakeryMBtn[i].addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cnt = 1;
-					count[0].setText(Integer.toString(cnt));
-					count[1].setText(Integer.toString(cnt));
-					count[2].setText(Integer.toString(cnt));
-					
-					JButton jb = (JButton)e.getSource();
-					int index = Integer.parseInt(jb.getText());
-					
-					String name = bakeryinfo[index].getName();
-					int price = bakeryinfo[index].getPrice();
-					int tprice = price * cnt;
-					
-					menu[num][0] = name;
-					menu[num][1] = Integer.toString(price); 
-					menu[num][2] = Integer.toString(cnt);
-					menu[num][3] = Integer.toString(tprice);
-					num++;
-					
-					table.repaint();
-					
-					screen_total=0;
-					for(int i = 0;i<num;i++) {
-						screen_total += Integer.parseInt(menu[i][3]);
-					}
-					
-					pay = screen_total-usepoint;
-					savepoint = (int)(pay * 0.01f);
-					
-					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-							"점\n사용 포인트 : " + usepoint + "점"+
-							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-							"결제 금액 : " + String.format("%,d", pay) + "원");
-				}
-			});
-		}
-		*/
 		for(int i =0; i < plus.length; i++) {
 			plus[i].addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					cnt++;
-					if(cnt < 1) {
-						cnt = 0;
-					}
 					
 					count[0].setText(Integer.toString(cnt));
 					count[1].setText(Integer.toString(cnt));
 					count[2].setText(Integer.toString(cnt));
 					
-					int price = Integer.parseInt(menu[num-1][1]);
+					int price;
+					int numi = num;
 					
-					menu[num-1][2] = Integer.toString(cnt);
-					menu[num-1][3] = Integer.toString(price*cnt);
-					table.repaint();
-					
-					screen_total = 0;
-					for(int i = 0;i<num;i++) {
-						screen_total += Integer.parseInt(menu[i][3]);
-					}
-					
-					pay = screen_total-usepoint;
-					savepoint = (int)(pay * 0.01f);
-					
-					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-							"점\n사용 포인트 : " + usepoint + "점"+
-							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-							"결제 금액 : " + String.format("%,d", pay) + "원");
-				}
-			});
-		}
+					for(int i =0; i <= numi; i++) {
+						if(index+1 == menuIndex[i][0] && menuIndex[i][1] == 1) {	// 눌렀던 메뉴
+							
+							price = Integer.parseInt(menu[i][1]);
+							
+							menu[i][2] = Integer.toString(cnt);
+							menu[i][3] = Integer.toString(price*cnt);
+							
+						}else if(menuIndex[i][1] == 0) {		// 처음 누른 메뉴
 
-		for(int i =0; i < minus.length; i++) {
-			minus[i].addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cnt--;
-					
-					if(cnt < 0) {
-						cnt = 0;
-				
-						count[0].setText(Integer.toString(cnt));
-						count[1].setText(Integer.toString(cnt));
-						count[2].setText(Integer.toString(cnt));
-					}else {
-						count[0].setText(Integer.toString(cnt));
-						count[1].setText(Integer.toString(cnt));
-						count[2].setText(Integer.toString(cnt));
-						
-						int price = Integer.parseInt(menu[num-1][1]);
-						
-						menu[num-1][2] = Integer.toString(cnt);
-						menu[num-1][3] = Integer.toString(price*cnt);
+							price = Integer.parseInt(menu[num-1][1]);
+							
+							menu[num-1][2] = Integer.toString(cnt);
+							menu[num-1][3] = Integer.toString(price*cnt);
+						}
 						
 						table.repaint();
 						
-						screen_total -= Integer.parseInt(menu[num-1][1]);
+						screen_total = 0;
+						
+						for(int j = 0;j<num;j++) {
+							screen_total += Integer.parseInt(menu[j][3]);
+						}
 						
 						pay = screen_total-usepoint;
 						savepoint = (int)(pay * 0.01f);
@@ -441,35 +347,146 @@ public class POS extends JFrame{
 								"점\n사용 포인트 : " + usepoint + "점"+
 								"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
 								"결제 금액 : " + String.format("%,d", pay) + "원");
-						
+						}
 					}
-					
+				});
+			}
+
+		for(int i = 0; i < minus.length; i++) {
+			minus[i].addActionListener(new ActionListener() {
+		
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					cnt--;
+
+					if (cnt < 0) {
+						cnt = 0;
+
+					} else {
+						
+						int price;
+						int numi = num;
+						
+						for (int i = 0; i <= numi; i++) {
+							if (index + 1 == menuIndex[i][0] && menuIndex[i][1] == 1) { // 눌렀던 메뉴
+								
+								price = Integer.parseInt(menu[i][1]);
+
+								menu[i][2] = Integer.toString(cnt);
+								menu[i][3] = Integer.toString(price * cnt);
+								
+								table.repaint();
+
+								screen_total = 0;
+
+								for (int j = 0; j < num; j++) {
+									screen_total += Integer.parseInt(menu[j][3]);
+								}
+
+								pay = screen_total - usepoint;
+								savepoint = (int) (pay * 0.01f);
+
+								screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : "
+										+ savepoint + "점\n사용 포인트 : " + usepoint + "점"
+										+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"
+										+ "결제 금액 : " + String.format("%,d", pay) + "원");
+								
+								if (cnt == 0) {
+									num--;
+									
+									for(int j = i; j < num; j++) {
+										menu[j][0] = menu[j+1][0];
+										menu[j][1] = menu[j+1][1];
+										menu[j][2] = menu[j+1][2];
+										menu[j][3] = menu[j+1][3];
+										
+										menuIndex[j][0] = menuIndex[j+1][0];
+										menuIndex[j][1] = 1;
+									}
+									
+									menu[num][0] = "";
+									menu[num][1] = "";
+									menu[num][2] = "";
+									menu[num][3] = "";
+									
+									menuIndex[num][0] = 0;
+									menuIndex[num][1] = 0;
+									
+									table.repaint();
+									
+									screen_total =0;
+									for (int j = 0; j < num-1; j++) {
+										screen_total += Integer.parseInt(menu[j][3]);
+									}
+
+									pay = screen_total-usepoint;
+									savepoint = (int)(pay * 0.01f);
+									
+									screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
+											"점\n사용 포인트 : " + usepoint + "점"+
+											"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
+											"결제 금액 : " + String.format("%,d", pay) + "원");
+								}
+								
+								count[0].setText(Integer.toString(cnt));
+								count[1].setText(Integer.toString(cnt));
+								count[2].setText(Integer.toString(cnt));
+								
+								break;
+
+							} else if (menuIndex[i][1] == 0) { // 처음 누른 메뉴
+
+								price = Integer.parseInt(menu[num - 1][1]);
+
+								menu[num - 1][2] = Integer.toString(cnt);
+								menu[num - 1][3] = Integer.toString(price * cnt);
+								table.repaint();
+
+								screen_total = 0;
+
+								for (int j = 0; j < num; j++) {
+									screen_total += Integer.parseInt(menu[j][3]);
+								}
+
+								pay = screen_total - usepoint;
+								savepoint = (int) (pay * 0.01f);
+
+								screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : "
+										+ savepoint + "점\n사용 포인트 : " + usepoint + "점"
+										+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"
+										+ "결제 금액 : " + String.format("%,d", pay) + "원");
+							}
+							
+							count[0].setText(Integer.toString(cnt));
+							count[1].setText(Integer.toString(cnt));
+							count[2].setText(Integer.toString(cnt));
+						}
+					}
+
 				}
 			});
 		}
-		
+
 		return tab;
 	}
-	
-	// 스크린 
+
+	// 스크린
 	public JTextArea screen() {
 
-		for(int i = 0;i<num;i++) {
+		for (int i = 0; i < num; i++) {
 			screen_total += Integer.parseInt(menu[i][3]);
 		}
-		
-		pay = screen_total-usepoint;
-		
-		JTextArea ta = new JTextArea(20,15);
-		ta.setText("총 금액 : " + screen_total + "원\n\n적립 포인트 : " + savepoint + 
-				"점\n사용 포인트 : " + usepoint + "점"+
-				"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-				"결제 금액 : " + pay + "원");
-		ta.setBorder(BorderFactory.createEmptyBorder(20,10,10,10));
+
+		pay = screen_total - usepoint;
+
+		JTextArea ta = new JTextArea(20, 15);
+		ta.setText("총 금액 : " + screen_total + "원\n\n적립 포인트 : " + savepoint + "점\n사용 포인트 : " + usepoint + "점"
+				+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n" + "결제 금액 : " + pay + "원");
+		ta.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 		ta.setFocusable(false);
-		ta.setPreferredSize(new Dimension( 50,375));
+		ta.setPreferredSize(new Dimension(50, 375));
 		ta.setSize(new Dimension(50, 375));
-		
+
 		return ta;
 	}
 	
@@ -521,8 +538,12 @@ public class POS extends JFrame{
 					menu[i][1] = null; 
 					menu[i][2] = null;
 					menu[i][3] = null;
+					
+					menuIndex[i][0] = 0;
+					menuIndex[i][1] = 0;
 				}
 				
+				table.setRowSelectionAllowed(false);
 				table.repaint();
 				
 				num = 0;
@@ -569,41 +590,7 @@ public class POS extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	class Info{
-		public Info() {
-			
-			merInfo[0] = new MerInfo("아메리카노(hot)",4500);
-			merInfo[1] = new MerInfo("아메리카노(ice)",5000);
-			merInfo[2] = new MerInfo("카페라떼(hot)",5000);
-			merInfo[3] = new MerInfo("카페라떼(ice)",5500);
-			merInfo[4] = new MerInfo("카페모카(hot)",5000);
-			merInfo[5] = new MerInfo("카페모카(ice)",5500);
-			merInfo[6] = new MerInfo("바닐라라떼(hot)",5500);
-			merInfo[7] = new MerInfo("바닐라라떼(ice)",6000);
-			merInfo[8] = new MerInfo("콜드브루(ice)",6000);
-			
-			merInfo[9] = new MerInfo("민트티(hot)",4500);
-			merInfo[10] = new MerInfo("민트티(ice)",5000);
-			merInfo[11] = new MerInfo("얼그레이티(hot)",5000);
-			merInfo[12] = new MerInfo("버블티(ice)",5500);
-			merInfo[13] = new MerInfo("레몬에이드(ice)",5000);
-			merInfo[14] = new MerInfo("탄산수(ice)",5500);
-			merInfo[15] = new MerInfo("망고스무디(ice)",5500);
-			merInfo[16] = new MerInfo("우유(ice)",6000);
-			
-			merInfo[17] = new MerInfo("치즈케이크",4500);
-			merInfo[18] = new MerInfo("초코케이크",5000);
-			merInfo[19] = new MerInfo("샌드위치",5000);
-			merInfo[20] = new MerInfo("쿠키",5500);
-			merInfo[21] = new MerInfo("도넛",5000);
-			merInfo[22] = new MerInfo("머핀",5500);
-			merInfo[23] = new MerInfo("아이스크림",5500);
-			merInfo[24] = new MerInfo("샐러드",6000);
-		}	
-	}
-	
-	
+
 	public static void main(String[] args) {
 		new POS();
 	}
