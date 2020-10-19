@@ -415,7 +415,7 @@ public class POS extends JFrame{
 									table.repaint();
 									
 									screen_total =0;
-									for (int j = 0; j < num-1; j++) {
+									for (int j = 0; j < num; j++) {
 										screen_total += Integer.parseInt(menu[j][3]);
 									}
 
