@@ -8,13 +8,30 @@ import javax.swing.*;
 
 public class Money extends JFrame {
 
+	private ImageIcon icon;
+
 	public Money() {
 
 		super("현금 영수증"); // 프레임 제목 붙이기
 
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 550, 700);
+
+		JPanel background = new JPanel(new BorderLayout()) {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(), 0, 0, null);
+
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
+
 		JPanel Centerpanel = new JPanel(); // 패널 객체화 // 테이블 넣을 공간
+		Centerpanel.setOpaque(false);
 		JPanel Northpanel = new JPanel(); // 패널 객체화 // 현금 결제 라벨 텍스트 컴포넌트
+		Northpanel.setOpaque(false);
 		JPanel Southpanel = new JPanel(); // 패널 객체화 // 텍스트 area 컴포넌트
+		Southpanel.setOpaque(false);
 
 		// north
 		JLabel moneyLable = new JLabel("현금 계산");
@@ -27,9 +44,6 @@ public class Money extends JFrame {
 
 		JScrollPane jsp = new JScrollPane(table);
 
-		Centerpanel = new JPanel();
-		// add(new JScrollPane(table));
-		// Centerpanel.add(table);
 		Centerpanel.add(jsp);
 		// 테이블
 
@@ -44,23 +58,33 @@ public class Money extends JFrame {
 		moneyText.append("거 스 름 돈 : " + "\n");
 
 		Southpanel.add(moneyText);
+		Southpanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 70, 0));
 		Northpanel.add(moneyLable);
 
-		add(Northpanel, BorderLayout.NORTH); // 메인 프레임에 메인패널을 붙여주는 작업
-		add(Centerpanel);
-		add(Southpanel, BorderLayout.SOUTH);
+		background.add(Northpanel, BorderLayout.NORTH); // 메인 프레임에 메인패널을 붙여주는 작업
+		background.add(Centerpanel, BorderLayout.CENTER);
+		background.add(Southpanel, BorderLayout.SOUTH);
 
-		setBounds(200, 200, 600, 700);
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임바 우측상단에 X버튼에 대한
-		// 강제종료 기능 지정
+		add(background, BorderLayout.CENTER);
+
+		setBounds(200, 200, 558, 730);
 
 		setVisible(true); // 프레임 보이게 하기
 
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e) { dispose(); }
-			
+			public void windowClosing(WindowEvent e) {
+				dispose();
+			}
+
 		});
+	}
+
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
 	}
 
 }

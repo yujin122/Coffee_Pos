@@ -9,7 +9,7 @@ public class MemberManage extends JFrame {
 	private String[] colName = {"이름", "생년월일", "성별", "전화번호","이메일"};
 	String[][] data = null;
 	
-	private JScrollPane scrollPane;
+
 	private ImageIcon icon;
 	
 	public MemberManage() {
@@ -67,8 +67,7 @@ public class MemberManage extends JFrame {
 		
 		background.add(allJp);
 		
-		scrollPane = new JScrollPane(background);
-		setContentPane(scrollPane);
+		add(background);
 		
 		setBounds(100, 100, 640, 640);
 		setResizable(false);
