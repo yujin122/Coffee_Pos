@@ -1,4 +1,4 @@
-
+// 메뉴정보
 public class Info{
 	
 	public Info() { }

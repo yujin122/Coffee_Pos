@@ -3,23 +3,26 @@ import java.awt.event.*;
 
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class POS extends JFrame {
 
+	MerInfo[] merInfo = new MerInfo[25];
+
+	int[][] menuIndex = new int[25][2];
+	
+	JTable table;
+	JTextArea screenTa;
+	JTable jt;
+
+	DefaultTableModel dTable;
+	
 	private int cnt = 0;
 	private ImageIcon icon;
 	private int num = 0;
 	private int screen_total = 0, usepoint = 0, savepoint = 0, pay = 0;
 	private int index;
 	
-	JTable table;
-	JTextArea screenTa;
-
-	MerInfo[] merInfo = new MerInfo[25];
-
-	String[][] menu = new String[25][4];
-	int[][] menuIndex = new int[25][2];
-
 	public POS() {
 
 		new Info(merInfo);
@@ -33,10 +36,15 @@ public class POS extends JFrame {
 			}
 		};
 
-		// 1567
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
 		setPreferredSize(new Dimension(1450, 910));
-		setSize(new Dimension(1450, 890));
+		setSize(new Dimension(1450, 890));		
 		setResizable(false);
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+		
 		setTitle("POS");
 
 		JPanel paymentJp = new JPanel(); // 결제창
@@ -230,6 +238,7 @@ public class POS extends JFrame {
 		tab.add("NonCoffee", menuNonCoffeeJP);
 		tab.add("Bakery", menuBakeryJP);
 
+		// 메뉴 선택
 		for (int i = 0; i < mBtn.length; ++i) {
 			mBtn[i].addActionListener(new ActionListener() {
 
@@ -243,55 +252,49 @@ public class POS extends JFrame {
 
 					JButton jb = (JButton) e.getSource();
 					index = Integer.parseInt(jb.getText());
-
+					
 					String name = merInfo[index].getName();
 					int price = merInfo[index].getPrice();
 					int tprice = price * cnt;
-
+					
 					int numi = num;
 					int check = 0;
 
-					table.setRowSelectionAllowed(true);
-
 					for (int i = 0; i <= numi; i++) {
-						if (index + 1 == menuIndex[i][0] && menuIndex[i][1] == 1) {
-							cnt = Integer.parseInt(menu[i][2]);
+						if (index + 1 == menuIndex[i][0] && menuIndex[i][1] == 1) {// 한번 누름
+							
+							cnt = Integer.parseInt(dTable.getValueAt(i, 2).toString());
 							cnt++;
 							tprice = price * cnt;
-
+							
 							count[0].setText(Integer.toString(cnt));
 							count[1].setText(Integer.toString(cnt));
 							count[2].setText(Integer.toString(cnt));
-
-							menu[i][2] = Integer.toString(cnt);
-							menu[i][3] = Integer.toString(tprice);
-
-							table.setRowSelectionInterval(i, i);
-
+							
+							Object menu_[]= {name, price, cnt, tprice};
+							dTable.removeRow(i);
+							dTable.insertRow(i, menu_);
+							
 							break;
-						} else if (menuIndex[i][1] == 0) {
+							
+						} else if (menuIndex[i][1] == 0) {	// 처음누를때
 
-							menu[num][0] = name;
-							menu[num][1] = Integer.toString(price);
-							menu[num][2] = Integer.toString(cnt);
-							menu[num][3] = Integer.toString(tprice);
-
+							Object menu_[]= {name, price, cnt, tprice};
+							
 							check = 1;
 							menuIndex[num][0] = index + 1;
 							menuIndex[num][1] = check;
-
-							table.setRowSelectionInterval(num, num);
-
+							
+							dTable.addRow(menu_);
+							System.out.println(dTable.getRowCount());
 							num++;
 						}
 					}
 
-					table.repaint();
-
 					screen_total = 0;
 
 					for (int i = 0; i < num; i++) {
-						screen_total += Integer.parseInt(menu[i][3]);
+						screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 					}
 
 					pay = screen_total - usepoint;
@@ -305,6 +308,7 @@ public class POS extends JFrame {
 			});
 		}
 
+		// 수량 증가
 		for (int i = 0; i < plus.length; i++) {
 			plus[i].addActionListener(new ActionListener() {
 
@@ -316,31 +320,26 @@ public class POS extends JFrame {
 					count[1].setText(Integer.toString(cnt));
 					count[2].setText(Integer.toString(cnt));
 
-					int price;
+					String name;
+					int price, tprice;
 					int numi = num;
 
 					for (int i = 0; i <= numi; i++) {
-						if (index + 1 == menuIndex[i][0] && menuIndex[i][1] == 1) { // 눌렀던 메뉴
+						if (index + 1 == menuIndex[i][0] /*&& menuIndex[i][1] == 1*/) { // 눌렀던 메뉴
 
-							price = Integer.parseInt(menu[i][1]);
-
-							menu[i][2] = Integer.toString(cnt);
-							menu[i][3] = Integer.toString(price * cnt);
-
-						} else if (menuIndex[i][1] == 0) { // 처음 누른 메뉴
-
-							price = Integer.parseInt(menu[num - 1][1]);
-
-							menu[num - 1][2] = Integer.toString(cnt);
-							menu[num - 1][3] = Integer.toString(price * cnt);
-						}
-
-						table.repaint();
-
+							name = dTable.getValueAt(i, 0).toString();
+							price = Integer.parseInt(dTable.getValueAt(i, 1).toString());
+							tprice = price * cnt;
+							
+							Object menu_[]= {name, price, cnt, tprice};
+							dTable.removeRow(i);
+							dTable.insertRow(i, menu_);
+						}				
+						
 						screen_total = 0;
 
 						for (int j = 0; j < num; j++) {
-							screen_total += Integer.parseInt(menu[j][3]);
+							screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 						}
 
 						pay = screen_total - usepoint;
@@ -355,6 +354,7 @@ public class POS extends JFrame {
 			});
 		}
 
+		// 수량 감소
 		for (int i = 0; i < minus.length; i++) {
 			minus[i].addActionListener(new ActionListener() {
 
@@ -366,24 +366,25 @@ public class POS extends JFrame {
 						cnt = 0;
 
 					} else {
-
-						int price;
+						String name;
+						int price,tprice;
 						int numi = num;
 
 						for (int i = 0; i <= numi; i++) {
-							if (index + 1 == menuIndex[i][0] && menuIndex[i][1] == 1) { // 눌렀던 메뉴
+							if (index + 1 == menuIndex[i][0]) {
 
-								price = Integer.parseInt(menu[i][1]);
-
-								menu[i][2] = Integer.toString(cnt);
-								menu[i][3] = Integer.toString(price * cnt);
-
-								table.repaint();
-
+								name = dTable.getValueAt(i, 0).toString();
+								price = Integer.parseInt(dTable.getValueAt(i, 1).toString());
+								tprice = price * cnt;
+								
+								Object menu_[]= {name, price, cnt, tprice};
+								dTable.removeRow(i);
+								dTable.insertRow(i, menu_);
+								
 								screen_total = 0;
 
 								for (int j = 0; j < num; j++) {
-									screen_total += Integer.parseInt(menu[j][3]);
+									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 								}
 
 								pay = screen_total - usepoint;
@@ -397,29 +398,14 @@ public class POS extends JFrame {
 								if (cnt == 0) {
 									num--;
 
-									for (int j = i; j < num; j++) {
-										menu[j][0] = menu[j + 1][0];
-										menu[j][1] = menu[j + 1][1];
-										menu[j][2] = menu[j + 1][2];
-										menu[j][3] = menu[j + 1][3];
-
-										menuIndex[j][0] = menuIndex[j + 1][0];
-										menuIndex[j][1] = 1;
-									}
-
-									menu[num][0] = "";
-									menu[num][1] = "";
-									menu[num][2] = "";
-									menu[num][3] = "";
-
+									dTable.removeRow(i);
+		
 									menuIndex[num][0] = 0;
 									menuIndex[num][1] = 0;
 
-									table.repaint();
-
 									screen_total = 0;
 									for (int j = 0; j < num; j++) {
-										screen_total += Integer.parseInt(menu[j][3]);
+										screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 									}
 
 									pay = screen_total - usepoint;
@@ -431,34 +417,7 @@ public class POS extends JFrame {
 											+ "결제 금액 : " + String.format("%,d", pay) + "원");
 								}
 
-								count[0].setText(Integer.toString(cnt));
-								count[1].setText(Integer.toString(cnt));
-								count[2].setText(Integer.toString(cnt));
-
-								break;
-
-							} else if (menuIndex[i][1] == 0) { // 처음 누른 메뉴
-
-								price = Integer.parseInt(menu[num - 1][1]);
-
-								menu[num - 1][2] = Integer.toString(cnt);
-								menu[num - 1][3] = Integer.toString(price * cnt);
-								table.repaint();
-
-								screen_total = 0;
-
-								for (int j = 0; j < num; j++) {
-									screen_total += Integer.parseInt(menu[j][3]);
-								}
-
-								pay = screen_total - usepoint;
-								savepoint = (int) (pay * 0.01f);
-
-								screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : "
-										+ savepoint + "점\n사용 포인트 : " + usepoint + "점"
-										+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"
-										+ "결제 금액 : " + String.format("%,d", pay) + "원");
-							}
+							} 
 
 							count[0].setText(Integer.toString(cnt));
 							count[1].setText(Integer.toString(cnt));
@@ -477,7 +436,7 @@ public class POS extends JFrame {
 	public JTextArea screen() {
 
 		for (int i = 0; i < num; i++) {
-			screen_total += Integer.parseInt(menu[i][3]);
+			screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 		}
 
 		pay = screen_total - usepoint;
@@ -495,10 +454,13 @@ public class POS extends JFrame {
 
 	// 결제창
 	public JTable payment() {
-
-		String[] header = { "메뉴", "단가", "수량", "가격" };
-
-		JTable jt = new JTable(menu, header);
+		dTable = new DefaultTableModel();
+		
+		/*dTable.addColumn(" ");*/ dTable.addColumn("메뉴"); dTable.addColumn("단가");
+		dTable.addColumn("수량"); dTable.addColumn("가격");
+		
+		
+		JTable jt = new JTable(dTable);
 
 		jt.setRowHeight(30);
 
@@ -539,19 +501,14 @@ public class POS extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				for (int i = 0; i < num; i++) {
-					menu[i][0] = null;
-					menu[i][1] = null;
-					menu[i][2] = null;
-					menu[i][3] = null;
-
+				int count = dTable.getRowCount();
+				
+				for(int i = 0; i < count;i++) {
+					dTable.removeRow(0);
+					
 					menuIndex[i][0] = 0;
 					menuIndex[i][1] = 0;
 				}
-
-				table.setRowSelectionAllowed(false);
-				table.repaint();
-
 				num = 0;
 
 				screen_total = 0;
@@ -577,6 +534,9 @@ public class POS extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//CoffeePosDAO dao = new CoffeePosDAO();
+				
+				//dao.addList(menu, num);
 				new Money();
 			}
 		});
@@ -600,7 +560,7 @@ public class POS extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new POS();
+		new POS2();
 	}
 
 }

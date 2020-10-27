@@ -25,6 +25,7 @@ public class CoffeePosDAO {
 		}	
 	}
 	
+	// 중복확인
 	public boolean isExist(String phoneExist) {
 		boolean result = false;
 		
@@ -48,6 +49,7 @@ public class CoffeePosDAO {
 		return result;
 	}
 
+	// 멤버 추가
 	public int memAdd(String phoneData, String nameData, String birthData, String genderData, String emailData) {
 		int res = 0;
 		
@@ -70,6 +72,7 @@ public class CoffeePosDAO {
 		return res;
 	}
 
+	// table 정보 뿌리기
 	public void tableAll(DefaultTableModel dTable) {
 		
 		try {
@@ -95,6 +98,7 @@ public class CoffeePosDAO {
 	
 	}
 
+	// 선택한 컬럼을 멤버정보수정 페이지에 넘기기
 	public String[] memUpdateForm(String phoneData) {
 		String[] data = new String[5];
 		
@@ -122,6 +126,7 @@ public class CoffeePosDAO {
 		return data;
 	}
 
+	// 멤버 수정
 	public int memUpdate(String nameData, String phoneData_, String emailData, String phoneData) {
 		int res = 0;
 		
@@ -145,6 +150,7 @@ public class CoffeePosDAO {
 		return res;
 	}
 
+	// 멤버 삭제
 	public int memDelete(String phoneData) {
 		int res = 0;
 		
@@ -162,6 +168,7 @@ public class CoffeePosDAO {
 		return res;
 	}
 
+	// 멤버 조회
 	public void memSearch(String item, DefaultTableModel dTable) {
 		
 		sql = "select * from member where mphone = ?";
@@ -191,5 +198,39 @@ public class CoffeePosDAO {
 		}
 		
 	}
+
+/*	// 메뉴 조회
+	public String[] menuSearch(String index_) {
+		String[] menuData = new String[3];
+		
+		sql = "select name, price from menu where menuno = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(index_));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				menuData[0] = rs.getString("name");
+				menuData[1] = String.valueOf(rs.getInt("price"));
+				//menuData[2] = String.valueOf(rs.getInt("checknum"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return menuData;
+	}*/
+
+	// 주문목록 추가
+	public void addList(String[][] menu, int num) {
+		//String 
+		
+	}
+
+	
 
 }
