@@ -7,8 +7,9 @@ import javax.swing.table.DefaultTableModel;
 public class StockManage extends JFrame{
 	
 	private String[] search = {"재고품명"};
-	private String[] colName = {"재고품명", "수량"};
-	String[][] data = null;
+	
+	DefaultTableModel dTable = new DefaultTableModel();
+	JTable table;
 	
 	private ImageIcon icon;
 
@@ -16,7 +17,7 @@ public class StockManage extends JFrame{
 	public StockManage() {
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 623, 600);
+		icon = imageSetSize(icon, 623, 615);
 		
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -26,13 +27,17 @@ public class StockManage extends JFrame{
 
 		setTitle("재고 관리");
 		setResizable(false);
-		setLocation(100, 100);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
 		setPreferredSize(new Dimension(640, 640));
 		setSize(new Dimension(640, 640));
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+
 		
 		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
 		btnJp.setOpaque(false);
-		btnJp.setSize(1000,500);
 		
 		JPanel searchJp = new JPanel();
 		searchJp.setOpaque(false);
@@ -41,24 +46,28 @@ public class StockManage extends JFrame{
 		jp.setOpaque(false);
 		
 		JButton addBtn = new JButton("추가");
-		addBtn.setSize(136, 43);
+		addBtn.setForeground(Color.WHITE); 
+		addBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		addBtn.setBackground(new Color(230,160,0));
 		btnJp.add(addBtn);
 		
 		JPanel allJp = new JPanel(new BorderLayout());
 		allJp.setOpaque(false);
 		
 		JButton updateBtn = new JButton("수정");
-		updateBtn.setSize(136,43);
-		//updateBtn.setBounds(231, 25, 136, 43);
+		updateBtn.setForeground(Color.WHITE); 
+		updateBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		updateBtn.setBackground(new Color(230,160,0));
 		btnJp.add(updateBtn);
 		
 		JButton deleteBtn = new JButton("삭제");
-		deleteBtn.setSize(136,43);
+		deleteBtn.setForeground(Color.WHITE); 
+		deleteBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		deleteBtn.setBackground(new Color(230,160,0));
 		btnJp.add(deleteBtn);
 		
 		JComboBox<String> comboBox = new JComboBox<String>(search);
 		comboBox.setSize(77, 36);
-		//comboBox.setBounds(72, 80, 77, 36);
 		searchJp.add(comboBox);
 		
 		JTextField textField = new JTextField(25);
@@ -66,15 +75,16 @@ public class StockManage extends JFrame{
 		searchJp.add(textField);
 		
 		JButton searchBtn = new JButton("찾기");
-		searchBtn.setBounds(442, 80, 93, 36);
 		searchJp.add(searchBtn);
 		
 		jp.add(btnJp); jp.add(searchJp);
 		
-		DefaultTableModel dTable = new DefaultTableModel(data, colName);
-		JTable table = new JTable(dTable);
+		dTable.addColumn("재고품명"); dTable.addColumn("수량");
+		table = new JTable(dTable);
 		table.setRowHeight(40);
 		table.setBounds(30, 30, 50, 50);
+		
+		allJp.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
 		
 		allJp.add(jp, BorderLayout.NORTH);
 		allJp.add(new JScrollPane(table), BorderLayout.CENTER);

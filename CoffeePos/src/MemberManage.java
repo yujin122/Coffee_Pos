@@ -5,17 +5,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class MemberManage extends JFrame {
 	
-	private String[] search = {"전화번호", "이름"};
-	private String[] colName = {"이름", "생년월일", "성별", "전화번호","이메일"};
-	String[][] data = null;
-	
+	private String[] search = {"전화번호"};
 
+	DefaultTableModel dTable = new DefaultTableModel();
+	JTable table;
+	String phoneData, nameData;
+	JComboBox<String> comboBox;
+	
 	private ImageIcon icon;
 	
 	public MemberManage() {
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 623, 600);
+		icon = imageSetSize(icon, 623, 665);
 		
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -28,51 +30,106 @@ public class MemberManage extends JFrame {
 	
 		setTitle("회원 관리");
 		
-		JPanel btnJp = new JPanel(new GridLayout(1,3,6,0));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
+		setSize(640, 695);
+		setResizable(false);
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+		
+		JPanel btnJp = new JPanel(new GridLayout(1,3,10,5));
 		btnJp.setOpaque(false);
+		btnJp.setBorder(BorderFactory.createEmptyBorder(5,20,5,20));
+		
 		JPanel searchJp = new JPanel();
 		searchJp.setOpaque(false);
 		JPanel jp = new JPanel(new GridLayout(2,1,10,10));
 		jp.setOpaque(false);
+		
 		JPanel allJp = new JPanel(new BorderLayout());
+		allJp.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
 		allJp.setOpaque(false);
 		
+		
 		JButton addBtn = new JButton("추가");
+		addBtn.setPreferredSize(new Dimension(50, 50));
+		addBtn.setSize(new Dimension(50, 50));
+		addBtn.setForeground(Color.WHITE); 
+		addBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		addBtn.setBackground(new Color(230,160,0));
 		btnJp.add(addBtn);
 		
 		JButton updateBtn = new JButton("수정");
-		
+		updateBtn.setForeground(Color.WHITE); 
+		updateBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		updateBtn.setBackground(new Color(230,160,0));
 		btnJp.add(updateBtn);
 		
 		JButton deleteBtn = new JButton("삭제");
+		deleteBtn.setForeground(Color.WHITE); 
+		deleteBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		deleteBtn.setBackground(new Color(230,160,0));
 		btnJp.add(deleteBtn);
 		
-		JComboBox<String> comboBox = new JComboBox<String>(search);
+		comboBox = new JComboBox<String>(search);
 		searchJp.add(comboBox);
 		
-		JTextField textField = new JTextField(25);
-		searchJp.add(textField);
+		JTextField searchtxt = new JTextField(25);
+		searchJp.add(searchtxt);
 		
-		JButton searchBtn = new JButton("찾기");
+		JButton searchBtn = new JButton("조회");
 		searchJp.add(searchBtn);
+		
+		JButton searchAllBtn = new JButton("전체 조회");
+		searchJp.add(searchAllBtn);
 		
 		jp.add(btnJp); jp.add(searchJp);
 		
-		DefaultTableModel dTable = new DefaultTableModel(data, colName);
-		JTable table = new JTable(dTable);
+		dTable.addColumn("이름"); dTable.addColumn("생년월일"); dTable.addColumn("성별");
+		dTable.addColumn("전화번호"); dTable.addColumn("이메일");
+		
+		displayAll();
+		
+		table = new JTable(dTable);
 		table.setRowHeight(40);
-		table.setBounds(30, 30, 50, 50);
+		table.setPreferredSize(new Dimension(500, 400));
+		table.setSize(new Dimension(500, 400));
 		allJp.add(jp, BorderLayout.NORTH);
-		allJp.add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		JScrollPane jsp = new JScrollPane(table);
+		jsp.setPreferredSize(new Dimension(600, 425));
+		jsp.setSize(new Dimension(600, 380));
+		allJp.add(jsp, BorderLayout.CENTER);
 		
 		background.add(allJp);
 		
 		add(background);
 		
-		setBounds(100, 100, 640, 640);
-		setResizable(false);
 		setVisible(true);
 		
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int row = table.getSelectedRow();
+				
+				phoneData = table.getValueAt(row, 3).toString();
+				nameData = table.getValueAt(row, 0).toString();
+			}
+		});
 		
 		addBtn.addActionListener(new ActionListener() {
 			
@@ -87,7 +144,7 @@ public class MemberManage extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MemberUpdate();
+				new MemberUpdate(phoneData);
 				dispose();
 			}
 		});
@@ -96,8 +153,17 @@ public class MemberManage extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				CoffeePosDAO dao = new CoffeePosDAO();
+				
+				int result = dao.memDelete(phoneData);
+				
+				if(result > 0) {
+					JOptionPane.showMessageDialog(background, "삭제 완료");
+				}else {
+					JOptionPane.showMessageDialog(background, "삭제 실패");
+				}
+				
+				displayAll();
 			}
 		});
 		
@@ -105,8 +171,20 @@ public class MemberManage extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				CoffeePosDAO dao = new CoffeePosDAO();
 				
+				String txt = searchtxt.getText().toString();
+				
+				dao.memSearch(txt,dTable);
+			}
+		});
+		
+		searchAllBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchtxt.setText(null);
+				displayAll();
 			}
 		});
 		
@@ -129,6 +207,13 @@ public class MemberManage extends JFrame {
 			@Override
 			public void windowActivated(WindowEvent e) {}
 		});
+	}
+	
+	public void displayAll() {
+		dTable.setRowCount(0);
+		
+		CoffeePosDAO dao = new CoffeePosDAO();
+		dao.tableAll(dTable);
 	}
 	
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {

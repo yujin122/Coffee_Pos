@@ -18,9 +18,13 @@ public class Menu extends JFrame{
 			}
 		};		
 		
-		setLocation(100, 100);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
 		setPreferredSize(new Dimension(1000, 800));
 		setSize(new Dimension(1000, 800));
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
 		
 		JPanel jp = new JPanel(new GridLayout(1,2));
 		jp.setBackground(new Color(0,0,0,0));

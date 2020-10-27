@@ -11,6 +11,7 @@ public class POS extends JFrame {
 	private int num = 0;
 	private int screen_total = 0, usepoint = 0, savepoint = 0, pay = 0;
 	private int index;
+	
 	JTable table;
 	JTextArea screenTa;
 

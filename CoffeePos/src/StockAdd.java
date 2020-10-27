@@ -1,68 +1,123 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class StockAdd {
+public class StockAdd extends JFrame{
 
+	private ImageIcon icon;
+	
 	public StockAdd() {
+
+		// 배경화면
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 400, 260);
+
+		JPanel background = new JPanel(new BorderLayout()) {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(), 0, 0, null);
+
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
 		
-		JFrame frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("재고 추가");
+		setSize(415, 300);
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("재고 추가");
+		
 		
 		JPanel jp = new JPanel();
-		jp.setLayout(null);
 		
-		JLabel label = new JLabel("재고품명 : ");
-		label.setHorizontalAlignment(SwingConstants.RIGHT);
-		label.setBounds(85, 83, 94, 18);
-		jp.add(label);
+		JPanel titleJp = new JPanel();
+		titleJp.setBorder(BorderFactory.createEmptyBorder(10,0,5,0));
+		titleJp.setOpaque(false);
+		JLabel titleJl = new JLabel("재고 추가");
+		titleJl.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		titleJp.add(titleJl);
 		
-		JLabel lblNewLabel = new JLabel("수량 : ");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(117, 125, 62, 18);
-		jp.add(lblNewLabel);
+		JPanel nameJp1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		nameJp1.setOpaque(false);
+		JLabel label = new JLabel("재고품명 : ",JLabel.CENTER);
+		nameJp1.add(label);
 		
+		JPanel nameJp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		nameJp2.setOpaque(false);
 		JTextField stockName = new JTextField(10);
-		stockName.setBounds(179, 80, 116, 24);
-		jp.add(stockName);
+		nameJp2.add(stockName);
 		
+		JPanel countJp1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		countJp1.setOpaque(false);
+		JLabel countJl = new JLabel("수량 : ",JLabel.CENTER);
+		countJp1.add(countJl);
+		
+		JPanel countJp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		countJp2.setOpaque(false);
 		JTextField stockCount = new JTextField(10);
-		stockCount.setBounds(179, 122, 116, 24);
-		jp.add(stockCount);
+		countJp2.add(stockCount);
+		
+		JPanel insertJp = new JPanel(new GridLayout(2,2,0,10));
+		insertJp.setBorder(BorderFactory.createEmptyBorder(5,0,5,60));
+		insertJp.setOpaque(false);
+		insertJp.add(nameJp1); insertJp.add(nameJp2);
+		insertJp.add(countJp1); insertJp.add(countJp2);
+		
+		
+		JPanel btnJp = new JPanel(new GridLayout(1,3,5,5));
+		btnJp.setBorder(BorderFactory.createEmptyBorder(15, 15, 0, 0));
+		btnJp.setOpaque(false);
 		
 		JButton okBtn = new JButton("확인");
-		okBtn.setBounds(75, 176, 76, 27);
-		jp.add(okBtn);
+		okBtn.setForeground(Color.WHITE); 
+		okBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		okBtn.setBackground(new Color(230,160,0));
+		btnJp.add(okBtn);
 		
 		JButton cancleBtn = new JButton("취소");
-		cancleBtn.setBounds(174, 176, 76, 27);
-		jp.add(cancleBtn);
+		cancleBtn.setForeground(Color.WHITE); 
+		cancleBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		cancleBtn.setBackground(new Color(230,160,0));
+		btnJp.add(cancleBtn);
 		
 		JButton exitBtn = new JButton("닫기");
-		exitBtn.setBounds(278, 176, 76, 27);
-		jp.add(exitBtn);
+		exitBtn.setForeground(Color.WHITE); 
+		exitBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		exitBtn.setBackground(new Color(230,160,0));
+		btnJp.add(exitBtn);
 		
-		JLabel lblNewLabel_1 = new JLabel("재고 추가");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-		lblNewLabel_1.setBounds(0, 12, 432, 44);
-		jp.add(lblNewLabel_1);
+		JPanel centerJp = new JPanel();
+		centerJp.setOpaque(false);
+		centerJp.add(insertJp);
+		centerJp.add(btnJp);
 		
-		frame.add(jp);
-		frame.setVisible(true);
+		background.add(titleJp, BorderLayout.NORTH);
+		background.add(centerJp,BorderLayout.CENTER);
+		
+		add(background);
+		setVisible(true);
 		
 		okBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			
-				JOptionPane.showMessageDialog(frame, "재고품명 : "+ stockName.getText() + 
+				JOptionPane.showMessageDialog(background, "재고품명 : "+ stockName.getText() + 
 						"\n수량 : " + stockCount.getText());
-				frame.dispose();
+				dispose();
 				new StockManage();
 			}
 		});
@@ -79,13 +134,21 @@ public class StockAdd {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				dispose();
 				new StockManage();
 
 			}
 		});
 		
 	}
+	
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+	
 	public static void main(String[] args) {
 		new StockAdd();
 	}

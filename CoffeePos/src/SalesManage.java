@@ -11,7 +11,24 @@ public class SalesManage extends JFrame{
 	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
 
 	MyCalendarModel model = new MyCalendarModel();
-	JTable cal = new JTable(model);
+	JTable cal = new JTable(model) {
+		public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+	        Component comp = super.prepareRenderer(renderer, row, col);
+	        Object value = getModel().getValueAt(row, col);
+	        
+	        if (value == null) {
+	                comp.setBackground(Color.LIGHT_GRAY);
+	                comp.setEnabled(false);
+	                comp.setFocusable(false);
+	            } else {
+	                comp.setBackground(Color.white);
+	                comp.setEnabled(true);
+	            }
+	         
+	        return comp;
+	    }
+		
+	};
 
 	private int year_, month_;
 	Object data;
@@ -79,9 +96,9 @@ public class SalesManage extends JFrame{
 		month_ = month.getSelectedIndex() + 1;
 
 		model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
-
+		
 		myCalendar(cal);
-
+		
 		allJp.add(selectJp, BorderLayout.NORTH);
 		allJp.add(calendarJp, BorderLayout.CENTER);
 		allJp.add(salesJp, BorderLayout.SOUTH);
@@ -155,6 +172,7 @@ public class SalesManage extends JFrame{
 			public void windowClosing(WindowEvent e) { new Menu(); }
 			
 		});
+			
 	}
 
 	// table 모델 class
