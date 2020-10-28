@@ -10,6 +10,7 @@ public class StockManage extends JFrame{
 	
 	DefaultTableModel dTable = new DefaultTableModel();
 	JTable table;
+	String nameData;
 	
 	private ImageIcon icon;
 
@@ -70,16 +71,21 @@ public class StockManage extends JFrame{
 		comboBox.setSize(77, 36);
 		searchJp.add(comboBox);
 		
-		JTextField textField = new JTextField(25);
-		textField.setBounds(151, 80, 288, 36);
-		searchJp.add(textField);
+		JTextField searchtxt = new JTextField(25);
+		searchtxt.setBounds(151, 80, 288, 36);
+		searchJp.add(searchtxt);
 		
 		JButton searchBtn = new JButton("찾기");
 		searchJp.add(searchBtn);
 		
+		JButton searchAllBtn = new JButton("전체 조회");
+		searchJp.add(searchAllBtn);
+		
 		jp.add(btnJp); jp.add(searchJp);
 		
 		dTable.addColumn("재고품명"); dTable.addColumn("수량");
+		displayAll();
+		
 		table = new JTable(dTable);
 		table.setRowHeight(40);
 		table.setBounds(30, 30, 50, 50);
@@ -94,6 +100,33 @@ public class StockManage extends JFrame{
 		add(background);
 		setVisible(true);
 		
+		
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int row = table.getSelectedRow();
+				
+				nameData = table.getValueAt(row, 0).toString();
+				
+			}
+		});
+		
+		
+		
+		
 	addBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -107,7 +140,7 @@ public class StockManage extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new StockUpdate();
+				new StockUpdate(nameData);
 				dispose();
 			}
 		});
@@ -116,7 +149,18 @@ public class StockManage extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+			StockManageDAO dao = new StockManageDAO();
+			
+			int result = dao.stoDelete(nameData);
+			
+			if(result > 0) {
+				JOptionPane.showMessageDialog(background, "삭제 완료");
+			}else {
+				JOptionPane.showMessageDialog(background, "삭제 실패");
+			}
+			
+			displayAll();
 
 			}
 		});
@@ -125,16 +169,39 @@ public class StockManage extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+			StockManageDAO dao = new StockManageDAO();
+			
+			String txt = searchtxt.getText().toString();
+			
+			dao.stoSearch(txt, dTable);
 				
 			}
 		});
+		
+		
+		searchAllBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchtxt.setText(null);
+				displayAll();
+			}
+		});
+		
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) { new Menu(); }
 			
 		});
+	}
+	
+	public void displayAll() {
+		dTable.setRowCount(0);
+		
+		StockManageDAO dao = new StockManageDAO();
+		dao.tableAll(dTable);
 	}
 	
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {

@@ -5,17 +5,24 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class Money extends JFrame {
 
 	private ImageIcon icon;
-
-	public Money() {
+	DefaultTableModel dTable = new DefaultTableModel();
+	
+	int count;
+	public Money() {}
+	
+	public Money(int count) {
 
 		super("현금 영수증"); // 프레임 제목 붙이기
 
+		this.count = count;
+		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 550, 700);
+		icon = imageSetSize(icon, 550, 750);
 
 		JPanel background = new JPanel(new BorderLayout()) {
 			public void paintComponent(Graphics g) {
@@ -26,6 +33,13 @@ public class Money extends JFrame {
 			}
 		};
 
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
+		setSize(558, 780);
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+		
 		JPanel Centerpanel = new JPanel(); // 패널 객체화 // 테이블 넣을 공간
 		Centerpanel.setOpaque(false);
 		JPanel Northpanel = new JPanel(); // 패널 객체화 // 현금 결제 라벨 텍스트 컴포넌트
@@ -38,11 +52,15 @@ public class Money extends JFrame {
 		moneyLable.setFont(new Font("굴림체", Font.BOLD, 30));
 
 		/// center 테이블 부분
-		String[] colNames = { "메뉴", "단가", "수량", "금액" };
-		Object data[][] = { { "아메리카노", "3000", "1", "3000" }, { "카페라떼", "3500", "2", "7000" } };
-		JTable table = new JTable(data, colNames);
-
+		
+		dTable.addColumn("메뉴"); dTable.addColumn("단가");
+		dTable.addColumn("수량"); dTable.addColumn("금액");
+		
+		displayAll();
+		JTable table = new JTable(dTable);
+		table.setRowHeight(30);
 		JScrollPane jsp = new JScrollPane(table);
+		//table.setRowHeight(10);
 
 		Centerpanel.add(jsp);
 		// 테이블
@@ -67,8 +85,6 @@ public class Money extends JFrame {
 
 		add(background, BorderLayout.CENTER);
 
-		setBounds(200, 200, 558, 730);
-
 		setVisible(true); // 프레임 보이게 하기
 
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,12 +95,24 @@ public class Money extends JFrame {
 
 		});
 	}
+	
+	public void displayAll() {
+		dTable.setRowCount(0);
+		
+		CoffeePosDAO dao = new CoffeePosDAO();
+		dao.listAll(dTable, count);
+	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
 		Image ximg = icon.getImage();
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
+	}
+	
+	public static void main(String[] args) {
+		new Money();
+		
 	}
 
 }

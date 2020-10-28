@@ -89,7 +89,6 @@ public class Menu extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MemberManage();
-				//frame.dispose();
 				dispose();
 			}
 		});
@@ -99,7 +98,6 @@ public class Menu extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new StockManage();
-				//frame.dispose();
 				dispose();
 			}
 		});
@@ -109,7 +107,6 @@ public class Menu extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new SalesManage();
-				//frame.dispose();
 				dispose();
 			}
 		});
@@ -120,7 +117,6 @@ public class Menu extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				new POS();
 				new Card();
-				//frame.dispose();
 				dispose();
 			}
 		});

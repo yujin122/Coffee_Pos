@@ -366,7 +366,8 @@ public class POS2 extends JFrame {
 						int numi = num;
 
 						for (int i = 0; i <= numi; i++) {
-							if (index + 1 == menuIndex[i][0]) {
+							if (index + 1 == menuIndex[i][0] /*&& menuIndex[i][1] == 1*/) {// 눌렀던 메뉴
+								
 
 								name = dTable.getValueAt(i, 0).toString();
 								price = Integer.parseInt(dTable.getValueAt(i, 1).toString());
@@ -412,7 +413,30 @@ public class POS2 extends JFrame {
 											+ "결제 금액 : " + String.format("%,d", pay) + "원");
 								}
 
-							} 
+							}  /*else if (menuIndex[i][1] == 0) { // 처음 누른 메뉴
+
+								name = dTable.getValueAt(i, 0).toString();
+								price = Integer.parseInt(dTable.getValueAt(i, 1).toString());
+								tprice = price * cnt;
+								
+								Object menu_[]= {name, price, cnt, tprice};
+								dTable.removeRow(i);
+								dTable.insertRow(i, menu_);
+
+								screen_total = 0;
+
+								for (int j = 0; j < num; j++) {
+									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
+								}
+
+								pay = screen_total - usepoint;
+								savepoint = (int) (pay * 0.01f);
+
+								screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : "
+										+ savepoint + "점\n사용 포인트 : " + usepoint + "점"
+										+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"
+										+ "결제 금액 : " + String.format("%,d", pay) + "원");
+							}*/
 
 							count[0].setText(Integer.toString(cnt));
 							count[1].setText(Integer.toString(cnt));

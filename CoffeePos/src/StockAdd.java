@@ -110,15 +110,28 @@ public class StockAdd extends JFrame{
 		add(background);
 		setVisible(true);
 		
+		
+		
 		okBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
-				JOptionPane.showMessageDialog(background, "재고품명 : "+ stockName.getText() + 
-						"\n수량 : " + stockCount.getText());
-				dispose();
-				new StockManage();
+				
+			StockManageDAO dao = new StockManageDAO();
+			 
+			 String nameData = stockName.getText().toString();
+			 String countData = stockCount.getText().toString();
+			 
+			 int result = dao.stockAdd(nameData, countData);
+			 
+			 if(result > 0) {
+				 JOptionPane.showMessageDialog(background, "재고 품명 : "+ nameData + "\n수량 : " + countData);
+			 } else {
+				 JOptionPane.showMessageDialog(background, "재고 추가 실패");
+			 }
+			 
+			 	dispose();
+			 	new StockManage();
 			}
 		});
 		

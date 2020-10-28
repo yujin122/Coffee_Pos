@@ -243,13 +243,12 @@ public class MemberAdd extends JFrame{
 						JOptionPane.showMessageDialog(background, "전화번호 : "+ phoneData + 
 								"\n이름 : " + nameData + "\n생년월일 : " + birthData +
 								"\n성별 : " + genderData + "\n이메일 : " + emailData);
+						
+						dispose();
+						new MemberManage();
 					}else {
 						JOptionPane.showMessageDialog(background, "회원 추가 실패");
 					}
-					
-					
-					dispose();
-					new MemberManage();
 				}
 			}
 		});

@@ -20,6 +20,7 @@ public class CoffeePosDAO {
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pwd);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -40,7 +41,7 @@ public class CoffeePosDAO {
 			while(rs.next()) {
 				result = true;
 			}
-			
+			pstmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,9 +63,10 @@ public class CoffeePosDAO {
 			pstmt.setString(3, genderData);
 			pstmt.setString(4, phoneData);
 			pstmt.setString(5, emailData);
-
 			
 			res = pstmt.executeUpdate();
+			
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,10 +90,13 @@ public class CoffeePosDAO {
 				String gender = rs.getString("mgender");
 				String phone = rs.getString("mphone");
 				String mail = rs.getString("memail");
+				String point = rs.getString("point");
 				
-				Object data[] = {name, birth, gender, phone, mail};
+				Object data[] = {name, birth, gender, phone, mail, point};
 				dTable.addRow(data);
 			}
+			
+			rs.close(); pstmt.close(); 
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -118,6 +123,7 @@ public class CoffeePosDAO {
 				data[4] = rs.getString("memail");
 			}
 			
+			rs.close(); pstmt.close(); 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,6 +148,7 @@ public class CoffeePosDAO {
 			
 			res = pstmt.executeUpdate();
 			
+			pstmt.close(); con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -161,6 +168,8 @@ public class CoffeePosDAO {
 			pstmt.setString(1, phoneData);
 			
 			res = pstmt.executeUpdate();
+			
+			pstmt.close(); con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -170,7 +179,6 @@ public class CoffeePosDAO {
 
 	// 멤버 조회
 	public void memSearch(String item, DefaultTableModel dTable) {
-		
 		sql = "select * from member where mphone = ?";
 		
 		try {
@@ -192,45 +200,160 @@ public class CoffeePosDAO {
 				Object data[] = {name, birth, gender, phone, mail};
 				dTable.addRow(data);
 			}
+			
+			rs.close(); pstmt.close(); con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
+	
+	// pos 회원조회
+	public String[] memSearch(String item) {
+		String[] mem = new String[2];
+		
+		int point = -1;
+		mem[1] = String.valueOf(point);
+		
+		sql = "select name, point from member where mphone = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, item);
 
-/*	// 메뉴 조회
-	public String[] menuSearch(String index_) {
-		String[] menuData = new String[3];
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mem[0] = rs.getString("name");
+				mem[1] = String.valueOf(rs.getInt("point"));
+			}
+			
+			rs.close(); pstmt.close(); con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return mem;
+	}
+
+	// 주문목록 추가
+	public int addList(int[][] list) {
+		int res = 0;
+		
+		sql = "insert into cafeorder values(?, ?, ?, sysdate)";
+		
+		for(int i = 0; i < list.length; i++) {
+			int no = list[i][0];
+			int count =list[i][1];
+			int price = list[i][2];
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, no);
+				pstmt.setInt(2, count);
+				pstmt.setInt(3, price);
+				
+				res = pstmt.executeUpdate();
+				
+				if(res < 0) {
+					return res;	
+				}
+				
+				pstmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		return res;
+	}
+
+	// 메뉴 정보 가져오기
+	public String[] menuInfo(int index) {
+		String item[] = new String[3];
 		
 		sql = "select name, price from menu where menuno = ?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt(index_));
+			pstmt.setInt(1, index);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				menuData[0] = rs.getString("name");
-				menuData[1] = String.valueOf(rs.getInt("price"));
-				//menuData[2] = String.valueOf(rs.getInt("checknum"));
+				item[0] = rs.getString("name");
+				item[1] = String.valueOf(rs.getInt("price"));
+ 			}
+			
+			rs.close(); pstmt.close(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return item;
+	}
+
+	// 영수증 출력
+	public void listAll(DefaultTableModel dTable, int num) {
+		
+		int i = 0;
+		
+		sql = "select name, price, count, sumprice from menu m join cafeorder c on m.menuno = c.menunumber order by orderdate ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				if(i < num) {
+					i++;
+					continue;
+				}else {
+					String name = rs.getString("name");
+					int price = rs.getInt("price");
+					int count = rs.getInt("count");
+					int sumprice = rs.getInt("sumprice");
+					
+					Object[] data = {name, price, count, sumprice};
+					
+					dTable.addRow(data);
+					i++;
+				}
 			}
 			
+			rs.close(); pstmt.close(); con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	public int listCount() {
+		int count = 0;
+		
+		sql = "select count(*) from cafeorder";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+			rs.close(); pstmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-		return menuData;
-	}*/
-
-	// 주문목록 추가
-	public void addList(String[][] menu, int num) {
-		//String 
 		
+		
+		return count;
 	}
-
 	
-
+	
 }

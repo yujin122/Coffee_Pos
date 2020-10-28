@@ -10,7 +10,11 @@ public class MemberUpdate extends JFrame {
 	public MemberUpdate() {}
 
 	public MemberUpdate(String phoneData) {
-
+		String data[] = new String[5];
+		
+		CoffeePosDAO dao = new CoffeePosDAO();
+		data = dao.memUpdateForm(phoneData);
+		
 		// 배경화면
 		icon = new ImageIcon("image/payment.png");
 		icon = imageSetSize(icon, 415, 420);
@@ -32,11 +36,6 @@ public class MemberUpdate extends JFrame {
 		setLocation(width / 2 - this.getWidth() / 2, height / 2 - this.getHeight() / 2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("회원 수정");
-
-		CoffeePosDAO dao = new CoffeePosDAO();
-		
-		String data[] = new String[5];
-		data = dao.memUpdateForm(phoneData);
 		
 		// 제목
 		JPanel titleJp = new JPanel();
@@ -232,11 +231,11 @@ public class MemberUpdate extends JFrame {
 					
 					if(result > 0) {
 						JOptionPane.showMessageDialog(background, "수정 완료");
+						dispose();
+						new MemberManage();
 					}else {
 						JOptionPane.showMessageDialog(background, "수정 실패");
-					}
-					dispose();
-					new MemberManage();	
+					}	
 				}
 			}
 		});

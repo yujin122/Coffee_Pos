@@ -1,3 +1,5 @@
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,8 +17,10 @@ import javax.swing.*;
 public class StockUpdate extends JFrame {
 
 	private ImageIcon icon;
+	
+	public StockUpdate() {}
 
-	public StockUpdate() {
+	public StockUpdate(String nameData) {
 
 		// 배경화면
 		icon = new ImageIcon("image/payment.png");
@@ -39,6 +43,12 @@ public class StockUpdate extends JFrame {
 		setLocation(width / 2 - this.getWidth() / 2, height / 2 - this.getHeight() / 2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("재고 수정");
+		
+		
+		StockManageDAO dao = new StockManageDAO();
+		
+		String data[] = new String[2];
+		data = dao.stoUpdateForm(nameData);
 
 		JPanel jp = new JPanel();
 
@@ -57,6 +67,7 @@ public class StockUpdate extends JFrame {
 		JPanel nameJp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		nameJp2.setOpaque(false);
 		JTextField stockName = new JTextField(10);
+		stockName.setText(data[0]);
 		nameJp2.add(stockName);
 
 		JPanel countJp1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -67,7 +78,10 @@ public class StockUpdate extends JFrame {
 		JPanel countJp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		countJp2.setOpaque(false);
 		JTextField stockCount = new JTextField(10);
+		stockCount.setText(data[1]);
 		countJp2.add(stockCount);
+		
+		
 
 		JPanel insertJp = new JPanel(new GridLayout(2, 2, 0, 10));
 		insertJp.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 60));
@@ -114,11 +128,19 @@ public class StockUpdate extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				JOptionPane.showMessageDialog(background,
-						"재고품명 : " + stockName.getText() + "\n수량 : " + stockCount.getText());
-				dispose();
-				new StockManage();
+				
+			String nameData = stockName.getText().toString();
+			String countData = stockCount.getText().toString();
+			
+			int result = dao.stoUpdate(nameData, countData, nameData);
+			
+			if(result > 0) {
+				JOptionPane.showMessageDialog(background, "수정 완료");
+			}else {
+				JOptionPane.showMessageDialog(background, "수정 실패");
+			}
+			dispose();
+			new StockManage();
 			}
 		});
 
@@ -148,6 +170,8 @@ public class StockUpdate extends JFrame {
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
+	
+	
 	public static void main(String[] args) {
 		new StockUpdate();
 	}

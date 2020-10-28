@@ -87,11 +87,13 @@ public class MemberManage extends JFrame {
 		jp.add(btnJp); jp.add(searchJp);
 		
 		dTable.addColumn("이름"); dTable.addColumn("생년월일"); dTable.addColumn("성별");
-		dTable.addColumn("전화번호"); dTable.addColumn("이메일");
+		dTable.addColumn("전화번호"); dTable.addColumn("이메일"); dTable.addColumn("포인트");
 		
 		displayAll();
 		
 		table = new JTable(dTable);
+		table.getColumnModel().getColumn(2).setPreferredWidth(5);
+		table.getColumnModel().getColumn(5).setPreferredWidth(5);
 		table.setRowHeight(40);
 		table.setPreferredSize(new Dimension(500, 400));
 		table.setSize(new Dimension(500, 400));
