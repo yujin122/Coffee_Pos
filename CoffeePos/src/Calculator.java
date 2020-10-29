@@ -8,7 +8,7 @@ public class Calculator extends JPanel{
 
 	private JTextField numText;
 	private JTextField resultText;
-	
+
 	public Calculator() {
 		
 		setOpaque(false);

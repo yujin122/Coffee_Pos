@@ -216,7 +216,7 @@ public class CoffeePosDAO {
 		int point = -1;
 		mem[1] = String.valueOf(point);
 		
-		sql = "select name, point from member where mphone = ?";
+		sql = "select mname, point from member where mphone = ?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -225,11 +225,11 @@ public class CoffeePosDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				mem[0] = rs.getString("name");
+				mem[0] = rs.getString("mname");
 				mem[1] = String.valueOf(rs.getInt("point"));
 			}
 			
-			rs.close(); pstmt.close(); con.close();
+			rs.close(); pstmt.close(); 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -300,14 +300,14 @@ public class CoffeePosDAO {
 		
 		int i = 0;
 		
-		sql = "select name, price, count, sumprice from menu m join cafeorder c on m.menuno = c.menunumber order by orderdate ";
+		sql = "select name, price, count, sumprice from menu m join cafeorder c on m.menuno = c.menunumber order by orderdate";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
+			while (rs.next()) {
 				if(i < num) {
 					i++;
 					continue;
@@ -317,20 +317,27 @@ public class CoffeePosDAO {
 					int count = rs.getInt("count");
 					int sumprice = rs.getInt("sumprice");
 					
-					Object[] data = {name, price, count, sumprice};
-					
-					dTable.addRow(data);
-					i++;
+
+					Object[] data = { name, price, count, sumprice };
+
+					try {
+						dTable.addRow(data);
+						i++;
+					} catch (NullPointerException e) {
+						break;
+					}
+
 				}
 			}
 			
-			rs.close(); pstmt.close(); con.close();
+			rs.close(); pstmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}
 
+	// cafeorder 데이터 수
 	public int listCount() {
 		int count = 0;
 		
@@ -353,6 +360,57 @@ public class CoffeePosDAO {
 		
 		
 		return count;
+	}
+
+	public int pointUpdate(int usingPoint, String phone) {
+		int res = 0;
+		
+		sql = "update member set point = ? where mphone = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, usingPoint);
+			pstmt.setString(2, phone);
+			
+			res = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	public int sumPrice(int count) {
+		int i = 0, sum = 0;
+		
+		sql = "select sumprice from menu m join cafeorder c on m.menuno = c.menunumber order by orderdate";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+
+				if(i < count) {
+					i++;
+					continue;
+				}else {
+					int sumprice = rs.getInt("sumprice");
+					sum += sumprice;
+				}
+			}
+			
+			rs.close(); pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		return sum;
 	}
 	
 	

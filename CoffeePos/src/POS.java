@@ -10,8 +10,10 @@ public class POS extends JFrame {
 	int[][] menuIndex = new int[25][2];
 	
 	JTable table;
-	JTextArea screenTa;
-
+	JTextField totJt = new JTextField(15);
+	JTextField pointJt = new JTextField(15);
+	JTextField inputJt = new JTextField(15);
+	
 	DefaultTableModel dTable;
 	
 	CoffeePosDAO dao = new CoffeePosDAO();
@@ -20,9 +22,13 @@ public class POS extends JFrame {
 	
 	private int cnt = 0;
 	private int num = 0;
-	private int screen_total = 0, usepoint = 0, savepoint = 0, pay = 0;
+	private int screen_total = 0, savepoint = 0;
 	private int index;
-	int preNum = 0;
+
+	static int savep = 0, usep = 0;
+	static int preNum = 0;
+	
+	Calculator cal = new Calculator();
 	
 	public POS() {
 
@@ -52,7 +58,7 @@ public class POS extends JFrame {
 		paymentJp.setOpaque(false);
 		paymentJp.setSize(5, 50);
 
-		JPanel calculatorJP = new Calculator(); // 계산기
+		JPanel calculatorJP = cal; // 계산기
 		calculatorJP.setOpaque(false);
 
 		JPanel screenJp = new JPanel(); // 스크린
@@ -66,9 +72,8 @@ public class POS extends JFrame {
 		tab.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
 		// 스크린
-		screenTa = screen();
+		screenJp = screen();
 
-		screenJp.add(screenTa);
 		screenJp.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 10));
 		screenJp.setPreferredSize(new Dimension(200, 180));
 		screenJp.setSize(new Dimension(200, 180));
@@ -300,13 +305,11 @@ public class POS extends JFrame {
 						screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 					}
 					
-					pay = screen_total-usepoint;
-					savepoint = (int)(pay * 0.01f);
+					//pay = screen_total-usepoint;
+					savepoint = (int)(screen_total * 0.01f);
 					
-					screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-							"점\n사용 포인트 : " + usepoint + "점"+
-							"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-							"결제 금액 : " + String.format("%,d", pay) + "원");
+					totJt.setText(String.valueOf(screen_total));
+					pointJt.setText(String.valueOf(savepoint));
 				}
 			});
 		}
@@ -343,13 +346,12 @@ public class POS extends JFrame {
 								screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 							}
 							
-							pay = screen_total-usepoint;
-							savepoint = (int)(pay * 0.01f);
+							//pay = screen_total-usepoint;
+							savepoint = (int)(screen_total * 0.01f);
 							
-							screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-									"점\n사용 포인트 : " + usepoint + "점"+
-									"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-									"결제 금액 : " + String.format("%,d", pay) + "원");
+							totJt.setText(String.valueOf(screen_total));
+							pointJt.setText(String.valueOf(savepoint));
+							
 							break;
 							
 						}else if(menuIndex[i][1] == 0) {		// 처음 누른 메뉴
@@ -369,13 +371,11 @@ public class POS extends JFrame {
 							screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 						}
 						
-						pay = screen_total-usepoint;
-						savepoint = (int)(pay * 0.01f);
+						//pay = screen_total-usepoint;
+						savepoint = (int)(screen_total * 0.01f);
 						
-						screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-								"점\n사용 포인트 : " + usepoint + "점"+
-								"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-								"결제 금액 : " + String.format("%,d", pay) + "원");
+						totJt.setText(String.valueOf(screen_total));
+						pointJt.setText(String.valueOf(savepoint));
 						}
 					}
 				});
@@ -414,13 +414,11 @@ public class POS extends JFrame {
 									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 								}
 
-								pay = screen_total - usepoint;
-								savepoint = (int) (pay * 0.01f);
+								//pay = screen_total - usepoint;
+								savepoint = (int) (screen_total * 0.01f);
 
-								screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : "
-										+ savepoint + "점\n사용 포인트 : " + usepoint + "점"
-										+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"
-										+ "결제 금액 : " + String.format("%,d", pay) + "원");
+								totJt.setText(String.valueOf(screen_total));
+								pointJt.setText(String.valueOf(savepoint));
 								
 								if (cnt == 0) {
 									num--;
@@ -439,14 +437,12 @@ public class POS extends JFrame {
 										screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 									}
 
-									pay = screen_total-usepoint;
-									savepoint = (int)(pay * 0.01f);
+									//pay = screen_total-usepoint;
+									savepoint = (int)(screen_total * 0.01f);
 									
-									screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : " + savepoint + 
-											"점\n사용 포인트 : " + usepoint + "점"+
-											"\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"+
-											"결제 금액 : " + String.format("%,d", pay) + "원");
-								}
+									totJt.setText(String.valueOf(screen_total));
+									pointJt.setText(String.valueOf(savepoint));
+									}
 								
 								count[0].setText(Integer.toString(cnt));
 								count[1].setText(Integer.toString(cnt));
@@ -470,13 +466,10 @@ public class POS extends JFrame {
 									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 								}
 
-								pay = screen_total - usepoint;
-								savepoint = (int) (pay * 0.01f);
+								savepoint = (int) (screen_total * 0.01f);
 
-								screenTa.setText("총 금액 : " + String.format("%,d", screen_total) + "원\n\n적립 포인트 : "
-										+ savepoint + "점\n사용 포인트 : " + usepoint + "점"
-										+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n"
-										+ "결제 금액 : " + String.format("%,d", pay) + "원");
+								totJt.setText(String.valueOf(screen_total));
+								pointJt.setText(String.valueOf(savepoint));
 							}
 							
 							count[0].setText(Integer.toString(cnt));
@@ -493,23 +486,46 @@ public class POS extends JFrame {
 	}
 
 	// 스크린
-	public JTextArea screen() {
+	public JPanel screen() {
 
 		for (int i = 0; i < num; i++) {
 			screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 		}
 
-		pay = screen_total - usepoint;
+		//pay = screen_total - usepoint;
 
-		JTextArea ta = new JTextArea(20, 15);
-		ta.setText("총 금액 : " + screen_total + "원\n\n적립 포인트 : " + savepoint + "점\n사용 포인트 : " + usepoint + "점"
-				+ "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n" + "결제 금액 : " + pay + "원");
-		ta.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
-		ta.setFocusable(false);
-		ta.setPreferredSize(new Dimension(50, 375));
-		ta.setSize(new Dimension(50, 375));
+		JPanel jp1 = new JPanel(new GridLayout(6,1));
+		jp1.setOpaque(false);
+		JLabel totJl = new JLabel("총 금 액");
 
-		return ta;
+		totJt.setText(String.valueOf(screen_total));
+		totJt.setFocusable(false);
+		
+		JLabel pointJl = new JLabel("적 립 포 인 트");
+		
+		pointJt.setText(String.valueOf(savepoint));
+		pointJt.setFocusable(false);
+		
+		JLabel inputJl = new JLabel("받 은 금 액");
+		
+		jp1.add(totJl); jp1.add(totJt);
+		jp1.add(pointJl); jp1.add(pointJt);
+		jp1.add(inputJl); jp1.add(inputJt);
+		
+		JPanel alljp = new JPanel(new GridLayout(2,1));
+		alljp.setOpaque(false);	
+		 
+		ImageIcon icons = new ImageIcon("image/logo.png");
+		icons = imageSetSize(icons, 150, 150);
+		
+		JLabel img = new JLabel();
+		img.setVerticalAlignment(JLabel.CENTER);
+		img.setHorizontalAlignment(JLabel.CENTER);
+		img.setIcon(icons);
+		
+		alljp.add(img); alljp.add(jp1);
+		
+		return alljp;
 	}
 
 	// 결제창
@@ -540,9 +556,10 @@ public class POS extends JFrame {
 		clearBtn.setBackground(new Color(230, 160, 0));
 		clearBtn.setForeground(Color.WHITE);
 
-		JButton searchBtn = new JButton("회원 조회");
-		searchBtn.setBackground(new Color(230, 160, 0));
-		searchBtn.setForeground(Color.WHITE);
+		JButton searchBtn = new JButton("회원 찾기");
+		searchBtn.setBackground(new Color(230,160,0));
+		searchBtn.setForeground(Color.WHITE); 
+		
 		JButton moneyBtn = new JButton("현금 결제");
 		moneyBtn.setBackground(new Color(230, 160, 0));
 		moneyBtn.setForeground(Color.WHITE);
@@ -551,10 +568,8 @@ public class POS extends JFrame {
 		cardBtn.setBackground(new Color(230, 160, 0));
 		cardBtn.setForeground(Color.WHITE);
 
-		panel.add(clearBtn);
-		panel.add(searchBtn);
-		panel.add(moneyBtn);
-		panel.add(cardBtn);
+		panel.add(clearBtn); panel.add(searchBtn);
+		panel.add(moneyBtn); panel.add(cardBtn);
 
 		clearBtn.addActionListener(new ActionListener() {
 
@@ -569,38 +584,46 @@ public class POS extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MemberSearch();
+				savep = savepoint;
+				new SelectMem();
 			}
 		});
-
+		
 		moneyBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//savep = savepoint;
 				
-				// cafeorder에 있는 데이터 수
-				int listCount = dao.listCount();
-				preNum = listCount;
+				int pay = Integer.parseInt(inputJt.getText());
 				
-				// 현재 테이블 행 수
-				int no = dTable.getRowCount();
-				
-				int list[][] = new int[no][3];
-				
-				for(int i = 0; i < no; i++) {
-					list[i][0] = menuIndex[i][0]-1;		// 메뉴 번호
-					list[i][1] = Integer.parseInt(dTable.getValueAt(i, 2).toString());	// 수량
-					list[i][2] = Integer.parseInt(dTable.getValueAt(i, 3).toString());	// 가격
-				}
-				
-				int result = dao.addList(list);
-				
-				if(result < 0) {
-					JOptionPane.showMessageDialog(panel, "주문 목록 추가 실패");
+				if(pay == 0) {
+					JOptionPane.showMessageDialog(panel, "받은 금액을 입력하세요.");
 				}else {
-					JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
-					listClear();
-					new Money(preNum);
+					// cafeorder에 있는 데이터 수
+					int listCount = dao.listCount();
+					preNum = listCount;
+					
+					// 현재 테이블 행 수
+					int no = dTable.getRowCount();
+					
+					int list[][] = new int[no][3];
+					
+					for(int i = 0; i < no; i++) {
+						list[i][0] = menuIndex[i][0]-1;		// 메뉴 번호
+						list[i][1] = Integer.parseInt(dTable.getValueAt(i, 2).toString());	// 수량
+						list[i][2] = Integer.parseInt(dTable.getValueAt(i, 3).toString());	// 가격
+					}
+					
+					int result = dao.addList(list);
+					
+					if(result < 0) {
+						JOptionPane.showMessageDialog(panel, "주문 목록 추가 실패");
+					}else {
+						JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
+						listClear();
+						new Money(pay);
+					}
 				}
 			}
 		});
@@ -609,6 +632,7 @@ public class POS extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//savep = savepoint;
 				
 				// cafeorder에 있는 데이터 수
 				int listCount = dao.listCount();
@@ -632,7 +656,7 @@ public class POS extends JFrame {
 				}else {
 					JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
 					listClear();
-					new MoneyCard(preNum);
+					new MoneyCard();
 				}
 			}
 		});
@@ -658,12 +682,12 @@ public class POS extends JFrame {
 
 		screen_total = 0;
 		savepoint = 0;
-		usepoint = 0;
-		pay = 0;
+		//usepoint = 0;
+		//pay = 0;
 
-		screenTa.setText("총 금액 : " + screen_total + "원\n\n적립 포인트 : " + savepoint + "점\n사용 포인트 : " + usepoint
-				+ "점" + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n---------------------------------------\n" + "결제 금액 : "
-				+ pay + "원");
+		totJt.setText(String.valueOf(screen_total));
+		pointJt.setText(String.valueOf(savepoint));
+		inputJt.setText(String.valueOf(0));
 	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
@@ -672,9 +696,4 @@ public class POS extends JFrame {
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-
-	public static void main(String[] args) {
-		new POS2();
-	}
-
 }

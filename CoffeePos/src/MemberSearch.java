@@ -7,7 +7,7 @@ import javax.swing.*;
 public class MemberSearch extends JFrame {
 
 	private ImageIcon icon;
-	
+
 	public MemberSearch() {
 
 		super("회원 조회");
@@ -107,6 +107,7 @@ public class MemberSearch extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				new SelectMem();
 				dispose();
 
 			}
@@ -119,5 +120,4 @@ public class MemberSearch extends JFrame {
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-
 }

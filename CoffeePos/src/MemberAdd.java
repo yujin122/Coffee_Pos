@@ -8,7 +8,9 @@ public class MemberAdd extends JFrame{
 	private ImageIcon icon;
 	private int check = 0;
 	
-	public MemberAdd() {	
+	public MemberAdd() {}
+	
+	public MemberAdd(boolean b) {	
 		  
 		// 배경화면
 		icon = new ImageIcon("image/payment.png");
@@ -244,8 +246,14 @@ public class MemberAdd extends JFrame{
 								"\n이름 : " + nameData + "\n생년월일 : " + birthData +
 								"\n성별 : " + genderData + "\n이메일 : " + emailData);
 						
-						dispose();
-						new MemberManage();
+						if(b) {
+							new SelectMem();
+							dispose();
+						}else {
+							new MemberManage();
+							dispose();
+						}
+						
 					}else {
 						JOptionPane.showMessageDialog(background, "회원 추가 실패");
 					}
@@ -268,8 +276,12 @@ public class MemberAdd extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new MemberManage();
+				if(b) {
+					dispose();
+				}else {
+					new MemberManage();
+					dispose();
+				}
 
 			}
 		});
@@ -281,9 +293,4 @@ public class MemberAdd extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	public static void main(String[] args) {
-		new MemberAdd();
-	}
-
 }

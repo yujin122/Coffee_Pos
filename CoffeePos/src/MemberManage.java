@@ -128,8 +128,12 @@ public class MemberManage extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				int row = table.getSelectedRow();
 				
-				phoneData = table.getValueAt(row, 3).toString();
-				nameData = table.getValueAt(row, 0).toString();
+				try {
+				    phoneData = table.getValueAt(row, 3).toString();
+					nameData = table.getValueAt(row, 0).toString();
+				}catch(ArrayIndexOutOfBoundsException e) {
+				
+				}
 			}
 		});
 		

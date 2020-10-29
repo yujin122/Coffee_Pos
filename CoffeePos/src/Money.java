@@ -11,18 +11,18 @@ public class Money extends JFrame {
 
 	private ImageIcon icon;
 	DefaultTableModel dTable = new DefaultTableModel();
+
 	
-	int count;
 	public Money() {}
 	
-	public Money(int count) {
+	public Money(int pay) {
 
 		super("현금 영수증"); // 프레임 제목 붙이기
 
-		this.count = count;
+		int point = POS.usep;
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 550, 750);
+		icon = imageSetSize(icon, 550, 810);
 
 		JPanel background = new JPanel(new BorderLayout()) {
 			public void paintComponent(Graphics g) {
@@ -37,12 +37,14 @@ public class Money extends JFrame {
 		int height = screenSize.height;
 		int width = screenSize.width;
 		
-		setSize(558, 780);
+		setSize(558, 830);
 		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+		setResizable(false);
 		
 		JPanel Centerpanel = new JPanel(); // 패널 객체화 // 테이블 넣을 공간
 		Centerpanel.setOpaque(false);
 		JPanel Northpanel = new JPanel(); // 패널 객체화 // 현금 결제 라벨 텍스트 컴포넌트
+		Northpanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 5, 0));
 		Northpanel.setOpaque(false);
 		JPanel Southpanel = new JPanel(); // 패널 객체화 // 텍스트 area 컴포넌트
 		Southpanel.setOpaque(false);
@@ -56,24 +58,28 @@ public class Money extends JFrame {
 		dTable.addColumn("메뉴"); dTable.addColumn("단가");
 		dTable.addColumn("수량"); dTable.addColumn("금액");
 		
-		displayAll();
+		displayAll(POS.preNum);
 		JTable table = new JTable(dTable);
 		table.setRowHeight(30);
 		JScrollPane jsp = new JScrollPane(table);
 		//table.setRowHeight(10);
 
+		int tot = totalPrice(POS.preNum);
 		Centerpanel.add(jsp);
 		// 테이블
 
 		// south
 		JTextArea moneyText = new JTextArea(10, 40);
+		moneyText.setBorder(BorderFactory.createEmptyBorder(20,20,5,20));
 		moneyText.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		moneyText.append("총  합  계 : 3000 " + "\n");
+		moneyText.append("총  합  계 : " + String.format("%,d", tot) +"\n");
 		moneyText.append(
-				"--------------------------------------------------------------------------------------" + "\n");
-		moneyText.append("받 을 금 액 : " + "\n");
-		moneyText.append("받 은 금 액 : " + "\n");
-		moneyText.append("거 스 름 돈 : " + "\n");
+				"--------------------------------------------------------------------------------------------------------------" + "\n");
+		moneyText.append("\n\n");
+		moneyText.append("받 은 금 액 : " + String.format("%,d",pay) + " 원\n\n");
+		moneyText.append("사 용 포 인 트 : " + point + " 점\n\n");
+		moneyText.append("결 제 금 액 : " + String.format("%,d", tot-point) +" 원\n\n");
+		moneyText.append("거 스 름 돈 : " +  String.format("%,d",(pay - tot+point)) +" 원\n");
 
 		Southpanel.add(moneyText);
 		Southpanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 70, 0));
@@ -90,17 +96,25 @@ public class Money extends JFrame {
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				POS.usep = 0;
 				dispose();
 			}
 
 		});
 	}
 	
-	public void displayAll() {
+	public void displayAll(int num) {
 		dTable.setRowCount(0);
 		
 		CoffeePosDAO dao = new CoffeePosDAO();
-		dao.listAll(dTable, count);
+		dao.listAll(dTable, num);
+	}
+	
+	public int totalPrice(int num) {
+		CoffeePosDAO dao = new CoffeePosDAO();
+		int sum = dao.sumPrice(num);
+		
+		return sum;
 	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
@@ -109,10 +123,4 @@ public class Money extends JFrame {
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	public static void main(String[] args) {
-		new Money();
-		
-	}
-
 }
