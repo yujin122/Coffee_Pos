@@ -412,6 +412,60 @@ public class CoffeePosDAO {
 		
 		return sum;
 	}
+
+	// 일매출 
+	public int sumDay(int year_, int month_, String data) {
+		int sales = 0;
+		String date = year_+"-"+month_+"-"+data;
+		
+		sql = "select sum(money) from cafesum where to_char(todaydate,'YYYY-mm-dd')= ? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				sales = rs.getInt(1);
+			}
+			
+			rs.close(); pstmt.close(); con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sales;
+		
+	}
+
+	// 월매출
+	public int sumMonth(int year_, int month_) {
+		int sales = 0;
+		
+		String date = year_+"-"+month_;
+		sql = "select sum(money) from cafesum where to_char(todaydate,'YYYY-mm')= ? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				sales = rs.getInt(1);
+			}
+			
+			rs.close(); pstmt.close(); con.close(); 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sales;
+		
+	}
 	
 	
 }

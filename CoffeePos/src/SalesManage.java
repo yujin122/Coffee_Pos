@@ -32,7 +32,7 @@ public class SalesManage extends JFrame{
 
 	private int year_, month_;
 	Object data;
-
+	
 	private ImageIcon icon;
 	
 	public SalesManage() {
@@ -78,24 +78,28 @@ public class SalesManage extends JFrame{
 		month.setSelectedIndex(c.get(Calendar.MONTH));
 		selectJp.add(month);
 
-		JLabel daySales = new JLabel("매출 : " + "50000원");
+		JLabel daySales = new JLabel("매출 : " + " 원");
 		daySales.setFont(new Font("굴림", Font.BOLD, 22));
 		
 		daySales.setSize(50, 50);
 		salesJp.add(daySales);
 
-		JLabel totalSales = new JLabel((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + "700000원");
+		year_ = year.getSelectedIndex() + 2020;
+		month_ = month.getSelectedIndex() + 1;
+		
+		CoffeePosDAO dao = new CoffeePosDAO();
+		int sales = dao.sumMonth(year_, (c.get(Calendar.MONTH) + 1));
+		
+		JLabel totalSales = new JLabel();
+		totalSales.setText((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + sales +"원");
 		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
 		totalSales.setOpaque(false);
 		totalSales.setSize(50, 50);
 		salesJp.add(totalSales);
 
 		calendarJp.add(cal);
-		//calendarJp.setBackground(Color.WHITE);
-		year_ = year.getSelectedIndex() + 2018;
-		month_ = month.getSelectedIndex() + 1;
 
-		model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
+		model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
 		
 		myCalendar(cal);
 		
@@ -113,8 +117,8 @@ public class SalesManage extends JFrame{
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
-				year_ = year.getSelectedIndex() + 2018;
+				model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
+				year_ = year.getSelectedIndex() + 2020;
 				cal.repaint();
 
 			}
@@ -124,9 +128,11 @@ public class SalesManage extends JFrame{
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				model.setMonth(year.getSelectedIndex() + 2018, month.getSelectedIndex());
+				CoffeePosDAO dao = new CoffeePosDAO();
+				model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
 				month_ = month.getSelectedIndex() + 1;
-				totalSales.setText(month_ + "월 총매출 : " + "700000원");
+				int sales = dao.sumMonth(year_, month_);
+				totalSales.setText(month_ + "월 총매출 : " + sales + "원");
 				cal.repaint();
 			}
 		});
@@ -135,26 +141,36 @@ public class SalesManage extends JFrame{
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
+				CoffeePosDAO dao = new CoffeePosDAO();
+				
 				int row = cal.getSelectedRow();
 				int col = cal.getSelectedColumn();
 
 				data = model.getValueAt(row, col);
+				
+				try {
+					int sales = dao.sumDay(year_,month_,data.toString());
+					
+					String dayNum = null;
 
-				String dayNum = null;
-
-				if (data == null) {
-					dayNum = " ";
-				} else {
-					dayNum = data.toString() + "일 ";
+					if (data == null) {
+						dayNum = " ";
+					} else {
+						dayNum = data.toString() + "일 ";
+					}
+					
+					daySales.setText(dayNum + "매출 : " + sales +"원");
+					
+				}catch(NullPointerException ex) {
+					
 				}
 				
-				daySales.setText(dayNum + "매출 : " + "50000원");
-
-				System.out.println(year_ + "년 " + month_ + "월 " + data + "일");
+				
 			}
 
 			@Override

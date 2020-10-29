@@ -28,8 +28,6 @@ public class POS extends JFrame {
 	static int savep = 0, usep = 0;
 	static int preNum = 0;
 	
-	Calculator cal = new Calculator();
-	
 	public POS() {
 
 		//new Info(merInfo);
@@ -58,7 +56,7 @@ public class POS extends JFrame {
 		paymentJp.setOpaque(false);
 		paymentJp.setSize(5, 50);
 
-		JPanel calculatorJP = cal; // 계산기
+		JPanel calculatorJP = new Calculator(); // 계산기
 		calculatorJP.setOpaque(false);
 
 		JPanel screenJp = new JPanel(); // 스크린
@@ -304,8 +302,7 @@ public class POS extends JFrame {
 					for(int i = 0;i<num;i++) {
 						screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 					}
-					
-					//pay = screen_total-usepoint;
+
 					savepoint = (int)(screen_total * 0.01f);
 					
 					totJt.setText(String.valueOf(screen_total));
@@ -345,8 +342,7 @@ public class POS extends JFrame {
 							for(int j = 0;j<num;j++) {
 								screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 							}
-							
-							//pay = screen_total-usepoint;
+
 							savepoint = (int)(screen_total * 0.01f);
 							
 							totJt.setText(String.valueOf(screen_total));
@@ -370,8 +366,7 @@ public class POS extends JFrame {
 						for(int j = 0;j<num;j++) {
 							screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 						}
-						
-						//pay = screen_total-usepoint;
+
 						savepoint = (int)(screen_total * 0.01f);
 						
 						totJt.setText(String.valueOf(screen_total));
@@ -414,7 +409,6 @@ public class POS extends JFrame {
 									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 								}
 
-								//pay = screen_total - usepoint;
 								savepoint = (int) (screen_total * 0.01f);
 
 								totJt.setText(String.valueOf(screen_total));
@@ -437,7 +431,6 @@ public class POS extends JFrame {
 										screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 									}
 
-									//pay = screen_total-usepoint;
 									savepoint = (int)(screen_total * 0.01f);
 									
 									totJt.setText(String.valueOf(screen_total));
@@ -491,8 +484,6 @@ public class POS extends JFrame {
 		for (int i = 0; i < num; i++) {
 			screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 		}
-
-		//pay = screen_total - usepoint;
 
 		JPanel jp1 = new JPanel(new GridLayout(6,1));
 		jp1.setOpaque(false);
@@ -593,7 +584,6 @@ public class POS extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//savep = savepoint;
 				
 				int pay = Integer.parseInt(inputJt.getText());
 				
@@ -632,7 +622,6 @@ public class POS extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//savep = savepoint;
 				
 				// cafeorder에 있는 데이터 수
 				int listCount = dao.listCount();
@@ -682,8 +671,6 @@ public class POS extends JFrame {
 
 		screen_total = 0;
 		savepoint = 0;
-		//usepoint = 0;
-		//pay = 0;
 
 		totJt.setText(String.valueOf(screen_total));
 		pointJt.setText(String.valueOf(savepoint));
