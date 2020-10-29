@@ -404,7 +404,7 @@ public class CoffeePosDAO {
 				}
 			}
 			
-			rs.close(); pstmt.close();
+			rs.close(); pstmt.close(); con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -465,6 +465,26 @@ public class CoffeePosDAO {
 		
 		return sales;
 		
+	}
+
+	// 매출 DB 저장
+	public int addSales(int sum) {
+		int res = 0;
+		sql = "insert into cafesum values(sysdate, ?)";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, sum);
+			
+			res = pstmt.executeUpdate();
+			
+			pstmt.close(); con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return res;
 	}
 	
 	

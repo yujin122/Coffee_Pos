@@ -49,9 +49,14 @@ public class SalesManage extends JFrame{
 			}
 		};	
 		
-		setLocation(100, 100);
-		setPreferredSize(new Dimension(630, 640));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
+		setPreferredSize(new Dimension(630, 640));	
 		setSize(new Dimension(630, 640));
+		setResizable(false);
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
 		
 		JPanel selectJp = new JPanel(new GridLayout(1, 2));
 		selectJp.setBorder(BorderFactory.createEmptyBorder(50, 30, 0, 200));
@@ -91,7 +96,7 @@ public class SalesManage extends JFrame{
 		int sales = dao.sumMonth(year_, (c.get(Calendar.MONTH) + 1));
 		
 		JLabel totalSales = new JLabel();
-		totalSales.setText((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + sales +"원");
+		totalSales.setText((c.get(Calendar.MONTH) + 1) + "월 총매출 : " + String.format("%,d", sales) +"원");
 		totalSales.setFont(new Font("굴림", Font.BOLD, 22));
 		totalSales.setOpaque(false);
 		totalSales.setSize(50, 50);
@@ -132,7 +137,7 @@ public class SalesManage extends JFrame{
 				model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
 				month_ = month.getSelectedIndex() + 1;
 				int sales = dao.sumMonth(year_, month_);
-				totalSales.setText(month_ + "월 총매출 : " + sales + "원");
+				totalSales.setText(month_ + "월 총매출 : " + String.format("%,d", sales) + "원");
 				cal.repaint();
 			}
 		});
@@ -164,7 +169,7 @@ public class SalesManage extends JFrame{
 						dayNum = data.toString() + "일 ";
 					}
 					
-					daySales.setText(dayNum + "매출 : " + sales +"원");
+					daySales.setText(dayNum + "매출 : " + String.format("%,d", sales) +"원");
 					
 				}catch(NullPointerException ex) {
 					
@@ -299,10 +304,6 @@ public class SalesManage extends JFrame{
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
-	}
-	
-	public static void main(String[] args) {
-		new SalesManage();
 	}
 
 }

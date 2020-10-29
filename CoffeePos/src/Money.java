@@ -59,12 +59,15 @@ public class Money extends JFrame {
 		dTable.addColumn("수량"); dTable.addColumn("금액");
 		
 		displayAll(POS.preNum);
+		
 		JTable table = new JTable(dTable);
 		table.setRowHeight(30);
 		JScrollPane jsp = new JScrollPane(table);
 		//table.setRowHeight(10);
 
 		int tot = totalPrice(POS.preNum);
+		insertSales(tot);
+		
 		Centerpanel.add(jsp);
 		// 테이블
 
@@ -117,6 +120,19 @@ public class Money extends JFrame {
 		return sum;
 	}
 
+	public void insertSales(int sum) {
+		CoffeePosDAO dao = new CoffeePosDAO();
+		
+		int result = dao.addSales(sum);
+		
+		if(result >0) {
+			JOptionPane.showMessageDialog(this, "매출 저장 완료");
+		}else {
+			JOptionPane.showMessageDialog(this, "매출 저장 실패");
+		}
+		
+	}
+	
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
 		Image ximg = icon.getImage();
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);

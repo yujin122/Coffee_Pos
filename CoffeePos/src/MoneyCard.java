@@ -19,7 +19,7 @@ public class MoneyCard extends JFrame {
 		int point = POS.usep;
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 550, 780);
+		icon = imageSetSize(icon, 550, 790);
 
 		JPanel background = new JPanel(new BorderLayout()) {
 			public void paintComponent(Graphics g) {
@@ -35,7 +35,7 @@ public class MoneyCard extends JFrame {
 		int width = screenSize.width;
 		
 		setResizable(false);
-		setSize(558, 800);
+		setSize(558, 810);
 		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
 		
 		JPanel Centerpanel = new JPanel(); // 패널 객체화 // 테이블 넣을 공간
@@ -60,6 +60,7 @@ public class MoneyCard extends JFrame {
 		JScrollPane jsp = new JScrollPane(table);
 		
 		int tot = totalPrice(POS.preNum);
+		insertSales(tot);
 		Centerpanel.add(jsp);
 		// 테이블
 
@@ -97,11 +98,24 @@ public class MoneyCard extends JFrame {
 		});
 	}
 
-	private int totalPrice(int preNum) {
+	public int totalPrice(int preNum) {
 		CoffeePosDAO dao = new CoffeePosDAO();
 		int sum = dao.sumPrice(preNum);
 		
 		return sum;
+	}
+	
+	public void insertSales(int sum) {
+		CoffeePosDAO dao = new CoffeePosDAO();
+		
+		int result = dao.addSales(sum);
+		
+		if(result >0) {
+			JOptionPane.showMessageDialog(this, "매출 저장 완료");
+		}else {
+			JOptionPane.showMessageDialog(this, "매출 저장 실패");
+		}
+		
 	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
@@ -118,7 +132,4 @@ public class MoneyCard extends JFrame {
 		dao.listAll(dTable, preNum);
 	}
 	
-	public static void main(String[] args) {
-		new MoneyCard();
-	}
 }
