@@ -3,22 +3,45 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class POSJoin extends JFrame {
-
-
+	private ImageIcon icon;
+	private int check = 0;
+	String numberData;
+	
 	public POSJoin() {
 		super("관리자 회원가입");
 		setLocation(100, 100);
-
-		getContentPane().setLayout(null);
 		
+		icon = new ImageIcon("image/posback.png");
+		icon = imageSetSize(icon, 380, 400);
+		Container bg = getContentPane();
+
+		
+
+		
+		// 배경 판넬 
+		JPanel background = new JPanel(new BorderLayout()) {
+			
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(),0,0,null);
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+	};
 		// 이름
 		JPanel namePanel = new JPanel();
 		namePanel.setBounds(10, 66, 65, 22);
@@ -177,6 +200,8 @@ public class POSJoin extends JFrame {
 		closeButton.setFont(new Font("나눔고딕", Font.BOLD, 12));
 		closePanel.add(closeButton);
 
+		add(background);
+		
 		setBounds(600, 700, 400, 450);
 
 		setResizable(false);
@@ -204,8 +229,70 @@ public class POSJoin extends JFrame {
 			}
 		});
 
+		dCheckButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JoinDAO dao = new JoinDAO();
+				
+				String DCheck = idTf.getText().toString();
+				
+				boolean iddc = dao.dcheck(DCheck);
+				
+				if (iddc) {
+					JOptionPane.showMessageDialog(background, "해당 아이디는 사용 중 입니다.");
+				}else {
+					JOptionPane.showMessageDialog(background, "해당 아이디는 사용이 가능합니다.");
+				}
+				check = 1;	
+			}
+		});
+		
+
+		conFirmButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(check == 0) {
+					JOptionPane.showMessageDialog(background, "아이디 중복 확인을 해주세요.");
+				}else {
+					JoinDAO dao = new JoinDAO();
+					
+					String nameData = nameTf.getText().toString();
+					String rNumberData = rNumberTf1.getText().toString() + "-" +rNumberTf2.getText().toString();
+					String genderData = genderTf.getText().toString();
+					String idData = idTf.getText().toString();
+					String pwData = pwTf.getText().toString();
+					String numberData = pNumberTf.getText().toString();
+					String eMailData = eMailTf.getText().toString();
+					
+					int result = dao.mJoin(nameData, rNumberData, genderData, idData
+							, pwData, numberData, eMailData);
+					
+					if(result > 0) {
+						JOptionPane.showMessageDialog(background, "가입이 완료되었습니다.");
+						dispose();
+						new POSLogin();
+					}else {
+						JOptionPane.showMessageDialog(background, "아이디 중복 확인을 해주세요.");
+						;
+					}	
+					check = 1;
+				}
+				
+			}
+		});
+		
 	}
 
+	private ImageIcon imageSetSize(ImageIcon icon2, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
+	}
+	
 	public static void main(String[] args) {
 
 		new POSJoin();

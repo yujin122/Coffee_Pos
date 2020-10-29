@@ -3,7 +3,7 @@ public class Login {
 
 	public static void main(String[] args) {
 		
-		new POSLogin2();
+		new POSLogin();
 
 	}
 
