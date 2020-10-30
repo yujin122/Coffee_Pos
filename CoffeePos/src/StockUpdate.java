@@ -148,7 +148,7 @@ public class StockUpdate extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				stockName.setText(null); stockCount.setText(null);
+			 stockCount.setText(null);
 			}
 		});
 		

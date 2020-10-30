@@ -60,6 +60,7 @@ public class Point extends JFrame {
 		
 		JLabel usingpoint = new JLabel("사용 포인트 : ");
 		JTextField useingText = new JTextField(8);
+		useingText.setText("0");
 		jp2.add(usingpoint);
 		jp2.add(useingText);
 

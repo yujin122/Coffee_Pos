@@ -352,13 +352,17 @@ public class POS extends JFrame {
 							
 						}else if(menuIndex[i][1] == 0) {		// 처음 누른 메뉴
 							
-							name = dTable.getValueAt(num-1, 0).toString();
-							price = Integer.parseInt(dTable.getValueAt(num-1, 1).toString());
-							tprice = price * cnt;
+							try {
+								name = dTable.getValueAt(num-1, 0).toString();
+								price = Integer.parseInt(dTable.getValueAt(num-1, 1).toString());
+								tprice = price * cnt;
 
-							Object menu_[]= {name, price, cnt, tprice};
-							dTable.removeRow(num-1);
-							dTable.insertRow(num-1, menu_);
+								Object menu_[]= {name, price, cnt, tprice};
+								dTable.removeRow(num-1);
+								dTable.insertRow(num-1, menu_);
+							}catch(ArrayIndexOutOfBoundsException ex) {
+								
+							}
 						}
 						
 						screen_total = 0;
@@ -445,24 +449,28 @@ public class POS extends JFrame {
 
 							} else if (menuIndex[i][1] == 0) { // 처음 누른 메뉴
 
-								name = dTable.getValueAt(i, 0).toString();
-								price = Integer.parseInt(dTable.getValueAt(num - 1, 1).toString());
-								tprice = price * cnt;
+								try {
+									name = dTable.getValueAt(i, 0).toString();
+									price = Integer.parseInt(dTable.getValueAt(num - 1, 1).toString());
+									tprice = price * cnt;
 
-								Object menu_[]= {name, price, cnt, tprice};
-								dTable.removeRow(num - 1);
-								dTable.insertRow(num - 1, menu_);
-								
-								screen_total = 0;
+									Object menu_[] = { name, price, cnt, tprice };
+									dTable.removeRow(num - 1);
+									dTable.insertRow(num - 1, menu_);
 
-								for (int j = 0; j < num; j++) {
-									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
+									screen_total = 0;
+
+									for (int j = 0; j < num; j++) {
+										screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
+									}
+
+									savepoint = (int) (screen_total * 0.01f);
+
+									totJt.setText(String.valueOf(screen_total));
+									pointJt.setText(String.valueOf(savepoint));
+								} catch (ArrayIndexOutOfBoundsException ee) {
+
 								}
-
-								savepoint = (int) (screen_total * 0.01f);
-
-								totJt.setText(String.valueOf(screen_total));
-								pointJt.setText(String.valueOf(savepoint));
 							}
 							
 							count[0].setText(Integer.toString(cnt));

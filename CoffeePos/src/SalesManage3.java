@@ -5,43 +5,22 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class SalesManage extends JFrame{
+public class SalesManage3 extends JFrame{
+
 	private String[] yearData = { "2020", "2021", "2022" };
 	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
 
 	MyCalendarModel model = new MyCalendarModel();
 	DefaultTableModel dTable = new DefaultTableModel();
 	
-	JTable cal = new JTable(dTable) {
-		public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
-	        Component comp = super.prepareRenderer(renderer, row, col);
-	        Object value = getModel().getValueAt(row, col);
-	        
-	        if (value == null) {
-	                comp.setBackground(Color.LIGHT_GRAY);
-	                comp.setEnabled(false);
-	                comp.setFocusable(false);
-	            } else {
-	                comp.setBackground(Color.white);
-	                comp.setEnabled(true);
-	            }
-	         
-	        return comp;
-		}
-		
-		public boolean isCellEditable (int rowIndex, int colIndex) {
-			return false; // 셀 편집 금지
-			}
-	};
-	
-			
+	JTable cal = new JTable(dTable);
 
 	private int year_, month_;
 	Object data;
 	
 	private ImageIcon icon;
 	
-	public SalesManage() {
+	public SalesManage3() {
 		
 		setTitle("매출 관리");
 		setResizable(false);
@@ -111,7 +90,6 @@ public class SalesManage extends JFrame{
 		dTable = model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
 		cal.setModel(dTable);
 		
-		
 		JScrollPane jsp = new JScrollPane(cal, JScrollPane.VERTICAL_SCROLLBAR_NEVER , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		jsp.setPreferredSize(new Dimension(520, 382));	
 		jsp.setSize(new Dimension(520, 382));
@@ -180,8 +158,13 @@ public class SalesManage extends JFrame{
 					
 					String dayNum = null;
 
+					if (data == null) {
+						dayNum = " ";
+					} else {
 						dayNum = data.toString() + "일 ";
-						daySales.setText(dayNum + "매출 : " + String.format("%,d", sales) +"원");
+					}
+					
+					daySales.setText(dayNum + "매출 : " + String.format("%,d", sales) +"원");
 					
 				}catch(NullPointerException ex) {
 					
@@ -225,7 +208,7 @@ public class SalesManage extends JFrame{
 		
 			for (int i = 0; i < 6; ++i) {
 				for (int j = 0; j < 7; ++j) {
-					dModel.setValueAt(null, i, j);
+					dModel.setValueAt("", i, j);
 				}
 			}
 		}
@@ -254,7 +237,7 @@ public class SalesManage extends JFrame{
 		public DefaultTableModel setMonth(int year, int month) {
 			for (int i = 0; i < 6; ++i) {
 				for (int j = 0; j < 7; ++j) {
-					dModel.setValueAt(null, i, j);
+					dModel.setValueAt(" ", i, j);
 				}
 			}
 
@@ -292,9 +275,9 @@ public class SalesManage extends JFrame{
 			return days;
 		}
 		
-		public boolean isCellEditable(int row, int column){  
-	          return false;  
-	      }
+		public boolean isCellEditable(int row, int column) {
+	           return row == 1;
+	     }
 
 	}
 
@@ -322,8 +305,9 @@ public class SalesManage extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
+	
 	public static void main(String[] args) {
-		new SalesManage();
+		new SalesManage3();
 	}
 
 }

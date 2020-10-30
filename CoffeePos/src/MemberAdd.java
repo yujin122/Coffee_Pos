@@ -277,6 +277,7 @@ public class MemberAdd extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(b) {
+					new SelectMem();
 					dispose();
 				}else {
 					new MemberManage();

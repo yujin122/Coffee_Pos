@@ -5,14 +5,16 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class SalesManage extends JFrame{
+public class SalesManage2 extends JFrame{
+
 	private String[] yearData = { "2020", "2021", "2022" };
 	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
 
-	MyCalendarModel model = new MyCalendarModel();
-	DefaultTableModel dTable = new DefaultTableModel();
-	
-	JTable cal = new JTable(dTable) {
+	//MyCalendarModel model = new MyCalendarModel();
+	MyCalendar cc = new MyCalendar();
+	DefaultTableModel model = new DefaultTableModel();
+	JTable cal;
+	/*	JTable cal = new JTable(model) {
 		public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
 	        Component comp = super.prepareRenderer(renderer, row, col);
 	        Object value = getModel().getValueAt(row, col);
@@ -27,21 +29,16 @@ public class SalesManage extends JFrame{
 	            }
 	         
 	        return comp;
-		}
+	    }
 		
-		public boolean isCellEditable (int rowIndex, int colIndex) {
-			return false; // 셀 편집 금지
-			}
-	};
-	
-			
+	};*/
 
 	private int year_, month_;
 	Object data;
 	
 	private ImageIcon icon;
 	
-	public SalesManage() {
+	public SalesManage2() {
 		
 		setTitle("매출 관리");
 		setResizable(false);
@@ -108,17 +105,13 @@ public class SalesManage extends JFrame{
 		totalSales.setSize(50, 50);
 		salesJp.add(totalSales);
 
-		dTable = model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
-		cal.setModel(dTable);
+		//model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
 		
-		
-		JScrollPane jsp = new JScrollPane(cal, JScrollPane.VERTICAL_SCROLLBAR_NEVER , JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		jsp.setPreferredSize(new Dimension(520, 382));	
-		jsp.setSize(new Dimension(520, 382));
-		//jsp.seth
+		model = cc.setMonth(2020,10);
+		cal = new JTable(model);
+		//cal.setRowHeight(30);
 		myCalendar(cal);
-		
-		calendarJp.add(jsp);
+		calendarJp.add(new JScrollPane(cal));
 		
 		allJp.add(selectJp, BorderLayout.NORTH);
 		allJp.add(calendarJp, BorderLayout.CENTER);
@@ -136,7 +129,8 @@ public class SalesManage extends JFrame{
 			public void itemStateChanged(ItemEvent e) {
 				CoffeePosDAO dao = new CoffeePosDAO();
 
-				dTable = model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
+				//model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
+				model = cc.setMonth(year_, month_);
 				year_ = year.getSelectedIndex() + 2020;
 				int sales = dao.sumMonth(year_, month_);				
 				totalSales.setText(month_ + "월 총매출 : " + String.format("%,d", sales) + "원");
@@ -150,8 +144,8 @@ public class SalesManage extends JFrame{
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				CoffeePosDAO dao = new CoffeePosDAO();
-				
-				dTable = model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
+				//model.setMonth(year.getSelectedIndex() + 2020, month.getSelectedIndex());
+				model = cc.setMonth(year_, month_);
 				month_ = month.getSelectedIndex() + 1;
 				int sales = dao.sumMonth(year_, month_);
 				totalSales.setText(month_ + "월 총매출 : " + String.format("%,d", sales) + "원");
@@ -180,8 +174,13 @@ public class SalesManage extends JFrame{
 					
 					String dayNum = null;
 
+					if (data == null) {
+						dayNum = " ";
+					} else {
 						dayNum = data.toString() + "일 ";
-						daySales.setText(dayNum + "매출 : " + String.format("%,d", sales) +"원");
+					}
+					
+					daySales.setText(dayNum + "매출 : " + String.format("%,d", sales) +"원");
 					
 				}catch(NullPointerException ex) {
 					
@@ -216,16 +215,17 @@ public class SalesManage extends JFrame{
 		int[] lastDays = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 		// 날짜 들어가는 배열
-		String[][] calendar = new String[6][7];
+		String[][] calendar = new String[7][7];
 
-		DefaultTableModel dModel = new DefaultTableModel(days, 6);
-		
 		// 초기화
 		public MyCalendarModel() {
-		
-			for (int i = 0; i < 6; ++i) {
+			// header
+			for (int i = 0; i < days.length; ++i) {
+				calendar[0][i] = days[i];
+			}
+			for (int i = 1; i < 7; ++i) {
 				for (int j = 0; j < 7; ++j) {
-					dModel.setValueAt(null, i, j);
+					calendar[i][j] = null;
 				}
 			}
 		}
@@ -237,24 +237,24 @@ public class SalesManage extends JFrame{
 
 		@Override
 		public int getRowCount() {
-			return 6;
+			return 7;
 		}
 
 		@Override
 		public Object getValueAt(int row, int column) {
-			return dModel.getValueAt(row, column);
+			return calendar[row][column];
 		}
 
 		@Override
 		public void setValueAt(Object value, int row, int column) {
-			dModel.setValueAt(value, row, column);
+			calendar[row][column] = (String) value;
 		}
 
 		// 달마다 날짜 설정
-		public DefaultTableModel setMonth(int year, int month) {
-			for (int i = 0; i < 6; ++i) {
+		public void setMonth(int year, int month) {
+			for (int i = 1; i < 7; ++i) {
 				for (int j = 0; j < 7; ++j) {
-					dModel.setValueAt(null, i, j);
+					calendar[i][j] = null;
 				}
 			}
 
@@ -266,9 +266,77 @@ public class SalesManage extends JFrame{
 
 			// 달 마지막 날짜
 			int num = daysInMonth(year, month);
-			
 			for (int i = 0; i < num; ++i) {
-				dModel.setValueAt(i + 1, (offset / 7)-1, offset % 7);
+				calendar[offset / 7][offset % 7] = Integer.toString(i + 1);
+				++offset;
+			}
+		}
+
+		// 윤년
+		public boolean isLeapYear(int year) {
+			if (year % 4 == 0)
+				return true;
+
+			return false;
+		}
+
+		public int daysInMonth(int year, int month) {
+			int days = lastDays[month];
+			if (month == 1 && isLeapYear(year)) {
+				++days;
+			}
+
+			return days;
+		}
+
+	}
+
+
+	class MyCalendar {
+		
+		String[] days = { "일", "월", "화", "수", "목", "금", "토" };
+
+		int[] lastDays = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+		
+		/*public DefaultTableModel setModel() {
+			
+			DefaultTableModel dModel = new DefaultTableModel();
+			dModel.addColumn("일"); dModel.addColumn("월"); dModel.addColumn("화");
+			dModel.addColumn("수"); dModel.addColumn("목"); dModel.addColumn("금");
+			dModel.addColumn("토"); 
+			
+			Calendar cal = Calendar.getInstance();
+			
+			Object[][] calendar= new Object[6][7]; 
+			
+			
+			return dModel;
+		}*/
+		
+		// 달마다 날짜 설정
+		public DefaultTableModel setMonth(int year, int month) {
+
+			DefaultTableModel dModel = new DefaultTableModel(days,6);
+
+			for (int i = 0; i < 6; ++i) {
+				for (int j = 0; j < 7; ++j) {
+					dModel.setValueAt(null, i, j);
+				}
+			}
+			
+			
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.set(year, month, 1);
+
+			int offset = cal.get(GregorianCalendar.DAY_OF_WEEK) - 1;
+			offset += 7;
+
+			// 달 마지막 날짜
+			int num = daysInMonth(year, month);
+			for (int i = 0; i < num; ++i) {
+				dModel.setValueAt(Integer.toString(i + 1), offset / 7, offset % 7);
+				// calendar[offset / 7][offset % 7] = Integer.toString(i + 1);
 				++offset;
 			}
 			
@@ -291,19 +359,16 @@ public class SalesManage extends JFrame{
 
 			return days;
 		}
-		
-		public boolean isCellEditable(int row, int column){  
-	          return false;  
-	      }
 
 	}
-
+	
 	// 캘린더 설정
 	public void myCalendar(JTable table) {
 
 		table.setGridColor(Color.DARK_GRAY);
 		table.setSize(600, 600);
 		table.setRowHeight(60);
+		table.setRowHeight(0, 30); // header 높이
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true); // 셀 하나만 선택
 		table.setSelectionBackground(Color.gray);
@@ -322,8 +387,8 @@ public class SalesManage extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	public static void main(String[] args) {
-		new SalesManage();
-	}
 
+	public static void main(String[] args) {
+		new SalesManage2();
+	}
 }

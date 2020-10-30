@@ -196,8 +196,9 @@ public class CoffeePosDAO {
 				String gender = rs.getString("mgender");
 				String phone = rs.getString("mphone");
 				String mail = rs.getString("memail");
+				int point = rs.getInt("point");
 				
-				Object data[] = {name, birth, gender, phone, mail};
+				Object data[] = {name, birth, gender, phone, mail, point};
 				dTable.addRow(data);
 			}
 			

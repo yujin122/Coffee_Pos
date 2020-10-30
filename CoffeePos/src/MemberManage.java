@@ -141,7 +141,7 @@ public class MemberManage extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MemberAdd();
+				new MemberAdd(false);
 				dispose();
 			}
 		});
@@ -227,9 +227,5 @@ public class MemberManage extends JFrame {
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
-	}
-	
-	public static void main(String[] args) {
-		new MemberManage();
 	}
 }
