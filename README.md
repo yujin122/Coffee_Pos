@@ -5,7 +5,8 @@
 
 ## 개요
 
-자바를 이용한 카페 관리 및 포스기 시스템 구현 
+관리자 회원가입, 고객 관리, 결제 등이 가능한 카페에서 사용 할 수 있는 POS 프로그램 구현
+ 
 
 <img src="https://user-images.githubusercontent.com/46274903/97671651-02597600-1acc-11eb-9531-ae6e643dcafc.PNG" width=""  height="">
 
