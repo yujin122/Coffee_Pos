@@ -47,7 +47,7 @@ public class SalesManage extends JFrame{
 		setResizable(false);
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 620, 600);
+		icon = imageSetSize(icon, 620, 610);
 		
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {

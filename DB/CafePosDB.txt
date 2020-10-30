@@ -1,0 +1,61 @@
+CaffePosDB
+
+-- 관리자 DB Table
+
+create table mgr(
+    mgname varchar2(30) not null,	-- 이름
+    mgrnumber varchar2(20) not null,	-- 주민번호
+    mggender varchar(10) not null,	-- 성별
+    mgid varchar2(20) primary key,	-- id
+    mgpw varchar2(20) not null,	-- pw
+    mgphone varchar2(20) not null,	-- 핸드폰
+    mgemail varchar2(80) not null,	-- 메일
+    redate date not null		-- 가입일
+ );
+
+
+-- 회원 DB Table
+
+create table member(
+    mname varchar2(20) not null,	-- 이름
+    mbirth number(8) not null,		-- 생년월일
+    mgender varchar(10) not null,	-- 성별
+    mphone varchar2(20) primary key,	-- 핸드폰
+    memail varchar2(80),		-- 메일
+    point number(6) default 0 not null	-- 포인트
+);
+
+
+-- 재고 DB Table
+
+create table stock(
+    stoname varchar2(50) not null,	-- 재고품명
+    stocount number(4) not null	-- 재고수량
+);
+
+
+-- 매출 DB Table 
+
+create table cafesum(
+	todaydate date not null,	-- 날짜
+	money number(20) not null	-- 총지불액
+);
+
+
+-- 메뉴 DB Table
+
+create table menu(
+	menuno number(4) primary key,	-- 메뉴 번호
+	name varchar2(20) not null,		-- 메뉴 이름
+	price number(10) not null		-- 메뉴 가격
+);
+
+
+-- 주문 DB Table
+
+create table cafeorder(
+	menunumber number(4) references menu(menuno),	-- 주문 메뉴 번호
+	count number(4) not null,				-- 주문 메뉴 수량
+	sumprice number(10) not null,				-- 주문 메뉴 총가격
+	orderdate date					-- 주문 날짜
+);

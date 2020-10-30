@@ -17,7 +17,7 @@ public class MemberManage extends JFrame {
 	public MemberManage() {
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 623, 665);
+		icon = imageSetSize(icon, 623, 670);
 		
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {

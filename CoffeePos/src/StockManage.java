@@ -18,7 +18,7 @@ public class StockManage extends JFrame{
 	public StockManage() {
 		
 		icon = new ImageIcon("image/payment.png");
-		icon = imageSetSize(icon, 623, 615);
+		icon = imageSetSize(icon, 628, 615);
 		
 		JPanel background = new JPanel() {
 			public void paintComponent(Graphics g) {
