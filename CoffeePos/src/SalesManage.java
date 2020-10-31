@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+// 매출 관리
 public class SalesManage extends JFrame{
 	private String[] yearData = { "2020", "2021", "2022" };
 	private String[] monthData = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
@@ -322,8 +323,4 @@ public class SalesManage extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	public static void main(String[] args) {
-		new SalesManage();
-	}
-
 }

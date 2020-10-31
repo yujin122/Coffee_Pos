@@ -1,22 +1,8 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+// 포인트 조회
 public class Point extends JFrame {
 
 	private ImageIcon icon;
@@ -30,7 +16,7 @@ public class Point extends JFrame {
 		String[] mem = dao.memSearch(phone);
 
 		icon = new ImageIcon("image/posback.png");
-		icon = imageSetSize(icon, 300, 150);
+		icon = imageSetSize(icon, 300, 180);
 
 		JPanel background = new JPanel(new BorderLayout()) {
 			public void paintComponent(Graphics g) {
@@ -42,19 +28,22 @@ public class Point extends JFrame {
 		int height = screenSize.height;
 		int width = screenSize.width;
 
-		setSize(300, 180);
-		setResizable(false);
+		setSize(300, 210);
+		//setResizable(false);
 		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
 		
 		JPanel jp1 = new JPanel();
 		jp1.setBorder(BorderFactory.createEmptyBorder(20,0,10,0));
 		jp1.setOpaque(false);
 		
-		JLabel searchLable = new JLabel(mem[0] + "님의 적립금은", JLabel.CENTER);
-		JLabel searchLable2 = new JLabel(mem[1] + "점입니다.", JLabel.CENTER);
+		JLabel searchLable = new JLabel(mem[0] + "님의 적립금은 " + mem[1] + "점입니다.", JLabel.CENTER);
 		jp1.add(searchLable);
-		jp1.add(searchLable2);
 
+		JPanel jp4 = new JPanel();
+		jp4.setOpaque(false);
+		JLabel pointLable = new JLabel("적립될 포인트 :  " + POS.savep + "점", JLabel.CENTER);
+		jp4.add(pointLable);
+		
 		JPanel jp2 = new JPanel();
 		jp2.setOpaque(false);
 		
@@ -71,17 +60,23 @@ public class Point extends JFrame {
 		useButton.setBackground(new Color(230, 160, 0));
 		useButton.setForeground(Color.WHITE);
 		
+		JButton addButton = new JButton("적립");
+		addButton.setBackground(new Color(230, 160, 0));
+		addButton.setForeground(Color.WHITE);
+		
 		JButton cancelButton = new JButton("닫기");
 		cancelButton.setBackground(new Color(230, 160, 0));
 		cancelButton.setForeground(Color.WHITE);
 		
 		jp3.add(useButton);
+		jp3.add(addButton);
 		jp3.add(cancelButton);
 
-		background.add(jp1, BorderLayout.NORTH);
-		background.add(jp2, BorderLayout.CENTER);
-		background.add(jp3, BorderLayout.SOUTH);
-
+		JPanel cenjp = new JPanel(new GridLayout(4,1));
+		cenjp.setOpaque(false);
+		cenjp.add(jp1); cenjp.add(jp4); cenjp.add(jp2); cenjp.add(jp3);
+	
+		background.add(cenjp, BorderLayout.CENTER);
 		
 		add(background);
 		
@@ -109,19 +104,39 @@ public class Point extends JFrame {
 				
 				if(POS.usep > Integer.parseInt(mem[1])) {
 					JOptionPane.showMessageDialog(background, "현재 포인트를 초과하여 입력하였습니다.");
+				}else if(POS.usep ==0){
+					JOptionPane.showMessageDialog(background, "사용할 포인트를 입력해주세요.");
 				}else {
 					
-					int totPoint = Integer.parseInt(mem[1]) - POS.usep + POS.savep;
+					int totPoint = Integer.parseInt(mem[1]) - POS.usep;
 
 					int result = dao.pointUpdate(totPoint, phone);
 					
 					if(result > 0) {
-						JOptionPane.showMessageDialog(background, "포인트 저장 성공");
+						JOptionPane.showMessageDialog(background, "포인트 사용 성공");
 						dispose();
 					}else {
-						JOptionPane.showMessageDialog(background, "포인트 저장 실패");
+						JOptionPane.showMessageDialog(background, "포인트 사용 실패");
 					}
-					//dispose();
+				}
+				
+			}
+		});
+		
+		addButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int savepoint = Integer.parseInt(mem[1]) + POS.savep;
+				
+				int result = dao.pointUpdate(savepoint, phone);
+				
+				if(result > 0) {
+					JOptionPane.showMessageDialog(background, "포인트 적립 성공");		
+					POS.savep = 0;
+					pointLable.setText("적립될 포인트 :  " + POS.savep + "점");
+				}else {
+					JOptionPane.showMessageDialog(background, "포인트 적립 실패");
 				}
 				
 			}

@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+// 회원 추가
 public class MemberAdd extends JFrame{
 
 	private ImageIcon icon;

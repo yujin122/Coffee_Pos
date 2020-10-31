@@ -1,17 +1,8 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
+// 재고 추가
 public class StockAdd extends JFrame{
 
 	private ImageIcon icon;
@@ -117,7 +108,7 @@ public class StockAdd extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-			StockManageDAO dao = new StockManageDAO();
+				CoffeePosDAO dao = new CoffeePosDAO();
 			 
 			 String nameData = stockName.getText().toString();
 			 String countData = stockCount.getText().toString();
@@ -161,9 +152,4 @@ public class StockAdd extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	public static void main(String[] args) {
-		new StockAdd();
-	}
-
 }

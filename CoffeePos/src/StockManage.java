@@ -4,13 +4,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+// 재고관리
 public class StockManage extends JFrame{
 	
 	private String[] search = {"재고품명"};
 	
 	DefaultTableModel dTable = new DefaultTableModel();
 	JTable table;
-	String nameData;
+	String nameData = null;
 	
 	private ImageIcon icon;
 
@@ -140,8 +141,13 @@ public class StockManage extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new StockUpdate(nameData);
-				dispose();
+				if(nameData == null) {
+					JOptionPane.showMessageDialog(background, "수정할 재고를 선택해주세요");
+				}else {
+					new StockUpdate(nameData);
+					dispose();	
+				}
+				
 			}
 		});
 
@@ -150,7 +156,7 @@ public class StockManage extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-			StockManageDAO dao = new StockManageDAO();
+				CoffeePosDAO dao = new CoffeePosDAO();
 			
 			int result = dao.stoDelete(nameData);
 			
@@ -170,7 +176,7 @@ public class StockManage extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-			StockManageDAO dao = new StockManageDAO();
+				CoffeePosDAO dao = new CoffeePosDAO();
 			
 			String txt = searchtxt.getText().toString();
 			
@@ -200,8 +206,8 @@ public class StockManage extends JFrame{
 	public void displayAll() {
 		dTable.setRowCount(0);
 		
-		StockManageDAO dao = new StockManageDAO();
-		dao.tableAll(dTable);
+		CoffeePosDAO dao = new CoffeePosDAO();
+		dao.stoTableAll(dTable);
 	}
 	
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
@@ -209,10 +215,5 @@ public class StockManage extends JFrame{
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
-	}
-	
-	
-	public static void main(String[] args) {
-		new StockManage();
 	}
 }

@@ -1,12 +1,10 @@
-
-//현금영수증임
-
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+// 현금영수증
 public class Money extends JFrame {
 
 	private ImageIcon icon;

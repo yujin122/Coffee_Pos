@@ -1,19 +1,8 @@
-
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
+// 재고 수정 
 public class StockUpdate extends JFrame {
 
 	private ImageIcon icon;
@@ -45,7 +34,7 @@ public class StockUpdate extends JFrame {
 		setTitle("재고 수정");
 		
 		
-		StockManageDAO dao = new StockManageDAO();
+		CoffeePosDAO dao = new CoffeePosDAO();
 		
 		String data[] = new String[2];
 		data = dao.stoUpdateForm(nameData);
@@ -170,10 +159,4 @@ public class StockUpdate extends JFrame {
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	
-	public static void main(String[] args) {
-		new StockUpdate();
-	}
-
 }

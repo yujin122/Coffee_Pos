@@ -1,10 +1,8 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.event.*;
 import javax.swing.*;
 
-
+// 회원 / 비회원 선택
 public class SelectMem extends JFrame{
 
 	private ImageIcon icon;
@@ -39,11 +37,6 @@ public class SelectMem extends JFrame{
 		member.setForeground(Color.WHITE);
 		jp.add(member);
 		
-		/*JButton nonmember = new JButton("비회원");
-		nonmember.setBackground(new Color(230, 160, 0));
-		nonmember.setForeground(Color.WHITE);
-		jp.add(nonmember);*/
-		
 		JButton addMember = new JButton("회원추가");
 		addMember.setBackground(new Color(230, 160, 0));
 		addMember.setForeground(Color.WHITE);
@@ -63,20 +56,6 @@ public class SelectMem extends JFrame{
 				dispose();
 			}
 		});
-		
-		/*nonmember.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(POS.memi == 1) {
-					new Money();
-					dispose();
-				}else if(POS.memi == 2) {
-					new MoneyCard();
-					dispose();
-				}
-			}
-		});*/
 		
 		addMember.addActionListener(new ActionListener() {
 			

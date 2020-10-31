@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// 회원 수정
 public class MemberUpdate extends JFrame {
 
 	private int check = 0;
@@ -101,12 +102,12 @@ public class MemberUpdate extends JFrame {
 
 		insertJp1.add(genderJp2);
 
-		if(data[2].equals("여")) {
+		if (data[2].equals("여")) {
 			female.setSelected(true);
-		}else {
+		} else {
 			male.setSelected(true);
 		}
-		
+
 		ButtonGroup bg = new ButtonGroup();
 
 		bg.add(male);
@@ -231,8 +232,8 @@ public class MemberUpdate extends JFrame {
 					
 					if(result > 0) {
 						JOptionPane.showMessageDialog(background, "수정 완료");
-						dispose();
 						new MemberManage();
+						dispose();
 					}else {
 						JOptionPane.showMessageDialog(background, "수정 실패");
 					}	
@@ -246,6 +247,7 @@ public class MemberUpdate extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				phone.setText(null);
 				email.setText(null);
+				name.setText(null);
 
 			}
 		});
@@ -254,8 +256,8 @@ public class MemberUpdate extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				new MemberManage();
+				dispose();
 
 			}
 		});
@@ -266,10 +268,6 @@ public class MemberUpdate extends JFrame {
 		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
-	}
-
-	public static void main(String[] args) {
-		new MemberUpdate();
 	}
 
 }

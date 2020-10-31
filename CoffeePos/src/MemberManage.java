@@ -3,13 +3,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+// 회원 관리
 public class MemberManage extends JFrame {
 	
 	private String[] search = {"전화번호"};
 
 	DefaultTableModel dTable = new DefaultTableModel();
 	JTable table;
-	String phoneData, nameData;
+	String phoneData = null , nameData;
 	JComboBox<String> comboBox;
 	
 	private ImageIcon icon;
@@ -150,8 +151,12 @@ public class MemberManage extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MemberUpdate(phoneData);
-				dispose();
+				if(phoneData == null) {
+					JOptionPane.showMessageDialog(background, "수정할 회원을 선택해주세요.");
+				}else {
+					new MemberUpdate(phoneData);
+					dispose();
+				}
 			}
 		});
 
@@ -219,7 +224,7 @@ public class MemberManage extends JFrame {
 		dTable.setRowCount(0);
 		
 		CoffeePosDAO dao = new CoffeePosDAO();
-		dao.tableAll(dTable);
+		dao.memTableAll(dTable);
 	}
 	
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {

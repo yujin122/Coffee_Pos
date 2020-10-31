@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-//회원조회
+// POS 회원조회
 public class MemberSearch extends JFrame {
 
 	private ImageIcon icon;
@@ -39,7 +39,7 @@ public class MemberSearch extends JFrame {
 		JPanel jp2 = new JPanel();
 		jp2.setOpaque(false);
 
-		JTextField searchText = new JTextField(15);
+		JTextField searchText = new JTextField(15);		
 		jp2.add(searchText);
 
 		JPanel jp3 = new JPanel();
@@ -59,7 +59,6 @@ public class MemberSearch extends JFrame {
 		jp3.add(clearButton);
 		jp3.add(cancelbButton);
 
-		//setLayout(new BorderLayout());
 		background.add(jp1, BorderLayout.NORTH);
 		background.add(jp2, BorderLayout.CENTER);
 		background.add(jp3, BorderLayout.SOUTH);

@@ -1,45 +1,69 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
+// 아이디 비밀번호 찾기
+public class FindIDPW extends JFrame{
 
-public class FindIDPW extends JFrame {
+	private ImageIcon icon;
+
 	public FindIDPW() {
-		super("ID/PW찾기");
-		setLocation(100, 100);
 
-		getContentPane().setLayout(null);
-		
-		// ID찾기
-		JPanel idPanel = new JPanel();
-		idPanel.setBounds(53, 18, 117, 32);
-		getContentPane().add(idPanel);
-		
-		JButton findIdButton = new JButton("ID 찾기");
-		findIdButton.setFont(new Font("Dialog", Font.BOLD, 12));
-		idPanel.add(findIdButton);
-		
-		// PW찾기
-		JPanel pwPanel = new JPanel();
-		pwPanel.setBounds(52, 55, 117, 32); // 길이
-		getContentPane().add(pwPanel);
+		// 배경화면
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 490, 520);
 
-		JButton findPwButton = new JButton("PW 찾기"); // pw버튼
-		findPwButton.setFont(new Font("Dialog", Font.BOLD, 12)); // 글꼴수정
-		pwPanel.add(findPwButton);
+		JPanel background = new JPanel(new BorderLayout()) {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(), 0, 0, null);
 
-		setBounds(250, 200, 235, 150);
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
 
-		setResizable(false);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(350, 300);
+		setLocation(width / 2 - this.getWidth() / 2, height / 2 - this.getHeight() / 2);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("ID/PW 찾기");
 
+		// 제목
+		JPanel titleJp = new JPanel();
+		titleJp.setOpaque(false);
+		titleJp.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+
+		JLabel jl = new JLabel("ID/PW찾기");
+		jl.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		titleJp.add(jl);
+
+		// 버튼 panel
+		JPanel buttonJp = new JPanel(new GridLayout(1, 2,10,10));
+		buttonJp.setOpaque(false);
+		buttonJp.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+
+		JButton idbtn = new JButton("ID 찾기");
+		idbtn.setForeground(Color.WHITE);
+		idbtn.setFont(new Font("굴림", Font.BOLD, 12));
+		idbtn.setBackground(new Color(230, 160, 0));
+		buttonJp.add(idbtn);
+
+		JButton pwbtn = new JButton("PW 찾기");
+		pwbtn.setForeground(Color.WHITE);
+		pwbtn.setFont(new Font("굴림", Font.BOLD, 12));
+		pwbtn.setBackground(new Color(230, 160, 0));
+		buttonJp.add(pwbtn);
+
+		background.add(titleJp, BorderLayout.NORTH);
+		background.add(buttonJp, BorderLayout.CENTER);
+
+		add(background);
 		setVisible(true);
 
-		findIdButton.addActionListener(new ActionListener() {
+		idbtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +73,7 @@ public class FindIDPW extends JFrame {
 			}
 		});
 
-		findPwButton.addActionListener(new ActionListener() {
+		pwbtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -58,12 +82,20 @@ public class FindIDPW extends JFrame {
 				dispose();
 			}
 		});
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) { new POSLogin(); }
+			
+		});
 
 	}
 
-	public static void main(String[] args) {
-		new FindIDPW();
-
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
 	}
 
 }

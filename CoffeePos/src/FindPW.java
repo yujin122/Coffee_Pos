@@ -1,118 +1,168 @@
-
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import java.awt.Font;
+import javax.swing.*;
 
 public class FindPW extends JFrame {
 
-	public FindPW() {
-		super("PW 찾기");
-
-		setLocation(100, 100);
-
-		getContentPane().setLayout(null);
+	private ImageIcon icon;
+	
+	public FindPW() {	
+		// 배경화면
+		icon = new ImageIcon("image/payment.png");
+		icon = imageSetSize(icon, 410, 310);
 		
-		// 이름
-		JPanel namePanel = new JPanel();
-		namePanel.setBounds(7, 67, 58, 21);
-		getContentPane().add(namePanel);
-
-		JLabel nameLabel = new JLabel("이름 : ");
-		nameLabel.setFont(new Font("굴림", Font.BOLD, 12));
-		namePanel.add(nameLabel);
-		// 주민등록번호
-		JPanel rNumberPanel = new JPanel();
-		rNumberPanel.setBounds(14, 99, 88, 21);
-		getContentPane().add(rNumberPanel);
-
-		JLabel rNumberLabel = new JLabel("주민등록번호 : ");
-		rNumberLabel.setFont(new Font("굴림", Font.BOLD, 12));
-		rNumberPanel.add(rNumberLabel);
+		JPanel background = new JPanel(new BorderLayout()) {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(),0,0,null);
+				
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};	
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		
+		setSize(420, 350);
+		setLocation(width/2-this.getWidth()/2, height/2-this.getHeight()/2);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("ID찾기");
+		
+		// 제목
+		JPanel titleJp = new JPanel();
+		titleJp.setOpaque(false);
+		titleJp.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+		
+		JLabel jl = new JLabel("PW찾기");
+		jl.setFont(new Font("맑은 고딕", Font.BOLD, 30));
+		titleJp.add(jl);
+		
+		JPanel insertJp1 = new JPanel(new GridLayout(3,2,0,10));
+		insertJp1.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 80));
+		insertJp1.setOpaque(false);
 		
 		// id
-		JPanel idPanel = new JPanel();
-		idPanel.setBounds(6, 32, 73, 21);
-		getContentPane().add(idPanel);
-
-		JLabel idLabel = new JLabel("아이디 : ");
-		idLabel.setFont(new Font("굴림", Font.BOLD, 12));
-		idPanel.add(idLabel);
-
+		JPanel idJp = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		idJp.setOpaque(false);
+		JLabel idJl = new JLabel("아이디 : ",JLabel.CENTER);
+		idJp.add(idJl);
+		insertJp1.add(idJp);
 		
-		// 이름TextField
-		JPanel nameTfPanel = new JPanel();
-		nameTfPanel.setBounds(113, 62, 179, 31);
-		getContentPane().add(nameTfPanel);
+		JPanel idtfJp = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		idtfJp.setOpaque(false);
+		JTextField idtf = new JTextField(13);
+		idtfJp.add(idtf);
+		insertJp1.add(idtfJp);
 
-		JTextField nameTF = new JTextField(15);
-		nameTfPanel.add(nameTF);
-	
-		// 주민등록번호TextField
-		JPanel rNumberTfPanel = new JPanel();
-		rNumberTfPanel.setBounds(107, 98, 187, 32);
-		getContentPane().add(rNumberTfPanel);
-
-		JTextField rNumberTF1 = new JTextField(6);
-		rNumberTfPanel.add(rNumberTF1);
-
-		JLabel label = new JLabel("-");
-		rNumberTfPanel.add(label);
-
-		JPasswordField rNumberTF2 = new JPasswordField(7);
-		rNumberTfPanel.add(rNumberTF2);
+		// 이름
+		JPanel nameJp = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		nameJp.setOpaque(false);
+		JLabel nameJl = new JLabel("이름 : ",JLabel.CENTER);
+		nameJp.add(nameJl);
+		insertJp1.add(nameJp);
 		
-		// IDTextField
-		JPanel idTfPanel = new JPanel();
-		idTfPanel.setBounds(113, 28, 179, 31);
-		getContentPane().add(idTfPanel);
-
-		JTextField	idTF = new JTextField(15);
-		idTfPanel.add(idTF);
+		JPanel nametfJp = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		nametfJp.setOpaque(false);
+		JTextField nametf = new JTextField(13);
+		nametfJp.add(nametf);
+		insertJp1.add(nametfJp);
 		
-		// 확인버튼
-		JPanel confirmPanel = new JPanel();
-		confirmPanel.setBounds(50, 146, 61, 31);
-		getContentPane().add(confirmPanel);
+		// 주민등록번호
+		JPanel rNumJp1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		rNumJp1.setOpaque(false);
+		JLabel rNumJl1 = new JLabel("주민등록번호 : ",JLabel.CENTER);
+		rNumJp1.add(rNumJl1);
+		insertJp1.add(rNumJp1);
 
-		JButton conFirmButton = new JButton("확인");
-		conFirmButton.setFont(new Font("굴림", Font.BOLD, 12));
-		confirmPanel.add(conFirmButton);
+		JPanel rNumtfJp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		rNumtfJp1.setOpaque(false);
+		JTextField rNumtf1 = new JTextField(6);
+		JLabel n = new JLabel("-");
+		JPasswordField rNumtf2 = new JPasswordField(7);
+		rNumtfJp1.add(rNumtf1);
+		rNumtfJp1.add(n);
+		rNumtfJp1.add(rNumtf2);
 		
-		// 취소버튼
-		JPanel cancelPanel = new JPanel();
-		cancelPanel.setBounds(123, 146, 65, 31);
-		getContentPane().add(cancelPanel);
-
-		JButton cancelButton = new JButton("취소");
-		cancelButton.setFont(new Font("굴림", Font.BOLD, 12));
-		cancelPanel.add(cancelButton);
+		insertJp1.add(rNumtfJp1);
 		
-		// 닫기버튼
-		JPanel closePanel = new JPanel();
-		closePanel.setBounds(197, 146, 64, 31);
-		getContentPane().add(closePanel);
-
-		JButton closeButton = new JButton("닫기");
-		closeButton.setFont(new Font("굴림", Font.BOLD, 12));
-		closePanel.add(closeButton);
-
-
-		setBounds(250, 250, 315, 230);
-
-		setResizable(false);
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		// 버튼 panel
+		JPanel buttonJp = new JPanel(new GridLayout(1,3,5,5));
+		buttonJp.setOpaque(false);
+		buttonJp.setBorder(BorderFactory.createEmptyBorder(10, 60, 50, 50));
+		
+		JButton okbtn = new JButton("확인");
+		okbtn.setForeground(Color.WHITE); 
+		okbtn.setFont(new Font("굴림", Font.BOLD, 12));
+		okbtn.setBackground(new Color(230,160,0));
+		buttonJp.add(okbtn);
+		
+		JButton canclebtn= new JButton("취소");
+		canclebtn.setForeground(Color.WHITE); 
+		canclebtn.setFont(new Font("굴림", Font.BOLD, 12));
+		canclebtn.setBackground(new Color(230,160,0));
+		buttonJp.add(canclebtn);
+		
+		JButton exitbtn = new JButton("닫기");
+		exitbtn.setForeground(Color.WHITE); 
+		exitbtn.setFont(new Font("굴림", Font.BOLD, 12));
+		exitbtn.setBackground(new Color(230,160,0));
+		buttonJp.add(exitbtn);
+		
+		JPanel centerJp = new JPanel();
+		centerJp.setOpaque(false);
+		
+		centerJp.add(insertJp1);
+		centerJp.add(buttonJp);
+		
+		background.add(titleJp,BorderLayout.NORTH);
+		background.add(centerJp,BorderLayout.CENTER);
+		
+		add(background);
 		setVisible(true);
 
-		cancelButton.addActionListener(new ActionListener() {
+		okbtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = nametf.getText().toString();
+				String rnum = rNumtf1.getText().toString() + "-" + rNumtf2.getText().toString();
+				String id = idtf.getText().toString();
+				
+				CoffeePosDAO dao = new CoffeePosDAO();
+				
+				String result = dao.fpw(name,rnum,id);
+				
+				if(result != null) {
+					JOptionPane.showMessageDialog(background, "비밀번호는 " + result + " 입니다" );
+					new POSLogin();
+					dispose();
+				}else {
+					
+					JOptionPane.showMessageDialog(background, " 아이디 또는 이름 또는 주민등록번호가 맞지 않습니다.");
+					
+				}
+			
+			}
+		
+		});
+		
+		
+		canclebtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				idtf.setText(null); nametf.setText(null);
+				rNumtf1.setText(null); rNumtf2.setText(null);
+			}
+		});
+
+
+		exitbtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -120,21 +170,12 @@ public class FindPW extends JFrame {
 				dispose();
 			}
 		});
-		// 종료버튼
-		closeButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-
-			}
-		});
-
 	}
-
-	public static void main(String[] args) {
-		new FindPW();
-
+	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {
+		Image ximg = icon.getImage();
+		Image yimg = ximg.getScaledInstance(i, j, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon xyimg = new ImageIcon(yimg);
+		return xyimg;
 	}
 
 }

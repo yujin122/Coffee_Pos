@@ -3,12 +3,12 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
+// POS 계산기
 public class Calculator extends JPanel{
 
 	private JTextField numText;
 	private JTextField resultText;
-
+	
 	public Calculator() {
 		
 		setOpaque(false);

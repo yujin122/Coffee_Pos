@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-  
+// 메뉴 목록
 public class Menu extends JFrame{
 
 	private ImageIcon icon;
@@ -127,9 +127,4 @@ public class Menu extends JFrame{
 		ImageIcon xyimg = new ImageIcon(yimg);
 		return xyimg;
 	}
-	
-	public static void main(String[] args) {
-		new Menu();
-	}
-
 }

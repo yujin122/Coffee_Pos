@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+// POS
 public class POS extends JFrame {
 
 	int[][] menuIndex = new int[25][2];
@@ -592,12 +593,18 @@ public class POS extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int pay = -1;
 				
-				int pay = Integer.parseInt(inputJt.getText());
+				try {
+					pay = Integer.parseInt(inputJt.getText());
+				}catch(NumberFormatException xe) {
+					JOptionPane.showMessageDialog(panel, "받은 금액을 입력하세요.");
+					
+				}
 				
 				if(pay == 0) {
 					JOptionPane.showMessageDialog(panel, "받은 금액을 입력하세요.");
-				}else {
+				}else if(pay > 0){
 					// cafeorder에 있는 데이터 수
 					int listCount = dao.listCount();
 					preNum = listCount;
