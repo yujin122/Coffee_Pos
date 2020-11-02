@@ -4,7 +4,7 @@ CaffePosDB
 
 create table mgr(
     mgname varchar2(30) not null,	-- 이름
-    mgrnumber varchar2(20) not null,	-- 주민번호
+    mgrnumber varchar2(20) unique not null,	-- 주민번호
     mggender varchar(10) not null,	-- 성별
     mgid varchar2(20) primary key,	-- id
     mgpw varchar2(20) not null,	-- pw
@@ -17,12 +17,23 @@ create table mgr(
 -- 회원 DB Table
 
 create table member(
+    mnum number(5) primary key,
     mname varchar2(20) not null,	-- 이름
     mbirth number(8) not null,		-- 생년월일
     mgender varchar(10) not null,	-- 성별
-    mphone varchar2(20) primary key,	-- 핸드폰
+    mphone varchar2(20) unique not null,	-- 핸드폰
     memail varchar2(80),		-- 메일
     point number(6) default 0 not null	-- 포인트
+);
+
+
+-- 포인트 DB Table
+
+create table pointlist(
+    pnum number(8)references member(mnum),	-- 회원 번호
+    savepoint number(5) not null,		-- 적립할 포인트	
+    usepoint number(5) default 0		-- 사용할 포인트
+    pdate date				-- 날짜
 );
 
 
