@@ -27,7 +27,7 @@
 ## 실행화면 
 
 ### 로그인
-<img src="" width=""  height="">
+<img src="https://user-images.githubusercontent.com/46274903/97843985-8eb6a380-1d2d-11eb-9717-9af220283b22.png" width="650"  height="">
 <br/>
 
 ### 회원관리 & 재고관리
