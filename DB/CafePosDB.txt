@@ -59,3 +59,32 @@ create table cafeorder(
 	sumprice number(10) not null,				-- 주문 메뉴 총가격
 	orderdate date					-- 주문 날짜
 );
+
+
+-- 메뉴 리스트
+
+insert into menu values(0,'아메리카노(hot)', 4500);
+insert into menu values(1,'아메리카노(ice)', 5000);
+insert into menu values(2,'카페라떼(hot)', 5000);
+insert into menu values(3,'카페라떼(ice)', 5500);
+insert into menu values(4,'카페모카(hot)', 5000);
+insert into menu values(5,'카페모카(ice)', 5500);
+insert into menu values(6,'바닐라라떼(hot)', 5500);
+insert into menu values(7,'바닐라라떼(ice)', 6000);
+insert into menu values(8,'콜드브루(ice)', 6000);
+insert into menu values(9,'민트티(hot)', 4500);
+insert into menu values(10,'민트티(ice)', 5000);
+insert into menu values(11,'얼그레이티(hot)', 4500);
+insert into menu values(12,'버블티(ice)', 5500);
+insert into menu values(13,'레몬에이드(ice)', 4500);
+insert into menu values(14,'탄산수(ice)', 3500);
+insert into menu values(15,'망고스무디(ice)', 5500);
+insert into menu values(16,'우유(ice)', 2500);
+insert into menu values(17,'치즈케이크', 4500);
+insert into menu values(18,'초코케이크', 4500);
+insert into menu values(19,'샌드위치', 4500);
+insert into menu values(20,'쿠키', 2500);
+insert into menu values(21,'도넛', 3500);
+insert into menu values(22,'머핀', 3500);
+insert into menu values(23,'아이스크림', 2500);
+insert into menu values(24,'샐러드', 5500);

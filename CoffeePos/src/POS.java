@@ -22,12 +22,11 @@ public class POS extends JFrame {
 	private ImageIcon icon;
 	
 	private int cnt = 0;
-	private int num = 0;
 	private int screen_total = 0, savepoint = 0;
 	private int index;
 
-	static int savep = 0, usep = 0;
-	static int preNum = 0;
+	static int savep = 0, usep = 0, preNum = 0;
+	static boolean memcheck = false;
 	
 	public POS() {
 
@@ -263,8 +262,8 @@ public class POS extends JFrame {
 					String name = item[0];
 					int price = Integer.parseInt(item[1]);
 					int tprice = price * cnt;
-					
-					int numi = num;
+
+					int numi = dTable.getRowCount();
 					int check = 0;
 					
 					table.setRowSelectionAllowed(true);
@@ -291,16 +290,15 @@ public class POS extends JFrame {
 							dTable.addRow(menu_);
 							
 							check = 1;
-							menuIndex[num][0] = index+1;
-							menuIndex[num][1] = check;
-							
-							num++;
+							menuIndex[dTable.getRowCount()-1][0] = index+1;
+							menuIndex[dTable.getRowCount()-1][1] = check;
+
 						}
 					}
 					
 					screen_total=0;
 					
-					for(int i = 0;i<num;i++) {
+					for(int i = 0;i<dTable.getRowCount();i++) {
 						screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
 					}
 
@@ -325,9 +323,9 @@ public class POS extends JFrame {
 					
 					String name;
 					int price, tprice;
-					int numi = num;
+					int numi = dTable.getRowCount();
 					
-					for(int i =0; i <= numi; i++) {
+					for(int i =0; i < numi; i++) {
 						if(index+1 == menuIndex[i][0] && menuIndex[i][1] == 1) {	// 눌렀던 메뉴
 							
 							name = dTable.getValueAt(i, 0).toString();
@@ -340,7 +338,7 @@ public class POS extends JFrame {
 							
 							screen_total = 0;
 							
-							for(int j = 0;j<num;j++) {
+							for(int j = 0;j<dTable.getRowCount();j++) {
 								screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 							}
 
@@ -351,24 +349,11 @@ public class POS extends JFrame {
 							
 							break;
 							
-						}else if(menuIndex[i][1] == 0) {		// 처음 누른 메뉴
-							
-							try {
-								name = dTable.getValueAt(num-1, 0).toString();
-								price = Integer.parseInt(dTable.getValueAt(num-1, 1).toString());
-								tprice = price * cnt;
-
-								Object menu_[]= {name, price, cnt, tprice};
-								dTable.removeRow(num-1);
-								dTable.insertRow(num-1, menu_);
-							}catch(ArrayIndexOutOfBoundsException ex) {
-								
-							}
 						}
 						
 						screen_total = 0;
 						
-						for(int j = 0;j<num;j++) {
+						for(int j = 0;j<dTable.getRowCount();j++) {
 							screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 						}
 
@@ -395,9 +380,9 @@ public class POS extends JFrame {
 						
 						String name;
 						int price,tprice;
-						int numi = num;
+						int numi = dTable.getRowCount();
 						
-						for (int i = 0; i <= numi; i++) {
+						for (int i = 0; i < numi; i++) {
 							if (index + 1 == menuIndex[i][0] && menuIndex[i][1] == 1) { // 눌렀던 메뉴
 								
 								name = dTable.getValueAt(i, 0).toString();
@@ -410,7 +395,7 @@ public class POS extends JFrame {
 								
 								screen_total = 0;
 
-								for (int j = 0; j < num; j++) {
+								for (int j = 0; j < dTable.getRowCount(); j++) {
 									screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 								}
 
@@ -420,19 +405,19 @@ public class POS extends JFrame {
 								pointJt.setText(String.valueOf(savepoint));
 								
 								if (cnt == 0) {
-									num--;
-									
-									for(int j = i; j < num; j++) {
+								
+									for(int j = i; j < dTable.getRowCount()-1; j++) {
 										menuIndex[j][0] = menuIndex[j+1][0];
 										menuIndex[j][1] = 1;
 									}
 							
-									menuIndex[num][0] = 0;
-									menuIndex[num][1] = 0;
+									menuIndex[dTable.getRowCount()-1][0] = 0;
+									menuIndex[dTable.getRowCount()-1][1] = 0;
 									dTable.removeRow(i);
 									
 									screen_total =0;
-									for (int j = 0; j < num; j++) {
+									
+									for (int j = 0; j < dTable.getRowCount(); j++) {
 										screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
 									}
 
@@ -448,30 +433,6 @@ public class POS extends JFrame {
 								
 								break;
 
-							} else if (menuIndex[i][1] == 0) { // 처음 누른 메뉴
-
-								try {
-									name = dTable.getValueAt(i, 0).toString();
-									price = Integer.parseInt(dTable.getValueAt(num - 1, 1).toString());
-									tprice = price * cnt;
-
-									Object menu_[] = { name, price, cnt, tprice };
-									dTable.removeRow(num - 1);
-									dTable.insertRow(num - 1, menu_);
-
-									screen_total = 0;
-
-									for (int j = 0; j < num; j++) {
-										screen_total += Integer.parseInt(dTable.getValueAt(j, 3).toString());
-									}
-
-									savepoint = (int) (screen_total * 0.01f);
-
-									totJt.setText(String.valueOf(screen_total));
-									pointJt.setText(String.valueOf(savepoint));
-								} catch (ArrayIndexOutOfBoundsException ee) {
-
-								}
 							}
 							
 							count[0].setText(Integer.toString(cnt));
@@ -489,10 +450,6 @@ public class POS extends JFrame {
 
 	// 스크린
 	public JPanel screen() {
-
-		for (int i = 0; i < num; i++) {
-			screen_total += Integer.parseInt(dTable.getValueAt(i, 3).toString());
-		}
 
 		JPanel jp1 = new JPanel(new GridLayout(6,1));
 		jp1.setOpaque(false);
@@ -623,11 +580,18 @@ public class POS extends JFrame {
 					int result = dao.addList(list);
 					
 					if(result < 0) {
-						JOptionPane.showMessageDialog(panel, "주문 목록 추가 실패");
+						//JOptionPane.showMessageDialog(panel, "주문 목록 추가 실패");
 					}else {
-						JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
-						listClear();
-						new Money(pay);
+						//JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
+						if(memcheck) {
+							memPointUpdate();
+							new Money(pay);
+							memcheck = false;
+							listClear();
+						}else {
+							listClear();
+							new Money(pay);	
+						}
 					}
 				}
 			}
@@ -656,11 +620,18 @@ public class POS extends JFrame {
 				int result = dao.addList(list);
 				
 				if(result < 0) {
-					JOptionPane.showMessageDialog(panel, "주문 목록 추가 실패");
+					//JOptionPane.showMessageDialog(panel, "주문 목록 추가 실패");
 				}else {
-					JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
-					listClear();
-					new MoneyCard();
+					//JOptionPane.showMessageDialog(panel, "주문 목록 추가 성공");
+					if(memcheck) {
+						memPointUpdate();
+						new MoneyCard();
+						memcheck = false;
+						listClear();
+					}else {
+						listClear();
+						new MoneyCard();
+					}
 				}
 			}
 		});
@@ -682,14 +653,31 @@ public class POS extends JFrame {
 		
 		table.setRowSelectionAllowed(false);
 		
-		num = 0;
-
+		if(memcheck) {
+			dao.pointDelete();		
+		}
+		memcheck= false;
+		
 		screen_total = 0;
 		savepoint = 0;
+		
+		usep = 0;
 
 		totJt.setText(String.valueOf(screen_total));
 		pointJt.setText(String.valueOf(savepoint));
 		inputJt.setText(String.valueOf(0));
+	}
+	
+	public void memPointUpdate() {
+		int point[] = dao.pointSearch();
+		
+		dao.memPointUpdate(point);
+	/*	
+		if(result < 0) {
+			JOptionPane.showMessageDialog(this, "실패");
+		}else {
+			JOptionPane.showMessageDialog(this, "성공");
+		}*/
 	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {

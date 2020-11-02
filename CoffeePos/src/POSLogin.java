@@ -148,7 +148,6 @@ public class POSLogin extends JFrame {
 				boolean result = dao.loginsave(id, pw);
 
 				if (result) {
-					JOptionPane.showMessageDialog(background, "로그인이 되었습니다.");
 					new Menu();
 					dispose();
 				} else {

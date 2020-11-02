@@ -108,15 +108,14 @@ public class Point extends JFrame {
 					JOptionPane.showMessageDialog(background, "사용할 포인트를 입력해주세요.");
 				}else {
 					
-					int totPoint = Integer.parseInt(mem[1]) - POS.usep;
-
-					int result = dao.pointUpdate(totPoint, phone);
+					int result = dao.pointUpdate(mem[2]);
 					
 					if(result > 0) {
-						JOptionPane.showMessageDialog(background, "포인트 사용 성공");
+						//JOptionPane.showMessageDialog(background, "포인트 사용 성공");
+						POS.memcheck = true;
 						dispose();
 					}else {
-						JOptionPane.showMessageDialog(background, "포인트 사용 실패");
+						//JOptionPane.showMessageDialog(background, "포인트 사용 실패");
 					}
 				}
 				
@@ -127,16 +126,16 @@ public class Point extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int savepoint = Integer.parseInt(mem[1]) + POS.savep;
 				
-				int result = dao.pointUpdate(savepoint, phone);
+				int result = dao.pointInsert(mem[2]);
 				
 				if(result > 0) {
-					JOptionPane.showMessageDialog(background, "포인트 적립 성공");		
+					//JOptionPane.showMessageDialog(background, "저장완료");	
+					POS.memcheck = true;
 					POS.savep = 0;
 					pointLable.setText("적립될 포인트 :  " + POS.savep + "점");
 				}else {
-					JOptionPane.showMessageDialog(background, "포인트 적립 실패");
+					//JOptionPane.showMessageDialog(background, "저장실패");
 				}
 				
 			}

@@ -14,7 +14,11 @@ public class MoneyCard extends JFrame {
 
 		super("카드 영수증"); // 프레임 제목 붙이기
 		
-		int point = POS.usep;
+		int point = 0;
+		
+		if(POS.memcheck) {
+			point = pointSearch();
+		}
 		
 		icon = new ImageIcon("image/payment.png");
 		icon = imageSetSize(icon, 550, 790);
@@ -109,11 +113,21 @@ public class MoneyCard extends JFrame {
 		int result = dao.addSales(sum);
 		
 		if(result >0) {
-			JOptionPane.showMessageDialog(this, "매출 저장 완료");
+			//JOptionPane.showMessageDialog(this, "매출 저장 완료");
 		}else {
-			JOptionPane.showMessageDialog(this, "매출 저장 실패");
+			//JOptionPane.showMessageDialog(this, "매출 저장 실패");
 		}
 		
+	}
+	
+	public int pointSearch() {
+		CoffeePosDAO dao = new CoffeePosDAO();
+		
+		int point[] = dao.pointSearch();
+		
+		int upoint = point[2];
+		
+		return upoint;
 	}
 
 	public ImageIcon imageSetSize(ImageIcon icon, int i, int j) {

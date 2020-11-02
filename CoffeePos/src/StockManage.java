@@ -163,7 +163,7 @@ public class StockManage extends JFrame{
 			if(result > 0) {
 				JOptionPane.showMessageDialog(background, "삭제 완료");
 			}else {
-				JOptionPane.showMessageDialog(background, "삭제 실패");
+				JOptionPane.showMessageDialog(background, "삭제할 재고품을 선택해주세요.");
 			}
 			
 			displayAll();

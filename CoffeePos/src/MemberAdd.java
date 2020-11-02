@@ -238,15 +238,13 @@ public class MemberAdd extends JFrame{
 					if(female.isSelected()) {
 						genderData = "여";
 					}
+					
 					String emailData = email.getText().toString();
 					
 					int result = dao.memAdd(phoneData, nameData, birthData, genderData, emailData);
 					
 					if(result > 0) {
-						JOptionPane.showMessageDialog(background, "전화번호 : "+ phoneData + 
-								"\n이름 : " + nameData + "\n생년월일 : " + birthData +
-								"\n성별 : " + genderData + "\n이메일 : " + emailData);
-						
+						JOptionPane.showMessageDialog(background, "회원 추가 완료");
 						if(b) {
 							new SelectMem();
 							dispose();

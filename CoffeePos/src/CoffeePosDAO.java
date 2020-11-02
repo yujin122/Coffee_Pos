@@ -227,9 +227,10 @@ public class CoffeePosDAO {
 		int res = 0;
 
 		try {
-			sql = "insert into member values(?, ?, ?, ?, ?, 0)";
+			sql = "insert into member values(mem_seq.nextval, ?, ?, ?, ?, ?, 0)";
 
 			pstmt = con.prepareStatement(sql);
+			
 			pstmt.setString(1, nameData);
 			pstmt.setInt(2, Integer.parseInt(birthData));
 			pstmt.setString(3, genderData);
@@ -343,7 +344,6 @@ public class CoffeePosDAO {
 
 		return res;
 	}
-
 	
 	// StockManage
 	
@@ -632,12 +632,12 @@ public class CoffeePosDAO {
 
 	// pos 회원조회
 	public String[] memSearch(String item) {
-		String[] mem = new String[2];
+		String[] mem = new String[3];
 		
 		int point = -1;
 		mem[1] = String.valueOf(point);
 		
-		sql = "select mname, point from member where mphone = ?";
+		sql = "select mnum, mname, point from member where mphone = ?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -648,6 +648,7 @@ public class CoffeePosDAO {
 			while(rs.next()) {
 				mem[0] = rs.getString("mname");
 				mem[1] = String.valueOf(rs.getInt("point"));
+				mem[2] = String.valueOf(rs.getInt("mnum"));
 			}
 			
 			rs.close(); pstmt.close(); 
@@ -678,6 +679,120 @@ public class CoffeePosDAO {
 		
 		return res;
 	}
+	
+	// 포인트 저장
+	public int pointInsert(String mnum) {
+		int res = 0;
+		sql = "insert into pointlist values(?,?,0,sysdate)";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(mnum));
+			pstmt.setInt(2, POS.savep);
+			
+			res = pstmt.executeUpdate();
+		
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	// 사용포인트 추가
+	public int pointUpdate(String mnum) {
+		int res = 0;
+		
+		sql = "update pointlist set usepoint = ? where pnum = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, POS.usep);
+			pstmt.setInt(2, Integer.parseInt(mnum));
+			
+			res = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	// 포인트 조회
+	public int[] pointSearch() {
+		int point[] = null;
+		
+		sql = "select * from (select pnum, savepoint, usepoint from pointlist order by pdate desc) where rownum <=1";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				point = new int[4];
+				point[0] = rs.getInt(1);
+				point[1] = rs.getInt(2);
+				point[2] = rs.getInt(3);
+			}
+			
+			rs.close(); pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return point;
+		
+	}
+	
+	// 멤버 포인트 업데이트
+	public int memPointUpdate(int[] point) {
+		int res = 0;
+		
+		sql = "update member set point = point - ? where mnum = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, (point[2]-point[1]));
+			pstmt.setInt(2, point[0]);
+			
+			res = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	
+	}
+	
+	// 초기화, 포인트 리스트 삭제
+	public int pointDelete() {
+		int res = 0;
+		
+		sql = "delete from pointlist "
+				+ "where pdate = "
+				+ "(select * "
+				+ "from (select pdate from pointlist order by pdate desc) "
+				+ "where rownum <=1)";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
 	
 	// 영수증 출력
 	public void listAll(DefaultTableModel dTable, int num) {
@@ -768,5 +883,5 @@ public class CoffeePosDAO {
 		
 		return res;
 	}
-	
+
 }

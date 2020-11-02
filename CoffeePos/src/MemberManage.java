@@ -171,7 +171,7 @@ public class MemberManage extends JFrame {
 				if(result > 0) {
 					JOptionPane.showMessageDialog(background, "삭제 완료");
 				}else {
-					JOptionPane.showMessageDialog(background, "삭제 실패");
+					JOptionPane.showMessageDialog(background, "삭제할 회원을 선택해주세요.");
 				}
 				
 				displayAll();

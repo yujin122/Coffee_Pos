@@ -176,8 +176,13 @@ public class SalesManage extends JFrame{
 
 				data = model.getValueAt(row, col);
 				
+				String date = data.toString();
+				if(0 < Integer.parseInt(date) && Integer.parseInt(date) < 10) {
+					date = 0 + date;
+				}
+				
 				try {
-					int sales = dao.sumDay(year_,month_,data.toString());
+					int sales = dao.sumDay(year_,month_,date);
 					
 					String dayNum = null;
 
