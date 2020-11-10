@@ -1,4 +1,4 @@
-# Caffee Pos 
+# Coffee Pos 
 *written by yujin*✍
 
 <br/>
